@@ -9,7 +9,8 @@ import java.util.Objects;
 
 public class Element {
     private String name = "", parent = "", grandParent = "", xpath ="";
-    private HashMap<String,String> attrs = new HashMap<>();
+    private HashMap<String,String> attrs1 = new HashMap<>();
+    private HashMap<String, String> attrs2 = new HashMap<>();
     public Element() {
     }
     public Element(String name){
@@ -24,11 +25,18 @@ public class Element {
         this.parent = parent;
         this.grandParent = grandParent;
     }
-    public Element(String name, String parent, String grandParent, HashMap<String,String> attrs){
+    public Element(String name, String parent, String grandParent, HashMap<String,String> attrs1){
         this.name = name;
         this.parent = parent;
         this.grandParent = grandParent;
-        this.attrs = attrs;
+        this.attrs1 = attrs1;
+    }
+    public Element(String name, String parent, String grandParent, HashMap<String,String> attrs1, HashMap<String, String> attrs2){
+        this.name = name;
+        this.parent = parent;
+        this.grandParent = grandParent;
+        this.attrs1 = attrs1;
+        this.attrs2=attrs2;
     }
 
     public void setName(String name) {
@@ -43,15 +51,20 @@ public class Element {
         this.grandParent = grandParent;
     }
 
-    public void setAttrs(HashMap<String,String> attrs) {
-        this.attrs = attrs;
+    public void setAttrs1(HashMap<String,String> attrs1) {
+        this.attrs1 = attrs1;
     }
 
-    public void addAttribute(String key){
-        addAttribute(key,"");
+    public void setAttrs2(HashMap<String,String> attrs2) { this.attrs2 = attrs2; }
+
+    public void addAttribute(String key,int flag){
+        addAttribute(key,"",flag);
     }
-    public void addAttribute(String key, String value){
-        this.attrs.put(key, value);
+    public void addAttribute(String key, String value,int flag){
+        if(flag==0)
+            this.attrs1.put(key, value);
+        else
+            this.attrs2.put(key,value);
     }
 
     public String getXpath(){
@@ -62,10 +75,17 @@ public class Element {
         addSlash();
         xpath += this.name;
         addSlash();
-
-        for(String key: attrs.keySet()){
+        if(!attrs1.isEmpty() || !attrs2.isEmpty())
+            xpath +="[";
+        for(String key: attrs1.keySet()){
+            xpath
+        }
+        for(String key:attrs2.keySet())
+        {
             
         }
+        if(xpath.substring(xpath.length()-1).equals("/"))
+                xpath=xpath.substring(0,xpath.length()-1);
        return xpath;
     }
     private void addSlash(){
