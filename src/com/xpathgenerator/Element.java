@@ -60,6 +60,13 @@ public class Element {
     public void addAttribute(String key,int flag){
         addAttribute(key,"",flag);
     }
+
+    /**
+     *
+     * @param key
+     * @param value
+     * @param flag IF 0 then OR otherwise AND
+     */
     public void addAttribute(String key, String value,int flag){
         if(flag==0)
             this.attrs1.put(key, value);
@@ -74,18 +81,32 @@ public class Element {
         xpath += this.parent;
         addSlash();
         xpath += this.name;
-        addSlash();
+        System.out.println(xpath);
         if(!attrs1.isEmpty() || !attrs2.isEmpty())
             xpath +="[";
         for(String key: attrs1.keySet()){
-            xpath
+            xpath += (key+"="+ attrs1.get(key));
+            xpath += " or ";
         }
+        if(xpath.endsWith("or "))
+            xpath=xpath.substring(0,xpath.length()-3);
+        if(attrs2.isEmpty())
+            xpath+="]";
+        else
+            xpath+=" and ";
+        System.out.println(xpath);
         for(String key:attrs2.keySet())
         {
-            
+            xpath += (key+"="+ attrs2.get(key));
+            xpath += " and ";
         }
+        if(xpath.endsWith("and "))
+            xpath=xpath.substring(0,xpath.length()-4);
+        if(!attrs2.isEmpty())
+            xpath+="]";
+        addSlash();
         if(xpath.substring(xpath.length()-1).equals("/"))
-                xpath=xpath.substring(0,xpath.length()-1);
+            xpath=xpath.substring(0,xpath.length()-1);
        return xpath;
     }
     private void addSlash(){
