@@ -83,9 +83,12 @@ public class Element {
         xpath += this.name;
         System.out.println(xpath);
         if(!attrs1.isEmpty() || !attrs2.isEmpty())
-            xpath +="[";
+            xpath +="[ ";
         for(String key: attrs1.keySet()){
-            xpath += (key+"="+ attrs1.get(key));
+            if(!attrs1.get(key).equals(""))
+                xpath += ("@"+key+"='"+ attrs1.get(key))+"'";
+            else
+                xpath += ("@"+key);
             xpath += " or ";
         }
         if(xpath.endsWith("or "))
@@ -93,11 +96,14 @@ public class Element {
         if(attrs2.isEmpty())
             xpath+="]";
         else
-            xpath+=" and ";
+            xpath+="and ";
         System.out.println(xpath);
         for(String key:attrs2.keySet())
         {
-            xpath += (key+"="+ attrs2.get(key));
+            if(!attrs2.get(key).equals(""))
+                xpath += ("@"+key+"='"+ attrs2.get(key)+"'");
+            else
+                xpath += ('@'+key);
             xpath += " and ";
         }
         if(xpath.endsWith("and "))
