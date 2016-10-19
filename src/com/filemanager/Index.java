@@ -77,7 +77,9 @@ public class Index {
             System.out.println("Unable to close File.");
         }
     }
-
+    public String getValueFromFilePath(String path, int index){
+        return path.split("\\\\")[index];
+    }
 //    public ArrayList<String> Fsearch(String filename) {return Fsearch(filename,false);}
 
 //    public ArrayList<String> Fsearch(String filename, Boolean dir) {}
