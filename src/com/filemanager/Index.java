@@ -11,10 +11,10 @@ import java.util.ArrayList;
  * Created by devanshtiwari on 07-Oct-16.
  */
 public class Index {
-    public ArrayList<File> getF() {
-        return F;
+    public ArrayList<File> getFileList() {
+        return fileList;
     }
-    private ArrayList<File> F=new ArrayList<>();
+    private ArrayList<File> fileList = new ArrayList<>();
 
     /**
      * This method will take input the path of directory to be indexed and then index the whole directory.
@@ -34,7 +34,7 @@ public class Index {
     }
     public ArrayList<File>  init(String filePath,String[] exten){
         indexit(filePath,exten);
-        return F;
+        return fileList;
     }
 
     /**
@@ -67,7 +67,7 @@ public class Index {
                     check++;
             }
             if(check==1) {
-                    F.add(fil);
+                    fileList.add(fil);
             }
         }
         try {
