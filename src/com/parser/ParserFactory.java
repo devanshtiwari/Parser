@@ -1,7 +1,7 @@
 package com.parser;
 
 public class ParserFactory {
-    private volatile ParserInterface INSTANCE;
+    private static volatile ParserInterface INSTANCE;
 
     public enum Parsers{
         VTD,XOM
@@ -9,7 +9,7 @@ public class ParserFactory {
 
     private ParserFactory(){}
 
-    public ParserInterface getParser(Parsers parserName) throws Exception {
+    public static ParserInterface getParser(Parsers parserName) throws Exception {
         if(INSTANCE == null){
             synchronized (ParserFactory.class){
                 if(INSTANCE == null){
