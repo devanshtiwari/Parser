@@ -9,5 +9,6 @@ public interface ParserInterface {
     void parse(File file);
     String getRootElementName();
     Boolean checkRootFor(String check);
+    Boolean checkRootFor(String[] check);
 
 }

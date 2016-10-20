@@ -56,8 +56,4 @@ public class Report {
             System.out.println(row);
         }
     }
-
-
-
-
 }

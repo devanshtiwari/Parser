@@ -59,13 +59,22 @@ public class VTDParser implements ParserInterface {
         }
         return null;
     }
-    public Boolean checkRootFor(String checkStr)
+
+    public Boolean checkRootFor(String[] checkStr)
     {
         try {
-            return vn.matchRawTokenString(getRootElement(),checkStr);
+            for(String str: checkStr) {
+                if(vn.matchRawTokenString(getRootElement(), str)==true)
+                    return true;
+            }
         } catch (NavException e) {
             e.printStackTrace();
         }
         return false;
+    }
+    public Boolean checkRootFor(String checkStr)
+    {
+        String str[]={checkStr};
+        return checkRootFor(str);
     }
 }

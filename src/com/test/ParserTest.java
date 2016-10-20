@@ -15,7 +15,7 @@ public class ParserTest {
         R.addFileNameToReport();
         R.addColumn("Root Element");
         R.addFilePathToReport();
-        ArrayList<File> files = fil.init("C:\\test\\APP\\Clusters\\RmsFoundationItem","xml");
+        ArrayList<File> files = fil.init("D:\\rms\\APP\\Clusters\\RmsFoundationItem","xml");
         try {
             ParserInterface parser=ParserFactory.getParser(ParserFactory.Parsers.VTD);
             for(File f: files)
@@ -24,8 +24,9 @@ public class ParserTest {
                 parser.parse(f);
                 R.initRow(f);
                 R.addValue(f,"Root Element",parser.getRootElementName());
-                //if(parser.checkRootFor("Entity"))
-                    System.out.println(" -- "+ parser.getRootElementName());
+                String str[]={"Entity","ViewObject"};
+                    if(parser.checkRootFor(str))
+                System.out.println(" -- "+ parser.getRootElementName());
             }
             R.consoleReport();
         } catch (Exception e) {
