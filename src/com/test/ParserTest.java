@@ -2,19 +2,19 @@ package com.test;
 import com.parser.*;
 import com.filemanager.*;
 import com.report.Report;
+import com.report.ReportException;
 
 import java.io.File;
 import java.util.ArrayList;
 
 public class ParserTest {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ReportException {
         Index fil = new Index();
         Report R = new Report();
-        R.addSNoToReport();
-        R.addFileNameToReport();
+        R.addColumn(new String[]{R.SNO,R.FILE_NAME});
         R.addColumn("Root Element");
-        R.addFilePathToReport();
+        R.addColumn(R.FILE_PATH);
         ArrayList<File> files = fil.init("C:\\test\\APP\\Clusters\\RmsFoundationItem","xml");
         try {
             ParserInterface parser=ParserFactory.getParser(ParserFactory.Parsers.VTD);
@@ -28,6 +28,7 @@ public class ParserTest {
                     System.out.println(" -- "+ parser.getRootElementName());
             }
             R.consoleReport();
+            System.out.println(R.getColumnsName());
         } catch (Exception e) {
             e.printStackTrace();
         }
