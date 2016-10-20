@@ -13,7 +13,7 @@ public class ParserTest {
         Index fil = new Index();
         Report R = new Report();
         R.addColumn(new String[]{R.SNO,R.FILE_NAME});
-        R.addColumn("Root Tag");
+        R.addColumn("Root xPathElement");
         R.addColumn(R.FILE_PATH);
         ArrayList<File> files = fil.init("C:\\test\\APP\\Clusters\\RmsFoundationHierarchy","xml");
         try {
@@ -23,7 +23,7 @@ public class ParserTest {
                 System.out.println(f.getName());
                 parser.parse(f);
                 R.initRow(f);
-                R.addValue(f,"Root Tag",parser.getRootElementName());
+                R.addValue(f,"Root xPathElement",parser.getRootElementName());
                 String str[]={"Entity","ViewObject"};
                     if(parser.checkRootFor(str))
                 System.out.println(" -- "+ parser.getRootElementName());

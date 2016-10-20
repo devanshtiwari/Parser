@@ -10,32 +10,32 @@ import java.util.Objects;
 /**
  *
  */
-public class Tag {
+public class xPathElement {
     private String name = "", parent = "", grandParent = "", xpath ="";
     private HashMap<String,String> attrsOR = new HashMap<>();
     private HashMap<String, String> attrsAND = new HashMap<>();
 
-    public Tag() {
+    public xPathElement() {
     }
-    public Tag(String name){
+    public xPathElement(String name){
         this.name = name;
     }
-    public Tag(String name, String parent){
+    public xPathElement(String name, String parent){
         this.name = name;
         this.parent = parent;
     }
-    public Tag(String name, String parent, String grandParent){
+    public xPathElement(String name, String parent, String grandParent){
         this.name = name;
         this.parent = parent;
         this.grandParent = grandParent;
     }
-    public Tag(String name, String parent, String grandParent, HashMap<String,String> attrs){
+    public xPathElement(String name, String parent, String grandParent, HashMap<String,String> attrs){
         this.name = name;
         this.parent = parent;
         this.grandParent = grandParent;
         this.attrsOR = attrs;
     }
-    public Tag(String name, String parent, String grandParent, HashMap<String,String> attrs1, HashMap<String, String> attrs2){
+    public xPathElement(String name, String parent, String grandParent, HashMap<String,String> attrs1, HashMap<String, String> attrs2){
         this.name = name;
         this.parent = parent;
         this.grandParent = grandParent;
@@ -61,7 +61,7 @@ public class Tag {
 
     /**
      *
-     * @param grandParent Grandparent the the Tag Node
+     * @param grandParent Grandparent the the xPathElement Node
      */
     public void setGrandParent(String grandParent) {
         this.grandParent = grandParent;

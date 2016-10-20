@@ -6,7 +6,7 @@ import com.parser.ParserInterface;
 import com.parser.VTDParser;
 import com.report.Report;
 import com.report.ReportException;
-import com.xpathgenerator.Tag;
+import com.xpathgenerator.xPathElement;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,9 +15,9 @@ public class ElementTest {
     public static void main(String[] args) throws ReportException {
         Index fil = new Index();
         Report R = new Report();
-        Tag tag = new Tag();
+        xPathElement xPathElement = new xPathElement();
         R.addColumn(new String[]{R.SNO,R.FILE_NAME,"Root Name","ID"});
-        tag.setName("TransientExpression");
+        xPathElement.setName("TransientExpression");
         ArrayList<File> files = fil.init("C:\\test\\APP\\Clusters\\RmsFoundationHierarchy","xml");
         try {
             ParserInterface parser= ParserFactory.getParser(ParserFactory.Parsers.VTD);
@@ -26,10 +26,10 @@ public class ElementTest {
             {
                 vtdParser.parse(f);
 
-                VTDParser.Element e = vtdParser.createElement(tag.getXpath());
+                VTDParser.Element e = vtdParser.createElement(xPathElement.getXpath());
                 if(vtdParser.checkRootFor("ViewObject")) {
                     System.out.println(f.getName());
-                    System.out.println(tag.getXpath());
+                    System.out.println(xPathElement.getXpath());
                     R.initRow(f);
                     R.addValue(f, "Root Name", vtdParser.getRootElementName());
                     while (vtdParser.goToNext(e) != -1) {
