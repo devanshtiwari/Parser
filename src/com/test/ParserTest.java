@@ -13,9 +13,9 @@ public class ParserTest {
         Index fil = new Index();
         Report R = new Report();
         R.addColumn(new String[]{R.SNO,R.FILE_NAME});
-        R.addColumn("Root Element");
+        R.addColumn("Root Tag");
         R.addColumn(R.FILE_PATH);
-        ArrayList<File> files = fil.init("D:\\rms\\APP\\Clusters\\RmsFoundationItem","xml");
+        ArrayList<File> files = fil.init("C:\\test\\APP\\Clusters\\RmsFoundationHierarchy","xml");
         try {
             ParserInterface parser=ParserFactory.getParser(ParserFactory.Parsers.VTD);
             for(File f: files)
@@ -23,7 +23,7 @@ public class ParserTest {
                 System.out.println(f.getName());
                 parser.parse(f);
                 R.initRow(f);
-                R.addValue(f,"Root Element",parser.getRootElementName());
+                R.addValue(f,"Root Tag",parser.getRootElementName());
                 String str[]={"Entity","ViewObject"};
                     if(parser.checkRootFor(str))
                 System.out.println(" -- "+ parser.getRootElementName());

@@ -10,6 +10,12 @@ public class VTDParser implements ParserInterface {
     private VTDGen vg;
     private VTDNav vn;
     private XMLModifier xm;
+    public class Element{
+        private AutoPilot ap;
+        Element(AutoPilot ap){
+            this.ap = ap;
+        }
+    }
 
     VTDParser()
     {
@@ -32,9 +38,7 @@ public class VTDParser implements ParserInterface {
                 vn=vg.getNav();
                 xm.bind(vn);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ModifyException e) {
+        } catch (IOException | ModifyException e) {
             e.printStackTrace();
         }
 
@@ -44,8 +48,7 @@ public class VTDParser implements ParserInterface {
         try {
             AutoPilot ap = getAutoPilot();
             ap.selectXPath("/*");
-            int i = ap.evalXPath();
-            return i;
+            return ap.evalXPath();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -66,7 +69,7 @@ public class VTDParser implements ParserInterface {
             if(checkStr.length==0)
                 return true;
             for(String str: checkStr) {
-                if(vn.matchRawTokenString(getRootElement(), str)==true)
+                if(vn.matchRawTokenString(getRootElement(), str))
                     return true;
             }
         } catch (NavException e) {
@@ -78,5 +81,44 @@ public class VTDParser implements ParserInterface {
     {
         String str[]={checkStr};
         return checkRootFor(str);
+    }
+    public Element createElement(String xPath){
+        try {
+            Element newElement = new Element(getAutoPilot());
+            newElement.ap.selectXPath(xPath);
+            return newElement;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public int goToNext(Element e){
+        try {
+                return e.ap.evalXPath();
+        } catch (XPathEvalException | NavException e1) {
+            e1.printStackTrace();
+        }
+        return 0;
+    }
+
+    public Boolean hasAttr(String attr){
+        try {
+            if(vn.hasAttr(attr))
+                return true;
+        } catch (NavException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+    public String getAttrVal(String attr){
+        if(hasAttr(attr))
+            try {
+                return vn.toString(vn.getAttrVal(attr));
+            } catch (NavException e) {
+                e.printStackTrace();
+            }
+
+        return null;
     }
 }

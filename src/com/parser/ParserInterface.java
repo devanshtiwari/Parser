@@ -10,5 +10,6 @@ public interface ParserInterface {
     String getRootElementName();
     Boolean checkRootFor(String check);
     Boolean checkRootFor(String[] check);
+    Boolean hasAttr(String attr);
 
 }

@@ -17,7 +17,7 @@ public class ParserFactory {
                         INSTANCE = new VTDParser();
                     }
                     else{
-                        throw new UnsupportedParser("Parser is not supported.");
+                        throw new XMLParsingException("Parser is not supported.");
                     }
                 }
             }
@@ -26,8 +26,3 @@ public class ParserFactory {
     }
 }
 
-class UnsupportedParser extends Exception{
-    public UnsupportedParser(String message) {
-        super(message);
-    }
-}

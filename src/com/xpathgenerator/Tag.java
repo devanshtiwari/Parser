@@ -10,32 +10,32 @@ import java.util.Objects;
 /**
  *
  */
-public class Element {
+public class Tag {
     private String name = "", parent = "", grandParent = "", xpath ="";
     private HashMap<String,String> attrsOR = new HashMap<>();
     private HashMap<String, String> attrsAND = new HashMap<>();
 
-    public Element() {
+    public Tag() {
     }
-    public Element(String name){
+    public Tag(String name){
         this.name = name;
     }
-    public Element(String name, String parent){
+    public Tag(String name, String parent){
         this.name = name;
         this.parent = parent;
     }
-    public Element(String name, String parent, String grandParent){
+    public Tag(String name, String parent, String grandParent){
         this.name = name;
         this.parent = parent;
         this.grandParent = grandParent;
     }
-    public Element(String name, String parent, String grandParent, HashMap<String,String> attrs){
+    public Tag(String name, String parent, String grandParent, HashMap<String,String> attrs){
         this.name = name;
         this.parent = parent;
         this.grandParent = grandParent;
         this.attrsOR = attrs;
     }
-    public Element(String name, String parent, String grandParent, HashMap<String,String> attrs1, HashMap<String, String> attrs2){
+    public Tag(String name, String parent, String grandParent, HashMap<String,String> attrs1, HashMap<String, String> attrs2){
         this.name = name;
         this.parent = parent;
         this.grandParent = grandParent;
@@ -61,7 +61,7 @@ public class Element {
 
     /**
      *
-     * @param grandParent Grandparent the the Element Node
+     * @param grandParent Grandparent the the Tag Node
      */
     public void setGrandParent(String grandParent) {
         this.grandParent = grandParent;
@@ -104,45 +104,45 @@ public class Element {
      */
 
     public String getXpath(){
-        xpath += "//";
-        xpath += this.grandParent;
-        addSlash();
-        xpath += this.parent;
-        addSlash();
-        xpath += this.name;
-        System.out.println(xpath);
-        if(!attrsOR.isEmpty() || !attrsAND.isEmpty())
-            xpath +="[ ";
-        for(String key: attrsOR.keySet()){
-            if(!attrsOR.get(key).equals(""))
-                xpath += ("@"+key+"='"+ attrsOR.get(key))+"'";
-            else
-                xpath += ("@"+key);
-            xpath += " or ";
+        if(Objects.equals(xpath, "")) {
+            xpath += "//";
+            xpath += this.grandParent;
+            addSlash();
+            xpath += this.parent;
+            addSlash();
+            xpath += this.name;
+
+            if (!attrsOR.isEmpty() || !attrsAND.isEmpty())
+                xpath += "[ ";
+            for (String key : attrsOR.keySet()) {
+                if (!attrsOR.get(key).equals(""))
+                    xpath += ("@" + key + "='" + attrsOR.get(key)) + "'";
+                else
+                    xpath += ("@" + key);
+                xpath += " or ";
+            }
+            if (xpath.endsWith("or "))
+                xpath = xpath.substring(0, xpath.length() - 3);
+            if (attrsAND.isEmpty() && !attrsOR.isEmpty())
+                xpath += "]";
+            else if (!attrsAND.isEmpty())
+                xpath += "and ";
+            for (String key : attrsAND.keySet()) {
+                if (!attrsAND.get(key).equals(""))
+                    xpath += ("@" + key + "='" + attrsAND.get(key) + "'");
+                else
+                    xpath += ('@' + key);
+                xpath += " and ";
+            }
+            if (xpath.endsWith("and "))
+                xpath = xpath.substring(0, xpath.length() - 4);
+            if (!attrsAND.isEmpty())
+                xpath += "]";
+            addSlash();
+            if (xpath.substring(xpath.length() - 1).equals("/"))
+                xpath = xpath.substring(0, xpath.length() - 1);
         }
-        if(xpath.endsWith("or "))
-            xpath=xpath.substring(0,xpath.length()-3);
-        if(attrsAND.isEmpty())
-            xpath+="]";
-        else
-            xpath+="and ";
-        System.out.println(xpath);
-        for(String key:attrsAND.keySet())
-        {
-            if(!attrsAND.get(key).equals(""))
-                xpath += ("@"+key+"='"+ attrsAND.get(key)+"'");
-            else
-                xpath += ('@'+key);
-            xpath += " and ";
-        }
-        if(xpath.endsWith("and "))
-            xpath=xpath.substring(0,xpath.length()-4);
-        if(!attrsAND.isEmpty())
-            xpath+="]";
-        addSlash();
-        if(xpath.substring(xpath.length()-1).equals("/"))
-            xpath=xpath.substring(0,xpath.length()-1);
-       return xpath;
+        return xpath;
     }
 
     /**
