@@ -80,7 +80,5 @@ public class Index {
     public String getValueFromFilePath(String path, int index){
         return path.split("\\\\")[index];
     }
-//    public ArrayList<String> Fsearch(String filename) {return Fsearch(filename,false);}
 
-//    public ArrayList<String> Fsearch(String filename, Boolean dir) {}
 }

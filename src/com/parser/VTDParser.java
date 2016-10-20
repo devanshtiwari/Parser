@@ -63,6 +63,8 @@ public class VTDParser implements ParserInterface {
     public Boolean checkRootFor(String[] checkStr)
     {
         try {
+            if(checkStr.length==0)
+                return true;
             for(String str: checkStr) {
                 if(vn.matchRawTokenString(getRootElement(), str)==true)
                     return true;
