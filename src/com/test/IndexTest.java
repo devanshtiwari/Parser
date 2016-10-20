@@ -1,5 +1,6 @@
 package com.test;
 import com.filemanager.*;
+import com.sun.org.apache.xpath.internal.SourceTree;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,6 +20,12 @@ public class IndexTest {
         for(File temp:All)
         {
             System.out.println(temp.getAbsolutePath());
+            System.out.println(F.getValueFromFilePath(temp.getAbsolutePath(),2));
+            String[] farray=F.getArrayFromFilePath(temp.getAbsolutePath());
+            for(String str:farray)
+            {
+                System.out.print(str+" ");
+            }
         }
     }
 }

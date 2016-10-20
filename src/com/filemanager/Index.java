@@ -81,4 +81,6 @@ public class Index {
         return path.split("\\\\")[index];
     }
 
+    public String[] getArrayFromFilePath(String path){  return path.split("\\\\");}
+
 }
