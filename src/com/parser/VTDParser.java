@@ -8,33 +8,25 @@ import java.io.IOException;
 public class VTDParser implements ParserInterface {
 
     private VTDGen vg;
-    private VTDNav vn;
+    static VTDNav vn;
     private XMLModifier xm;
-    public class Element{
-        private AutoPilot ap;
-        Element(AutoPilot ap){
-            this.ap = ap;
-        }
-    }
 
-    VTDParser()
-    {
+    VTDParser() {
         vg = new VTDGen();
         xm = new XMLModifier();
     }
-    private AutoPilot getAutoPilot() throws Exception {
+    private AutoPilot getAutoPilot() throws XMLParsingException {
         AutoPilot ap=new AutoPilot();
         if(vn!=null)
             ap.bind(vn);
         else
-            throw new Exception("vn is NULL");
+            throw new XMLParsingException("vn is NULL");
         return ap;
     }
 
     public void parse(File file) {
         try {
-            if((vg.parseFile(file.getCanonicalPath(),false)))
-            {
+            if((vg.parseFile(file.getCanonicalPath(),false))) {
                 vn=vg.getNav();
                 xm.bind(vn);
             }
@@ -90,35 +82,6 @@ public class VTDParser implements ParserInterface {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
-    }
-    public int goToNext(Element e){
-        try {
-                return e.ap.evalXPath();
-        } catch (XPathEvalException | NavException e1) {
-            e1.printStackTrace();
-        }
-        return 0;
-    }
-
-    public Boolean hasAttr(String attr){
-        try {
-            if(vn.hasAttr(attr))
-                return true;
-        } catch (NavException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-    public String getAttrVal(String attr){
-        if(hasAttr(attr))
-            try {
-                return vn.toString(vn.getAttrVal(attr));
-            } catch (NavException e) {
-                e.printStackTrace();
-            }
-
         return null;
     }
 }
