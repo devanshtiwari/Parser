@@ -9,7 +9,7 @@ import java.util.Scanner;
 /**
  * Created by devanshtiwari on 07-Oct-16.
  */
-public class IndexTest {
+public class FileManagerTest {
     public static void main(String[] args) {
         Index F=new Index();
         Scanner in=new Scanner(System.in);

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by devanshtiwari on 07-Oct-16.
  */
-public class Index {
+public class FileManager {
     public ArrayList<File> getFileList() {
         return fileList;
     }

@@ -2,9 +2,8 @@ package com.parser;
 
 public class ParserFactory {
     private static volatile ParserInterface INSTANCE;
-
     public enum Parsers{
-        VTD,XOM
+        VTD
     }
 
     private ParserFactory(){}
