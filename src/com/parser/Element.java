@@ -97,7 +97,7 @@ public class Element {
         return null;
     }
 
-    private void insertAttratEnd(String insertAttr)
+    public void insertAtEnd(String insertAttr, File file)
     {
         AutoPilot apAttr = new AutoPilot();
         int i, j = -1, m = 0, diff = 0;
@@ -129,6 +129,7 @@ public class Element {
                 indent = " ";
             insert = indent + insertAttr;
             insertAttrAtIndex(j,insert);
+            writeChanges(file);
         } catch (XPathParseException | XPathEvalException | NavException | ModifyException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
