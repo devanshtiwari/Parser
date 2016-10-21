@@ -1,7 +1,10 @@
 package com.parser;
 
 import com.ximpleware.*;
-import static com.parser.VTDParser.vn;
+
+import java.io.*;
+
+import static com.parser.VTDParser.*;
 
 public class Element {
     AutoPilot ap;
@@ -34,5 +37,18 @@ public class Element {
             }
 
         return null;
+    }
+    public void updateAttr(String attr,String updatedVal,File file){
+        try {
+            if(vn.hasAttr(attr)){
+                xm.updateToken(vn.getAttrVal(attr),updatedVal);
+                writeChanges(file);
+            }
+            else{
+                throw new XMLParsingException("attr does not exit!");
+            }
+        } catch (NavException | XMLParsingException | ModifyException | IOException e) {
+            e.printStackTrace();
+        }
     }
 }

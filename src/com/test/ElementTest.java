@@ -8,7 +8,6 @@ import com.parser.VTDParser;
 import com.report.Report;
 import com.report.ReportException;
 import com.xpathgenerator.Tag;
-
 import java.io.File;
 import java.util.ArrayList;
 
@@ -30,11 +29,11 @@ public class ElementTest {
                 Element e = vtdParser.createElement(tag.getXpath());
                 if(vtdParser.checkRootFor("ViewObject")) {
                     System.out.println(f.getName());
-                    System.out.println(tag.getXpath());
                     R.initRow(f);
                     R.addValue(f, "Root Name", vtdParser.getRootElementName());
                     while (e.goToNext() != -1) {
                         System.out.println("--" + e.getAttrVal("trustMode"));
+                        e.updateAttr("trustMode","updated",f);
                         R.addValue(f, "ID", e.getAttrVal("trustMode"));
                     }
                 }

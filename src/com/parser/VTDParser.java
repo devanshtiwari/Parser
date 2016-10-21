@@ -3,13 +3,14 @@ package com.parser;
 import com.ximpleware.*;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class VTDParser implements ParserInterface {
 
     private VTDGen vg;
     static VTDNav vn;
-    private XMLModifier xm;
+    static XMLModifier xm;
 
     VTDParser() {
         vg = new VTDGen();
@@ -34,6 +35,13 @@ public class VTDParser implements ParserInterface {
             e.printStackTrace();
         }
 
+    }
+    static void writeChanges(File file){
+        try {
+            xm.output(new FileOutputStream(file));
+        } catch (IOException | ModifyException | TranscodeException e) {
+            e.printStackTrace();
+        }
     }
 
     private int getRootElement() {
