@@ -16,7 +16,7 @@ public class XPathTest {
         H1.put("check","no");
         H1.put("check1","hello");
         H1.put("check3","");
-        xPathElement E=new xPathElement("retail:appsTable","appsTable","root",H,H1);
+        xPathGen E=new xPathGen("retail:appsTable","appsTable","root",H,H1);
         System.out.println(E.getXpath());
     }
 }
