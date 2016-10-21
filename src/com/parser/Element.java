@@ -51,4 +51,12 @@ public class Element {
             e.printStackTrace();
         }
     }
+    public void insertAttr(String insert,File file){
+        try {
+            xm.insertAttribute(insert);
+            writeChanges(file);
+        } catch (ModifyException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
 }

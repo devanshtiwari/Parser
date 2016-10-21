@@ -33,7 +33,9 @@ public class ElementTest {
                     R.addValue(f, "Root Name", vtdParser.getRootElementName());
                     while (e.goToNext() != -1) {
                         System.out.println("--" + e.getAttrVal("trustMode"));
-                        e.updateAttr("trustMode","updated",f);
+//                        e.updateAttr("trustMode","updated",f);
+                        if(e.hasAttr("trustMode"))
+                            e.insertAttr(" trustMode=\"trusted\" ",f);
                         R.addValue(f, "ID", e.getAttrVal("trustMode"));
                     }
                 }
