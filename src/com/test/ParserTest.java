@@ -3,14 +3,13 @@ import com.parser.*;
 import com.filemanager.*;
 import com.report.Report;
 import com.report.ReportException;
-
 import java.io.File;
 import java.util.ArrayList;
 
 public class ParserTest {
 
     public static void main(String[] args) throws ReportException {
-        Index fil = new Index();
+        FileManager fil = new FileManager();
         Report R = new Report();
         R.addColumn(new String[]{R.SNO,R.FILE_NAME});
         R.addColumn("Root xPathGen");

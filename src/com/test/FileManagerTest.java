@@ -11,7 +11,7 @@ import java.util.Scanner;
  */
 public class FileManagerTest {
     public static void main(String[] args) {
-        Index F=new Index();
+        FileManager F=new FileManager();
         Scanner in=new Scanner(System.in);
         System.out.println("Enter file Path");
         String path=in.nextLine();

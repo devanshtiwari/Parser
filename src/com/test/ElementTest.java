@@ -1,6 +1,6 @@
 package com.test;
 
-import com.filemanager.Index;
+import com.filemanager.FileManager;
 import com.parser.ParserFactory;
 import com.parser.ParserInterface;
 import com.parser.VTDParser;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class ElementTest {
     public static void main(String[] args) throws ReportException {
-        Index fil = new Index();
+        FileManager fil = new FileManager();
         Report R = new Report();
         Tag xPathGen = new Tag();
         R.addColumn(new String[]{R.SNO,R.FILE_NAME,"Root Name","ID"});
