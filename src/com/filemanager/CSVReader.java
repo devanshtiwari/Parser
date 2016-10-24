@@ -68,6 +68,14 @@ public class CSVReader extends ReadSpreadSheet {
                         }
                     }
                 }
+                else
+                {
+                    try {
+                        throw new Exception("File Not Found");
+                    } catch (Exception e) {
+                        System.out.println("File not Found: "+row[fileNameColumn-1]);
+                    }
+                }
 
             }
         } catch (FileNotFoundException e) {
