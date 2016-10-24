@@ -75,6 +75,44 @@ public class Element {
             xm.insertBytesAt(offset+len+1<<1,attr.getBytes(getCharSet()));
     }
 
+
+
+    public void insertAtEnd(String insertAttr, File file) {
+        AutoPilot apAttr = new AutoPilot();
+        int i, j = -1, m = 0, diff = 0;
+        ArrayList<Integer> diffArray = new ArrayList<>();
+        String indent,insert = "";
+        apAttr.bind(vn);
+        try {
+            apAttr.selectXPath("@*");
+            while((i = apAttr.evalXPath()) != -1) {
+                diff = vn.getTokenOffset(i) - diff;
+                if(m == 0) {
+                    diff = 2;
+                    m++;
+                }
+                if(diff != 1) {
+                    diffArray.add(diff);
+                }
+                diff = vn.getTokenOffset(i+1) + vn.getTokenLength(i+1)+1;
+                j = i+1;
+            }
+            int whiteSpace = mostCommon(diffArray) - 2;
+            indent = new String(new char[whiteSpace]).replace("\0", " ");
+            if(whiteSpace != 0)
+                indent = "\r\n" + indent;
+            else
+                indent = " ";
+            insert = indent + insertAttr;
+            insertAttrAtIndex(j,insert);
+            writeChanges(file);
+        } catch (XPathParseException | XPathEvalException | NavException | ModifyException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //Utility Functions
     private  <T> T mostCommon(List<T> list) {
         Map<T, Integer> map = new HashMap<>();
 
@@ -96,46 +134,6 @@ public class Element {
         }
         return null;
     }
-
-    public void insertAtEnd(String insertAttr, File file)
-    {
-        AutoPilot apAttr = new AutoPilot();
-        int i, j = -1, m = 0, diff = 0;
-        ArrayList<Integer> diffArray = new ArrayList<>();
-        String indent,insert = "";
-        apAttr.bind(vn);
-        try {
-            apAttr.selectXPath("@*");
-            while((i = apAttr.evalXPath()) != -1)
-            {
-                diff = vn.getTokenOffset(i) - diff;
-                if(m == 0)
-                {
-                    diff = 2;
-                    m++;
-                }
-                if(diff != 1)
-                {
-                    diffArray.add(diff);
-                }
-                diff = vn.getTokenOffset(i+1) + vn.getTokenLength(i+1)+1;
-                j = i+1;
-            }
-            int whiteSpace = mostCommon(diffArray) - 2;
-            indent = new String(new char[whiteSpace]).replace("\0", " ");
-            if(whiteSpace != 0)
-                indent = "\r\n" + indent;
-            else
-                indent = " ";
-            insert = indent + insertAttr;
-            insertAttrAtIndex(j,insert);
-            writeChanges(file);
-        } catch (XPathParseException | XPathEvalException | NavException | ModifyException | UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-    }
-
 
     private String getCharSet() throws ModifyException {
         String charSet;
