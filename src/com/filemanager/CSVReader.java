@@ -37,6 +37,12 @@ public class CSVReader extends ReadSpreadSheet {
         return null;
     }
 
+    public void read(){
+        if(fileNameColumn != -1) {
+            readCSV();
+        }
+    }
+
     protected void readCSV() {
         try {
             String[] row;

@@ -34,32 +34,17 @@ public class ReadSpreadSheet {
         return this.internal.getColumnsMap();
     }
 
-    private String getFileExtension(File file) {
-        String name = file.getName();
-        try {
-            String[] tokens = name.split("\\.(?=[^\\.]+$)");
-            System.out.println("Extension is: " + tokens[1]);
-            return tokens[1];
-        } catch (Exception e) {
-            return "";
-        }
-    }
+
 
     protected void readCSV(){
+
+    }
+    public void out(){
 
     }
 
     public void read()
     {
-        if(fileNameColumn != -1) {
-            if (getFileExtension(ssFile).equals("csv"))
-                readCSV();
-        }
-        else
-            try {
-                throw new Exception("setFileExtension not Called");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
     }
 }

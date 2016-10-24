@@ -5,7 +5,8 @@ import com.filemanager.*;
  */
 public class ReadSpreadSheetTest {
     public static void main(String[] args) {
-        CSVReader reader = new CSVReader("D:\\Report.csv","D:\\rms\\APP\\Clusters");
+        ReaderFactory readerFactory = new ReaderFactory();
+        ReadSpreadSheet reader = readerFactory.ReaderFactory("D:\\Report.csv","D:\\rms\\APP\\Clusters");
         reader.setFileNameColumn(2);
         reader.read();
         reader.out();
