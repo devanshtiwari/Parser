@@ -5,9 +5,13 @@ import com.parser.ParserInterface;
 import java.io.File;
 
 public class ReaderFactory {
-    public ReadSpreadSheet ReaderFactory(String sspath,String workingDir) {
+    public ReadSpreadSheet getReader(String sspath,String workingDir) {
         if (getFileExtension(new File(sspath)).equals("csv")) {
             return new CSVReader(sspath, workingDir);
+        }
+        else if(getFileExtension(new File(sspath)).equals("xls"))
+        {
+            return new ExcelReader(sspath,workingDir);
         }
         return null;
     }

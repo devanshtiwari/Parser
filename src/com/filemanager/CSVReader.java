@@ -46,7 +46,6 @@ public class CSVReader extends ReadSpreadSheet {
     protected void readCSV() {
         try {
             String[] row;
-            br = new BufferedReader(new FileReader(ssFile));
             while((line = br.readLine()) != null)
             {
                 row = line.split(COMMA_DELIMITER);

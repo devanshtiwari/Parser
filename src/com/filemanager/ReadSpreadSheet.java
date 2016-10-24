@@ -4,6 +4,7 @@ import com.FastSearch.*;
 import com.report.Report;
 import java.io.*;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class ReadSpreadSheet {
 
@@ -26,7 +27,6 @@ public class ReadSpreadSheet {
 
     public void setFileNameColumn(int fileNameColumn) {
         this.fileNameColumn = fileNameColumn;
-        System.out.println("File Column Set: "+ fileNameColumn);
     }
 
     private LinkedHashMap<String, Integer> getColumns()
@@ -34,17 +34,13 @@ public class ReadSpreadSheet {
         return this.internal.getColumnsMap();
     }
 
-
-
-    protected void readCSV(){
-
-    }
-    public void out(){
-
-    }
-
-    public void read()
+    public LinkedHashMap<String, List<String>> getReport()
     {
-
+        return internal.getReportsMap();
     }
+
+
+    protected void readCSV(){}
+    public void out(){}
+    public void read() {}
 }
