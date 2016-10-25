@@ -46,7 +46,6 @@ public class ReadSpreadSheet {
 
 
     public String getValue(String key, String columnName){ return null;}
-    protected void readCSV(){}
     public void out(){}
     public void read() {}
 }

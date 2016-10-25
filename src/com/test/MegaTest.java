@@ -29,9 +29,8 @@ public class MegaTest {
         reader.read();
         reader.out();
         LinkedHashMap<String, List<String>> inReport = reader.getReport();
-        int fcolumn = reader.getFileNameColumn();
        try {
-           ParserInterface parser = ParserFactory.getParser(ParserFactory.Parsers.VTD);
+            ParserInterface parser = ParserFactory.getParser(ParserFactory.Parsers.VTD);
             VTDParser vtdParser = (VTDParser) parser;
             for(String k : inReport.keySet())
             {

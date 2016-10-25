@@ -50,7 +50,7 @@ public class CSVReader extends ReadSpreadSheet {
         }
     }
 
-    protected void readCSV() {
+    private  void readCSV() {
         try {
             String[] row;
             while((line = br.readLine()) != null)
