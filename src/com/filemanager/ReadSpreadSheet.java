@@ -11,10 +11,6 @@ public class ReadSpreadSheet {
 
     protected File ssFile;
     protected Report internal;
-    public String names[]= {"this","that"};
-    public int getFileNameColumn() {
-        return fileNameColumn;
-    }
 
     protected int fileNameColumn;
     protected String[] headers;
@@ -30,8 +26,15 @@ public class ReadSpreadSheet {
         fastReference = new FastSearch();
         fastReference.init(workingDir);
     }
+    public int getFileNameColumn() {
+        return fileNameColumn;
+    }
+
     public void setFileNameColumn(int fileNameColumn) {
         this.fileNameColumn = fileNameColumn;
+    }
+    public String[] getHeaders(){
+        return this.headers;
     }
 
     private LinkedHashMap<String, Integer> getColumns()
@@ -45,6 +48,7 @@ public class ReadSpreadSheet {
     }
 
     public void consoleOut(){}
+    //Method definition in CSVReader class
     public void read() {}
 
     public RIterator getIterator(){
