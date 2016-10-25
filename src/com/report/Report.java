@@ -34,9 +34,23 @@ public class Report {
         for(String s: columnNames)
             addColumn(s);
     }
-    public void initRow(File file) throws IOException {
+
+    public String getKey(String keyattr)
+    {
+        return getKey(new String[] {keyattr});
+    }
+    public String getKey(String[] keyattrs)
+    {
+        String key = "";
+        if(key.equals(""))
+            for(String s : keyattrs) {
+                    key += s;
+            }
+        return key;
+    }
+
+    public void initRow(String key, File file) throws IOException {
         String[] initial = new String[columns.size()];
-        String key = file.getCanonicalPath();
         if(sNoIndex != -1)
             initial[sNoIndex] = String.valueOf(counter++);
         if(fileNameIndex != -1)
@@ -46,8 +60,7 @@ public class Report {
 
         report.put(key, Arrays.asList(initial));
     }
-    public void addValue(File file, String columnName, String value) throws IOException {
-        String key = file.getCanonicalPath();
+    public void addValue(String key, String columnName, String value) throws IOException {
         report.get(key).set(columns.get(columnName),value);
     }
     public void consoleReport(){
@@ -63,6 +76,8 @@ public class Report {
             System.out.println(row);
         }
     }
+
+    public String getValue(String key,String columnName) {  return report.get(key).get(columns.get(columnName));}
     public LinkedHashMap<String, List<String>> getReportsMap(){
         return report;
     }

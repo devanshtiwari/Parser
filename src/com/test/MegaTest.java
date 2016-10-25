@@ -8,14 +8,10 @@ import com.parser.VTDParser;
 import com.report.Report;
 import com.report.ReportException;
 import com.xpathgenerator.Tag;
-
 import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-/**
- * Created by devanshtiwari on 24-Oct-16.
- */
 public class MegaTest {
 
     public static void main(String[] args) {
@@ -29,15 +25,17 @@ public class MegaTest {
         tag1.setName("set");
         ReaderFactory readerFactory = new ReaderFactory();
         ReadSpreadSheet reader = readerFactory.getReader("D:\\WorkUpon.csv","D:\\rms\\APP\\Clusters");
-        reader.setFileNameColumn(3);
+        reader.setFileNameColumn(2);
         reader.read();
+        reader.out();
         LinkedHashMap<String, List<String>> inReport = reader.getReport();
-        try {
-            ParserInterface parser = ParserFactory.getParser(ParserFactory.Parsers.VTD);
+        int fcolumn = reader.getFileNameColumn();
+       try {
+           ParserInterface parser = ParserFactory.getParser(ParserFactory.Parsers.VTD);
             VTDParser vtdParser = (VTDParser) parser;
             for(String k : inReport.keySet())
             {
-                File currentFile = new File(k);
+                File currentFile =new File(reader.getValue(k, Report.FILE_PATH));
                 System.out.println(currentFile.getAbsolutePath());
                 vtdParser.parse(currentFile);
                 Element e = vtdParser.createElement(tag1.getXpath());
@@ -49,9 +47,11 @@ public class MegaTest {
                 while(e1.goToNext() != -1)
                 {
                     String ins = "exportFilename=\"#{" + var + "." + inReport.get(k).get(5) + "}.xls\"";
-                    e1.insertAtEnd(ins,currentFile);
-                    opReport.initRow(currentFile);
-                    opReport.addValue(currentFile,"Added",ins);
+                    String attrs[] = {currentFile.getCanonicalPath() , ins};
+                    if(!e1.hasAttr("exportFilename"))
+                        e1.insertAtEnd(ins,currentFile);
+                    opReport.initRow(opReport.getKey(attrs), currentFile);
+                    opReport.addValue(opReport.getKey(attrs),"Added",ins);
                 }
             }
             opReport.consoleReport();

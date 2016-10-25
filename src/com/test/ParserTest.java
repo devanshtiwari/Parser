@@ -21,8 +21,8 @@ public class ParserTest {
             {
                 System.out.println(f.getName());
                 parser.parse(f);
-                R.initRow(f);
-                R.addValue(f,"Root xPathGen",parser.getRootElementName());
+                R.initRow(R.getKey(f.getCanonicalPath()), f);
+                R.addValue(R.getKey(f.getCanonicalPath()),"Root xPathGen",parser.getRootElementName());
                 String str[]={"Entity","ViewObject"};
                     if(parser.checkRootFor(str))
                 System.out.println(" -- "+ parser.getRootElementName());

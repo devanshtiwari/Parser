@@ -29,14 +29,15 @@ public class ElementTest {
                 Element e = vtdParser.createElement(tag.getXpath());
                 if(vtdParser.checkRootFor("ViewObject")) {
                     System.out.println(f.getName());
-                    R.initRow(f);
-                    R.addValue(f, "Root Name", vtdParser.getRootElementName());
+                    String key = R.getKey(f.getCanonicalPath());
+                    R.initRow(key, f);
+                    R.addValue(key, "Root Name", vtdParser.getRootElementName());
                     while (e.goToNext() != -1) {
                         System.out.println("--" + e.getAttrVal("trustMode"));
 //                        e.updateAttr("trustMode","updated",f);
                         if(e.hasAttr("trustMode"))
                             e.insertAttr(" trustMode=\"trusted\" ",f);
-                        R.addValue(f, "ID", e.getAttrVal("trustMode"));
+                        R.addValue(key , "ID", e.getAttrVal("trustMode"));
                     }
                 }
             }

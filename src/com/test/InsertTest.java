@@ -32,9 +32,10 @@ public class InsertTest {
 
                 Element e = vtdParser.createElement(tag.getXpath());
 
+                    String key = R.getKey(f.getCanonicalPath());
                     System.out.println(f.getName());
-                    R.initRow(f);
-                    R.addValue(f, "Root Name", vtdParser.getRootElementName());
+                    R.initRow(key, f);
+                    R.addValue(key, "Root Name", vtdParser.getRootElementName());
                     while (e.goToNext() != -1) {
                         e.insertAtEnd("trustMode=\"trusted\"",f);
                 }

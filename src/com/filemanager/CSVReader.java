@@ -1,5 +1,6 @@
 package com.filemanager;
 
+import com.report.Report;
 import com.report.ReportException;
 
 import java.io.*;
@@ -29,12 +30,18 @@ public class CSVReader extends ReadSpreadSheet {
             if ((line = br.readLine()) != null) {
                 this.headers = line.split(COMMA_DELIMITER);
                 this.internal.addColumn(headers);
+                this.internal.addColumn(Report.FILE_PATH);
                 return this.headers;
             }
         } catch (ReportException | IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public String getValue(String key, String columnName)
+    {
+        return this.internal.getValue(key, columnName);
     }
 
     public void read(){
@@ -49,17 +56,17 @@ public class CSVReader extends ReadSpreadSheet {
             while((line = br.readLine()) != null)
             {
                 row = line.split(COMMA_DELIMITER);
-                ArrayList<String> path = fastReference.Fsearch(row[fileNameColumn-1]);
+                ArrayList<String> path = fastReference.Fsearch(row[fileNameColumn]);
                 if(!path.isEmpty())
                 {
                     if(path.size() == 1)
                     {
                         File file = new File(path.get(0));
-                        internal.initRow(file);
+                        internal.initRow(internal.getKey(row), file);
                         int i=0;
                         for(String r : row)
                         {
-                            internal.addValue(file,headers[i],r);
+                            internal.addValue(internal.getKey(row),headers[i], r);
                             i++;
                         }
                     }
@@ -78,7 +85,7 @@ public class CSVReader extends ReadSpreadSheet {
                     try {
                         throw new Exception("File Not Found");
                     } catch (Exception e) {
-                        System.out.println("File not Found: "+row[fileNameColumn-1]);
+                        System.out.println("File not Found: "+row[fileNameColumn]);
                     }
                 }
 

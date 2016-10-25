@@ -10,6 +10,11 @@ public class ReadSpreadSheet {
 
     protected File ssFile;
     protected Report internal;
+
+    public int getFileNameColumn() {
+        return fileNameColumn;
+    }
+
     protected int fileNameColumn;
     protected String[] headers;
     protected File workingDir;
@@ -40,6 +45,7 @@ public class ReadSpreadSheet {
     }
 
 
+    public String getValue(String key, String columnName){ return null;}
     protected void readCSV(){}
     public void out(){}
     public void read() {}
