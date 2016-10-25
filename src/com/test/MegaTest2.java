@@ -1,21 +1,12 @@
 package com.test;
 
 import com.filemanager.*;
-import com.parser.Element;
-import com.parser.ParserFactory;
-import com.parser.ParserInterface;
-import com.parser.VTDParser;
-import com.report.Report;
-import com.report.ReportException;
-import com.xpathgenerator.Tag;
+import com.parser.*;
+import com.report.*;
+import com.xpathgenerator.*;
 
 import java.io.File;
-import java.util.LinkedHashMap;
-import java.util.List;
 
-/**
- * Created by avinaana on 10/25/2016.
- */
 public class MegaTest2 {
     public static void main(String[] args) throws Exception {
         Report opReport = new Report();
@@ -28,11 +19,10 @@ public class MegaTest2 {
         reader.setFileNameColumn(2);
         reader.read();
         reader.out();
-        LinkedHashMap<String, List<String>> inReport = reader.getReport();
         ParserInterface parser = ParserFactory.getParser(ParserFactory.Parsers.VTD);
         VTDParser vtdParser = (VTDParser) parser;
         ssIterator iter = reader.getIterator();
-        for(;iter.hasNext();)
+        while(iter.hasNext())
         {
             iter.next();
             File currentFile =new File(iter.getFilePath());
