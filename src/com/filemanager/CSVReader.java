@@ -97,20 +97,9 @@ public class CSVReader extends ReadSpreadSheet {
         }
     }
 
-    public void out()
+    public void consoleOut()
     {
-        String row;
-        LinkedHashMap<String, List<String>> report = internal.getReportsMap();
-        for(String key : report.keySet()){
-            row = "";
-            row += "[ ";
-            for(String value : report.get(key)){
-                row+= value+ ", ";
-            }
-            row = row.substring(0, row.length()-2);
-            row += " ]";
-            System.out.println(row + " " + key);
-        }
+        internal.consoleReport();
         System.out.println(internal.getColumnsName());
     }
 

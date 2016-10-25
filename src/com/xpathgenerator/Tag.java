@@ -102,6 +102,12 @@ public class Tag {
             this.attrsAND.put(key,value);
     }
 
+    public void addAttribute(String key, String value)
+    {
+        //Default OR
+        this.addAttribute(key,value,0);
+    }
+
     /**
      *
      * @return Returns the XPath on the given constraints.

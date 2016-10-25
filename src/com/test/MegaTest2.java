@@ -18,7 +18,7 @@ public class MegaTest2 {
         ReadSpreadSheet reader = readerFactory.getReader("D:\\WorkUpon.csv","D:\\rms\\APP\\Clusters");
         reader.setFileNameColumn(2);
         reader.read();
-        reader.out();
+        reader.consoleOut();
         ParserInterface parser = ParserFactory.getParser(ParserFactory.Parsers.VTD);
         VTDParser vtdParser = (VTDParser) parser;
         ssIterator iter = reader.getIterator();
@@ -30,7 +30,7 @@ public class MegaTest2 {
             vtdParser.parse(currentFile);
             Element e = vtdParser.createElement(tag1.getXpath());
             Tag temp = new Tag("appsTable");
-            temp.addAttribute("id",iter.getValue(3),0);
+            temp.addAttribute("id",iter.getValue(3));
             Element e1 = vtdParser.createElement(temp.getXpath());
             e.goToNext();
             String var = e.getAttrVal("var");

@@ -44,8 +44,7 @@ public class ReadSpreadSheet {
         return internal.getReportsMap();
     }
 
-    public String getValue(String key, String columnName){ return null;}
-    public void out(){}
+    public void consoleOut(){}
     public void read() {}
 
     public RIterator getIterator(){

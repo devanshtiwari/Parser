@@ -9,6 +9,6 @@ public class ReadSpreadSheetTest {
         ReadSpreadSheet reader = readerFactory.getReader("D:\\Report.csv","D:\\rms\\APP\\Clusters");
         reader.setFileNameColumn(2);
         reader.read();
-        reader.out();
+        reader.consoleOut();
     }
 }
