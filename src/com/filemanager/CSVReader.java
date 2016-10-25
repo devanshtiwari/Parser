@@ -22,28 +22,22 @@ public class CSVReader extends ReadSpreadSheet {
             e.printStackTrace();
         }
         this.line = "";
-        this.getHeaders();
+        this.setHeaders();
     }
 
-    protected String[] getHeaders() {
+    protected String[] setHeaders() {
         try {
             if ((line = br.readLine()) != null) {
                 this.headers = line.split(COMMA_DELIMITER);
                 this.internal.addColumn(headers);
                 this.internal.addColumn(Report.FILE_PATH);
-                return this.headers;
             }
         } catch (ReportException | IOException e) {
             e.printStackTrace();
         }
         return null;
     }
-
-    public String getValue(String key, String columnName)
-    {
-        return this.internal.getValue(key, columnName);
-    }
-
+    
     public void read(){
         if(fileNameColumn != -1) {
             readCSV();

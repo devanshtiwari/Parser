@@ -77,7 +77,18 @@ public class Report {
         }
     }
 
-    public String getValue(String key,String columnName) {  return report.get(key).get(columns.get(columnName));}
+    public String getValue(String key,String columnName) {
+        if(columns.containsKey(columnName))
+            return report.get(key).get(columns.get(columnName));
+
+        else
+            try {
+                throw new ReportException("No such column exit!");
+            } catch (ReportException e) {
+                e.printStackTrace();
+            }
+        return null;
+    }
     public LinkedHashMap<String, List<String>> getReportsMap(){
         return report;
     }
