@@ -4,7 +4,7 @@ import java.util.Objects;
 
 
 class xPathGen {
-    public String getXpath(Tag tag){
+    String getXpath(Tag tag){
         String xpath = "";
         xpath += "//";
         xpath += tag.grandParent;

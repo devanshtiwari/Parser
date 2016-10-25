@@ -36,7 +36,7 @@ public class Tag {
         this.attrsAND=attrs2;
     }
     public String getXpath(){
-        if(this.xpath == ""){
+        if(this.xpath.equals("")){
             this.xpath = xPathGen.getXpath(this);
         }
         return xpath;
@@ -112,6 +112,4 @@ public class Tag {
      *
      * @return Returns the XPath on the given constraints.
      */
-
-    
 }

@@ -10,7 +10,7 @@ import java.io.File;
  * @since 2016-08-11
  */
 
-public class FileDetail {
+class FileDetail {
 
     /**
      * Name of the Folder or file.
@@ -33,7 +33,7 @@ public class FileDetail {
      * @param name
      * Setter of name
      */
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
@@ -41,7 +41,7 @@ public class FileDetail {
      * @param f
      * Setter of File varibale f
      */
-    public void setF(File f) {
+    void setF(File f) {
         this.f = f;
     }
 
@@ -49,7 +49,7 @@ public class FileDetail {
      * @param dir
      * Setter of directory variable
      */
-    public void setDir(Boolean dir) {
+    void setDir(Boolean dir) {
         this.dir = dir;
     }
 
@@ -57,23 +57,23 @@ public class FileDetail {
      * @param next
      * Setter for next variable
      */
-    public void setNext(FileDetail next) {
+    void setNext(FileDetail next) {
         this.next = next;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public File getF() {
+    File getF() {
         return f;
     }
 
-    public Boolean getDir() {
+    Boolean getDir() {
         return dir;
     }
 
-    public FileDetail getNext() {
+    FileDetail getNext() {
         return next;
     }
 

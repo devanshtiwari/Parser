@@ -17,7 +17,6 @@ import java.util.ArrayList;
  * @since   2016-08-11
  */
 
-
 public class FastSearch extends Thread {
 
     /**
