@@ -7,9 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-/**
- * Created by devanshtiwari on 07-Oct-16.
- */
 public class FileManager {
     public ArrayList<File> getFileList() {
         return fileList;

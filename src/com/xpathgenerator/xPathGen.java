@@ -1,6 +1,5 @@
 package com.xpathgenerator;
 
-import java.util.HashMap;
 import java.util.Objects;
 
 

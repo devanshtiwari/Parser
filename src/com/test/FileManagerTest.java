@@ -1,14 +1,11 @@
 package com.test;
 import com.filemanager.*;
-import com.sun.org.apache.xpath.internal.SourceTree;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- * Created by devanshtiwari on 07-Oct-16.
- */
+
 public class FileManagerTest {
     public static void main(String[] args) {
         FileManager F=new FileManager();

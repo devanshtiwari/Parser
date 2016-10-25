@@ -1,8 +1,7 @@
 package com.test;
 import com.parser.*;
 import com.filemanager.*;
-import com.report.Report;
-import com.report.ReportException;
+import com.report.*;
 import java.io.File;
 import java.util.ArrayList;
 

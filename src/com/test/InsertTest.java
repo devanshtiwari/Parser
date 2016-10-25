@@ -1,20 +1,13 @@
 package com.test;
 
 import com.filemanager.FileManager;
-import com.parser.Element;
-import com.parser.ParserFactory;
-import com.parser.ParserInterface;
-import com.parser.VTDParser;
-import com.report.Report;
-import com.report.ReportException;
-import com.xpathgenerator.Tag;
+import com.parser.*;
+import com.report.*;
+import com.xpathgenerator.*;
 
 import java.io.File;
 import java.util.ArrayList;
 
-/**
- * Created by avinaana on 10/21/2016.
- */
 public class InsertTest {
     public static void main(String[] args) throws ReportException {
         FileManager fil = new FileManager();

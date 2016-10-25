@@ -1,7 +1,5 @@
 package com.filemanager;
 
-import com.parser.ParserInterface;
-
 import java.io.File;
 
 public class ReaderFactory {
