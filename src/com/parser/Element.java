@@ -15,7 +15,7 @@ public class Element {
     Element(AutoPilot ap){
         this.ap = ap;
     }
-    public int goToNext(){
+    public int next(){
         try {
             return this.ap.evalXPath();
         } catch (XPathEvalException | NavException e1) {
@@ -24,11 +24,12 @@ public class Element {
         return 0;
     }
 
-    public void removeElement(){
+    public void removeElement(File file){
         long elementFragment= 0;
         try {
             elementFragment = vn.getElementFragment();
             xm.remove(vn.expandWhiteSpaces(elementFragment,VTDNav.WS_TRAILING));
+            writeChanges(file);
         } catch (NavException | ModifyException e) {
             e.printStackTrace();
         }

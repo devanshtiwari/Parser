@@ -1,14 +1,14 @@
 package com.parser;
 
 public class ParserFactory {
-    private static volatile ParserInterface INSTANCE;
+    private static volatile Parser INSTANCE;
     public enum Parsers{
         VTD
     }
 
     private ParserFactory(){}
 
-    public static ParserInterface getParser(Parsers parserName) throws Exception {
+    public static Parser getParser(Parsers parserName)  {
         if(INSTANCE == null){
             synchronized (ParserFactory.class){
                 if(INSTANCE == null){
@@ -16,7 +16,11 @@ public class ParserFactory {
                         INSTANCE = new VTDParser();
                     }
                     else{
-                        throw new XMLParsingException("Parser is not supported.");
+                        try {
+                            throw new XMLParsingException("Parser is not supported.");
+                        } catch (XMLParsingException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }

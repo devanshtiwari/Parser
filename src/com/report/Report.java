@@ -28,9 +28,13 @@ public class Report {
 
         columns.put(columnName, columnIndex++);
     }
-    public void addColumn(String[] columnNames) throws ReportException {
+    public void addColumn(String[] columnNames){
         if(columnNames.length == 0)
-            throw new ReportException("Empty array of columns Names are passed!");
+            try {
+                throw new ReportException("Empty array of columns Names are passed!");
+            } catch (ReportException e) {
+                e.printStackTrace();
+            }
         for(String s: columnNames)
             addColumn(s);
     }

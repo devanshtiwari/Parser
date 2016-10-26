@@ -17,7 +17,7 @@ public class InsertTest {
         tag.setName("appsTable");
         ArrayList<File> files = fil.init("C:\\test\\APP\\Clusters\\RmsFoundationHierarchy","jsff");
         try {
-            ParserInterface parser= ParserFactory.getParser(ParserFactory.Parsers.VTD);
+            Parser parser= ParserFactory.getParser(ParserFactory.Parsers.VTD);
             VTDParser vtdParser = (VTDParser) parser;
             for(File f: files)
             {
@@ -29,7 +29,7 @@ public class InsertTest {
                     System.out.println(f.getName());
                     R.initRow(key, f);
                     R.addValue(key, "Root Name", vtdParser.getRootElementName());
-                    while (e.goToNext() != -1) {
+                    while (e.next() != -1) {
                         e.insertAtEnd("trustMode=\"trusted\"",f);
                 }
             }

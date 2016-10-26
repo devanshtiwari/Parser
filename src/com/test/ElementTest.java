@@ -16,7 +16,7 @@ public class ElementTest {
         tag.setName("TransientExpression");
         ArrayList<File> files = fil.init("C:\\test\\APP\\Clusters\\RmsFoundationHierarchy","xml");
         try {
-            ParserInterface parser= ParserFactory.getParser(ParserFactory.Parsers.VTD);
+            Parser parser= ParserFactory.getParser(ParserFactory.Parsers.VTD);
             VTDParser vtdParser = (VTDParser) parser;
             for(File f: files)
             {
@@ -28,7 +28,7 @@ public class ElementTest {
                     String key = R.getKey(f.getCanonicalPath());
                     R.initRow(key, f);
                     R.addValue(key, "Root Name", vtdParser.getRootElementName());
-                    while (e.goToNext() != -1) {
+                    while (e.next() != -1) {
                         System.out.println("--" + e.getAttrVal("trustMode"));
 //                        e.updateAttr("trustMode","updated",f);
                         if(e.hasAttr("trustMode"))

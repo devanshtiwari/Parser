@@ -29,7 +29,7 @@ public class CSVReader extends ReadSpreadSheet {
                 this.internal.addColumn(headers);
                 this.internal.addColumn(Report.FILE_PATH);
             }
-        } catch (ReportException | IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;

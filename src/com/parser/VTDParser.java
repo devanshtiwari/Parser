@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class VTDParser implements ParserInterface {
+public class VTDParser implements Parser {
 
     private VTDGen vg;
     static VTDNav vn;

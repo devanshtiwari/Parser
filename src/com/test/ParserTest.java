@@ -15,7 +15,7 @@ public class ParserTest {
         R.addColumn(R.FILE_PATH);
         ArrayList<File> files = fil.init("C:\\test\\APP\\Clusters\\RmsFoundationHierarchy","xml");
         try {
-            ParserInterface parser=ParserFactory.getParser(ParserFactory.Parsers.VTD);
+            Parser parser=ParserFactory.getParser(ParserFactory.Parsers.VTD);
             for(File f: files)
             {
                 System.out.println(f.getName());

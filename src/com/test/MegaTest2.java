@@ -19,7 +19,7 @@ public class MegaTest2 {
         reader.setFileNameColumn(2);
         reader.read();
         reader.consoleOut();
-        ParserInterface parser = ParserFactory.getParser(ParserFactory.Parsers.VTD);
+        Parser parser = ParserFactory.getParser(ParserFactory.Parsers.VTD);
         VTDParser vtdParser = (VTDParser) parser;
         ssIterator iter = reader.getIterator();
         while(iter.hasNext())
@@ -32,9 +32,9 @@ public class MegaTest2 {
             Tag temp = new Tag("appsTable");
             temp.addAttribute("id",iter.getValue(3));
             Element e1 = vtdParser.createElement(temp.getXpath());
-            e.goToNext();
+            e.next();
             String var = e.getAttrVal("var");
-            while(e1.goToNext() != -1)
+            while(e1.next() != -1)
             {
                 String ins = "exportFilename=\"#{" + var + "." + iter.getValue(5) + "}.xls\"";
                 String attrs[] = {currentFile.getCanonicalPath() , ins};
