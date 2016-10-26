@@ -23,6 +23,16 @@ public class Element {
         }
         return 0;
     }
+
+    public void removeElement(){
+        long elementFragment= 0;
+        try {
+            elementFragment = vn.getElementFragment();
+            xm.remove(vn.expandWhiteSpaces(elementFragment,VTDNav.WS_TRAILING));
+        } catch (NavException | ModifyException e) {
+            e.printStackTrace();
+        }
+    }
     public Boolean hasAttr(String attr){
         try {
             if(vn.hasAttr(attr))
@@ -41,6 +51,15 @@ public class Element {
             }
 
         return null;
+    }
+    public void removeAttribute(String attr){
+        try {
+            if(vn.hasAttr(attr)){
+                xm.removeAttribute(vn.getAttrVal(attr)-1);
+            }
+        } catch (NavException | ModifyException e) {
+            e.printStackTrace();
+        }
     }
     public void updateAttr(String attr,String updatedVal,File file){
         try {
