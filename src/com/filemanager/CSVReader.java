@@ -25,7 +25,7 @@ public class CSVReader extends ReadSpreadSheet {
     protected String[] setHeaders() {
         try {
             if ((line = br.readLine()) != null) {
-                this.headers = line.split(COMMA_DELIMITER);
+                this.headers = line.split(COMMA_DELIMITER,-1);
                 this.internal.addColumn(headers);
                 this.internal.addColumn(Report.FILE_PATH);
             }
@@ -46,7 +46,7 @@ public class CSVReader extends ReadSpreadSheet {
             String[] row;
             while((line = br.readLine()) != null)
             {
-                row = line.split(COMMA_DELIMITER);
+                row = line.split(COMMA_DELIMITER,-1);
                 ArrayList<String> path = fastReference.Fsearch(row[fileNameColumn]);
                 if(!path.isEmpty())
                 {
