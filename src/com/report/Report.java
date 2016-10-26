@@ -1,11 +1,10 @@
 package com.report;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Objects;
+import java.io.PrintWriter;
+import java.util.*;
 
 public class Report {
     private LinkedHashMap<String, List<String>> report = new LinkedHashMap<>();
@@ -80,6 +79,37 @@ public class Report {
             System.out.println(row);
         }
     }
+
+    public String saveCSV(String dir, String filename){
+        final String COMMA = ",";
+        final String NEW_LINE = "\n";
+        String csvPath = dir+"\\"+filename+".csv";
+        try {
+            PrintWriter pw = new PrintWriter(new File(csvPath));
+            for(String col : columns.keySet()) {
+                pw.append(col);
+                pw.append(COMMA);
+            }
+            pw.append(NEW_LINE);
+            for(String row: report.keySet()) {
+                for(String cell : report.get(row)) {
+                    pw.append(cell);
+                    pw.append(COMMA);
+                }
+                pw.append(NEW_LINE);
+            }
+            pw.append(NEW_LINE);
+            pw.append(new Date().toString());
+            pw.flush();
+            pw.close();
+            return csvPath;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
 
     public String getValue(String key,String columnName) {
         if(columns.containsKey(columnName))

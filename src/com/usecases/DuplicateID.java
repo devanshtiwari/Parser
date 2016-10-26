@@ -6,7 +6,6 @@ import com.parser.ParserFactory;
 import com.parser.VTDParser;
 import com.report.Report;
 import com.xpathgenerator.Tag;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,9 +39,8 @@ public class DuplicateID {
                         }
                     }
                 }
-
             }
-
             report.consoleReport();
+            report.saveCSV("D:/","Test");
     }
 }
