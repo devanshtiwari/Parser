@@ -52,18 +52,22 @@ public class Report {
         return key;
     }
 
-    public void initRow(String key, File file) throws IOException {
+    public void initRow(String key, File file){
         String[] initial = new String[columns.size()];
         if(sNoIndex != -1)
             initial[sNoIndex] = String.valueOf(counter++);
         if(fileNameIndex != -1)
             initial[fileNameIndex] = file.getName();
         if(filePathIndex != -1)
-            initial[filePathIndex] = file.getCanonicalPath();
+            try {
+                initial[filePathIndex] = file.getCanonicalPath();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         report.put(key, Arrays.asList(initial));
     }
-    public void addValue(String key, String columnName, String value) throws IOException {
+    public void addValue(String key, String columnName, String value){
         report.get(key).set(columns.get(columnName),value);
     }
     public void consoleReport(){

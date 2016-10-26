@@ -44,6 +44,7 @@ public class CSVReader extends ReadSpreadSheet {
     private  void readCSV() {
         try {
             String[] row;
+            int rowKey = 1;
             while((line = br.readLine()) != null)
             {
                 row = line.split(COMMA_DELIMITER,-1);
@@ -53,13 +54,14 @@ public class CSVReader extends ReadSpreadSheet {
                     if(path.size() == 1)
                     {
                         File file = new File(path.get(0));
-                        internal.initRow(internal.getKey(row), file);
+                        internal.initRow(String.valueOf(rowKey), file);
                         int i=0;
                         for(String r : row)
                         {
-                            internal.addValue(internal.getKey(row),headers[i], r);
+                            internal.addValue(String.valueOf(rowKey),headers[i], r);
                             i++;
                         }
+                        rowKey++;
                     }
                     else
                     {
