@@ -53,10 +53,11 @@ public class Element {
 
         return null;
     }
-    public void removeAttribute(String attr){
+    public void removeAttribute(String attr, File file){
         try {
             if(vn.hasAttr(attr)){
                 xm.removeAttribute(vn.getAttrVal(attr)-1);
+                writeChanges(file);
             }
         } catch (NavException | ModifyException e) {
             e.printStackTrace();
