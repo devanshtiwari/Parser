@@ -46,7 +46,6 @@ public class TableCompliance1 {
                     if (e.hasAttr("sortable")) {
                         e.removeAttribute("sortable",current);
                         report.addValue(key,"filterable","Deleted");
-
                     }
                 }
             }

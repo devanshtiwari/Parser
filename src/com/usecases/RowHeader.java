@@ -11,7 +11,7 @@ import java.io.IOException;
 public class RowHeader {
     public static void main(String[] args){
         ReaderFactory readerFactory = new ReaderFactory();
-        ReadSpreadSheet reader = readerFactory.getReader("C:\\Users\\avinaana\\Documents\\RMS.csv","C:\\test\\APP\\Clusters");
+        ReadSpreadSheet reader = readerFactory.getReader("C:\\Users\\devanshtiwari\\IdeaProjects\\TableCompliance2\\RMS.csv","D:\\rms\\APP\\Clusters");
         reader.setFileNameColumn(2);
         reader.read();
         reader.consoleOut();
@@ -20,7 +20,7 @@ public class RowHeader {
         VTDParser parser = (VTDParser) ParserFactory.getParser(ParserFactory.Parsers.VTD);
         ssIterator iter = reader.getIterator();
         //Report
-        Report report = new Report();
+        Report report = new Report(true);
         report.addColumn(new String[]{Report.SNO,Report.FILE_NAME,"rowHeader"});
         while(iter.hasNext()){
             iter.next();
@@ -30,16 +30,18 @@ public class RowHeader {
             File currentFile = new File(iter.getFilePath());
             parser.parse(currentFile);
             Element e = parser.createElement(col.getXpath());
-            report.initRow(iter.getValue(0),currentFile);
+            report.initRow(currentFile);
             while(e.next() != -1){
                 if(e.hasAttr("rowHeader")){
                     e.updateAttr("rowHeader","true",currentFile);
-                    report.addValue(iter.getValue(0),"rowHeader","set to TRUE");
+                    report.addValue("rowHeader","set to TRUE");
                 }
                 else{
-                    report.addValue(iter.getValue(0),"rowHeader","Not found");
+                    report.addValue("rowHeader","Not found");
                 }
+                report.incrementKey();
             }
+
         }
         report.consoleReport();
     }

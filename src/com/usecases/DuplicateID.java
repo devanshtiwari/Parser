@@ -1,9 +1,7 @@
 package com.usecases;
 
 import com.filemanager.FileManager;
-import com.parser.Element;
-import com.parser.ParserFactory;
-import com.parser.VTDParser;
+import com.parser.*;
 import com.report.Report;
 import com.xpathgenerator.Tag;
 import java.io.File;
