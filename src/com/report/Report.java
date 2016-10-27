@@ -9,13 +9,22 @@ import java.util.*;
 public class Report {
     private LinkedHashMap<String, List<String>> report = new LinkedHashMap<>();
     private LinkedHashMap<String, Integer> columns = new LinkedHashMap<>();
-    private int columnIndex = 0, counter = 1;
+    private int columnIndex = 0, counter = 1,defaultKey = 1;
     private int sNoIndex = -1, fileNameIndex = -1, filePathIndex = -1;
-
+    private boolean defaultKeyType = false;
     //Default Columns
     public static final String SNO = "SNo.";
     public static final String FILE_NAME = "File Name";
     public static final String FILE_PATH = "File Path";
+
+    public Report(){}
+    public Report(Boolean b){
+        this.defaultKeyType = b;
+    }
+
+    public void setDefaultKey() {
+        this.defaultKeyType = true;
+    }
 
     public void addColumn(String columnName){
         if(Objects.equals(columnName, SNO) && sNoIndex == -1)
@@ -64,11 +73,43 @@ public class Report {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-        report.put(key, Arrays.asList(initial));
+            report.put(key, Arrays.asList(initial));
     }
+    public void initRow(File file){
+        if(this.defaultKeyType)
+           initRow(String.valueOf(defaultKey),file);
+
+        else
+            try {
+                throw new ReportException("Default key option is not set to true.");
+            } catch (ReportException e) {
+                e.printStackTrace();
+            }
+    }
+
     public void addValue(String key, String columnName, String value){
         report.get(key).set(columns.get(columnName),value);
+    }
+    public void addValue(String columnName, String value) {
+        if(this.defaultKeyType)
+            addValue(String.valueOf(defaultKey),columnName,value);
+        else
+            try {
+                throw new ReportException("Default key option is not set to true.");
+            } catch (ReportException e) {
+                e.printStackTrace();
+            }
+    }
+    public void incrementKey(){
+        if(this.defaultKeyType)
+            this.defaultKey++;
+
+        else
+            try {
+                throw new ReportException("Default key option is not set to true.");
+            } catch (ReportException e) {
+                e.printStackTrace();
+            }
     }
     public void consoleReport(){
         String row;
