@@ -14,7 +14,7 @@ public class ReadSpreadSheet {
 
     protected int fileNameColumn;
     protected String[] headers;
-    protected File workingDir;
+    protected String workingDir;
     protected FastSearch fastReference;
 
     public ReadSpreadSheet(String sspath,String workingDir)
@@ -22,9 +22,7 @@ public class ReadSpreadSheet {
         this.ssFile = new File(sspath);
         this.internal = new Report();
         this.fileNameColumn = -1;
-        this.workingDir = new File(workingDir);
-        fastReference = new FastSearch();
-        fastReference.init(workingDir);
+        this.workingDir = workingDir;
     }
     public int getFileNameColumn() {
         return fileNameColumn;

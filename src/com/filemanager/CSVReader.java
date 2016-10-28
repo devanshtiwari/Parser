@@ -1,5 +1,6 @@
 package com.filemanager;
 
+import com.FastSearch.FastSearch;
 import com.report.*;
 
 import java.io.*;
@@ -36,6 +37,8 @@ public class CSVReader extends ReadSpreadSheet {
     }
     
     public void read(){
+        fastReference = new FastSearch();
+            fastReference.init(workingDir);
         if(fileNameColumn != -1) {
             readCSV();
         }
