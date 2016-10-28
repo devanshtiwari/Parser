@@ -20,8 +20,9 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="baseAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="719.0" prefWidth="969.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.AppController">
+<AnchorPane fx:id="baseAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="679.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.AppController">
     <children>
         <MenuBar layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <menus>
@@ -115,19 +116,19 @@
                                                 </Button>
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+                              <HBox fx:id="ssHeadersBox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0" styleClass="ss-headers" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
                                  <children>
-                                    <Label text="Column 1" />
-                                    <Label text="Column2" />
-                                    <Label text="Column 3" />
-                                    <Label text="Column 4" />
+                                    <Text opacity="0.51" strokeType="OUTSIDE" strokeWidth="0.0" text="Headers Will appear Here" />
                                  </children>
                               </HBox>
                               <Label text="File Column" GridPane.rowIndex="2" />
                               <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <children>
-                                    <ComboBox prefWidth="150.0" />
-                                    <Button defaultButton="true" mnemonicParsing="false" text="Read SpreadSheet">
+                                    <ComboBox fx:id="fileColumnComboBox" prefWidth="150.0" promptText="Select File Column" />
+                                    <Button fx:id="readSS" defaultButton="true" mnemonicParsing="false" onAction="#readSS" text="Read SpreadSheet">
                                        <HBox.margin>
                                           <Insets left="16.0" />
                                        </HBox.margin>
@@ -156,7 +157,7 @@
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                     <children>
-                        <TabPane prefHeight="189.0" prefWidth="598.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <TabPane fx:id="bottomTab" prefHeight="189.0" prefWidth="598.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <tabs>
                                 <Tab text="Console">
                                     <content>
