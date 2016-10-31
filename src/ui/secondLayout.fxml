@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.AppController">
+   <children>
+      <MenuBar layoutY="2.0" prefWidth="644.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+         <children>
+            <Label text="Project Directory">
+               <HBox.margin>
+                  <Insets right="16.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="proDir" promptText="Select Project Folder" HBox.hgrow="ALWAYS" />
+            <Button fx:id="fileSelector" mnemonicParsing="false" onAction="#selectProjectDir" text="+" />
+            <ComboBox fx:id="parseMethod" prefWidth="150.0" promptText="Select Method">
+               <HBox.margin>
+                  <Insets left="16.0" />
+               </HBox.margin>
+            </ComboBox>
+            <ComboBox fx:id="parser" prefWidth="150.0" promptText="Select Parser">
+               <HBox.margin>
+                  <Insets left="16.0" />
+               </HBox.margin>
+            </ComboBox>
+         </children>
+         <padding>
+            <Insets left="16.0" right="16.0" />
+         </padding>
+      </HBox>
+      <Separator prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0" />
+      <SplitPane dividerPositions="0.6890243902439024" layoutX="97.0" layoutY="131.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <SplitPane dividerPositions="0.43456375838926176, 0.8003355704697986" prefHeight="161.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Accordion layoutX="-56.0" layoutY="23.0" prefHeight="159.0" prefWidth="146.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <panes>
+                                  <TitledPane animated="false" text="Spread Sheet">
+                                       <content>
+                                          <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0">
+                                             <content>
+                                                <GridPane hgap="5.0" vgap="5.0">
+                                                  <columnConstraints>
+                                                    <ColumnConstraints hgrow="ALWAYS" />
+                                                    <ColumnConstraints hgrow="ALWAYS" />
+                                                  </columnConstraints>
+                                                  <rowConstraints>
+                                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints maxHeight="44.666656494140625" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                                      <RowConstraints maxHeight="62.666656494140625" minHeight="10.0" prefHeight="53.333343505859375" vgrow="SOMETIMES" />
+                                                    <RowConstraints maxHeight="25.333343505859375" minHeight="0.66668701171875" prefHeight="0.66668701171875" vgrow="SOMETIMES" />
+                                                  </rowConstraints>
+                                                   <children>
+                                                      <Label text="Spread Sheet Path" />
+                                                      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                                                         <children>
+                                                            <TextField fx:id="ssPath" HBox.hgrow="ALWAYS" />
+                                                            <Button fx:id="browseSS" mnemonicParsing="false" onAction="#ssSelector" text="+" />
+                                                         </children>
+                                                      </HBox>
+                                                      <FlowPane fx:id="ssHeadersBox" alignment="CENTER" hgap="5.0" prefHeight="70.0" prefWidth="224.0" rowValignment="TOP" styleClass="ss-headers" vgap="5.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
+                                                         <children>
+                                                            <Label text="Headers will appear here!" />
+                                                         </children>
+                                                         <padding>
+                                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                         </padding>
+                                                      </FlowPane>
+                                                      <HBox alignment="CENTER_LEFT" prefHeight="24.0" prefWidth="175.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                         <children>
+                                                            <Button fx:id="fetchHeaders" defaultButton="true" mnemonicParsing="false" onAction="#fetchHeaders" text="Fetch Headers" />
+                                                         </children>
+                                                      </HBox>
+                                                      <Label text="Select File Column" GridPane.rowIndex="3" />
+                                                      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                                         <children>
+                                                            <ComboBox fx:id="fileColumnComboBox" prefWidth="150.0" HBox.hgrow="ALWAYS" />
+                                                            <Button fx:id="readSS" mnemonicParsing="false" text="Button" HBox.hgrow="ALWAYS">
+                                                               <HBox.margin>
+                                                                  <Insets left="8.0" />
+                                                               </HBox.margin>
+                                                            </Button>
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                   <padding>
+                                                      <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                                                   </padding>
+                                                </GridPane>
+                                             </content>
+                                          </ScrollPane>
+                                       </content>
+                                  </TitledPane>
+                                </panes>
+                              </Accordion>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <ScrollPane layoutX="21.0" layoutY="-41.0" prefHeight="159.0" prefWidth="292.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                </content>
+                              </ScrollPane>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                           <children>
+                              <Accordion layoutX="-22.0" layoutY="32.0" prefHeight="159.0" prefWidth="146.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <panes>
+                                  <TitledPane animated="false" text="untitled 1">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                    </content>
+                                  </TitledPane>
+                                  <TitledPane animated="false" text="untitled 2">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                    </content>
+                                  </TitledPane>
+                                  <TitledPane animated="false" text="untitled 3">
+                                    <content>
+                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                    </content>
+                                  </TitledPane>
+                                </panes>
+                              </Accordion>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

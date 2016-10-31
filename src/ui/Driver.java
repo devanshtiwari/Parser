@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 public class Driver extends Application{
 
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("MainLayout.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("secondLayout.fxml"));
         primaryStage.setTitle("XML Parser");
         primaryStage.setScene(new Scene(root, 969, 719));
         primaryStage.show();

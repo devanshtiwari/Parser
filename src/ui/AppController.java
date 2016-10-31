@@ -8,6 +8,7 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -20,17 +21,16 @@ import java.io.IOException;
  * Created by devanshtiwari on 28-Oct-16.
  */
 public class AppController {
-    public AnchorPane baseAnchor;
+
     public TextField proDir;
     public Button fileSelector;
     public ComboBox parseMethod;
     public ComboBox parser;
     public TextField ssPath;
     public Button browseSS;
+    public FlowPane ssHeadersBox;
     public Button fetchHeaders;
-    public HBox ssHeadersBox;
     public ComboBox fileColumnComboBox;
-    public TabPane bottomTab;
     public Button readSS;
     ReadSpreadSheet reader;
     String[] headers;
@@ -91,8 +91,8 @@ public class AppController {
            table.getColumns().add(new TableColumn(s));
         }
         tab.setContent(table);
-        bottomTab.getTabs().add(tab);
-        bottomTab.getSelectionModel().select(tab);
+        //bottomTab.getTabs().add(tab);
+        //bottomTab.getSelectionModel().select(tab);
 
 
     }
