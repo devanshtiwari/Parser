@@ -6,6 +6,7 @@ import com.filemanager.ssIterator;
 import com.xpathgenerator.Tag;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -96,26 +97,28 @@ public class AppController {
 
     public void readSS(ActionEvent actionEvent) {
         Tab tab = new Tab("Internal Report");
-        TableView table = new TableView();
-        for(String s: headers){
-           table.getColumns().add(new TableColumn(s));
-
+        TableView<List<String>> table = new TableView<>();
+        reader.setFileNameColumn(reader.getColumnIndex((String) fileColumnComboBox.getValue()));
+        reader.read();
+        LinkedHashMap<String, List<String>> report = reader.getReport();
+        LinkedHashMap<String, Integer> columns = reader.getColumns();
+        final int[] c = {0};
+        for (String s : columns.keySet()) {
+            TableColumn<List<String>,String> col = new TableColumn<>(s);
+                col.setCellValueFactory(data -> {
+                    List<String> rowValues = data.getValue();
+                    String cellValue = rowValues.get(reader.getColumnIndex(s));
+                    System.out.println("Data"+(++c[0])+" = " + cellValue);
+                    return new ReadOnlyStringWrapper(cellValue);
+                });
+            table.getColumns().add(col);
+        }
+        for(String key: report.keySet()){
+            table.getItems().add(report.get(key));
         }
         tab.setContent(table);
         bottomTab.getTabs().add(tab);
         bottomTab.getSelectionModel().select(tab);
-        reader.setFileNameColumn(reader.getColumnIndex((String) fileColumnComboBox.getValue()));
-        reader.read();
-        LinkedHashMap<String, List<String>> report = reader.getReport();
-        for(String key: report.keySet()){
-            List<String> row = report.get(key);
-            ObservableList<List<String>> orow = FXCollections.observableArrayList();
-            for(String s: headers)
-            {
-                TableColumn<List<String>,String> = new TableColumn<>("")
-            }
-            table.getItems().add(row);
-        }
-
+        reader.consoleOut();
     }
 }

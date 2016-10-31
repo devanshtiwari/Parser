@@ -40,7 +40,7 @@ public class ReadSpreadSheet {
         return this.headers;
     }
 
-    private LinkedHashMap<String, Integer> getColumns()
+    public LinkedHashMap<String, Integer> getColumns()
     {
         return this.internal.getColumnsMap();
     }
