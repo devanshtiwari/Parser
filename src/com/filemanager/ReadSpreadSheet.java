@@ -24,6 +24,11 @@ public class ReadSpreadSheet {
         this.fileNameColumn = -1;
         this.workingDir = workingDir;
     }
+
+    public int getColumnIndex(String name) {
+        return internal.getColumnIndex(name);
+    }
+
     public int getFileNameColumn() {
         return fileNameColumn;
     }

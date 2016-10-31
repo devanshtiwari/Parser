@@ -155,8 +155,11 @@ public class Report {
 
     }
 
+    public int getColumnIndex(String columnName){
+        return columns.get(columnName);
+    }
 
-    public String getValue(String key,String columnName) {
+    public String getValue(String key, String columnName) {
         if(columns.containsKey(columnName))
             return report.get(key).get(columns.get(columnName));
 

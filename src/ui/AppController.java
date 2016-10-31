@@ -2,9 +2,12 @@ package ui;
 
 import com.filemanager.ReadSpreadSheet;
 import com.filemanager.ReaderFactory;
+import com.filemanager.ssIterator;
 import com.xpathgenerator.Tag;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -16,6 +19,10 @@ import org.apache.poi.ss.usermodel.Table;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * Created by devanshtiwari on 28-Oct-16.
@@ -32,6 +39,8 @@ public class AppController {
     public Button fetchHeaders;
     public ComboBox fileColumnComboBox;
     public Button readSS;
+    public TabPane bottomTab;
+    public Tab console;
     ReadSpreadSheet reader;
     String[] headers;
 
@@ -81,19 +90,32 @@ public class AppController {
             Label label = new Label(header);
             ssHeadersBox.getChildren().addAll(label);
         }
+        fileColumnComboBox.getItems().clear();
         fileColumnComboBox.getItems().addAll(headers);
     }
 
     public void readSS(ActionEvent actionEvent) {
-        Tab tab = new Tab("InternalReport");
+        Tab tab = new Tab("Internal Report");
         TableView table = new TableView();
         for(String s: headers){
            table.getColumns().add(new TableColumn(s));
+
         }
         tab.setContent(table);
-        //bottomTab.getTabs().add(tab);
-        //bottomTab.getSelectionModel().select(tab);
-
+        bottomTab.getTabs().add(tab);
+        bottomTab.getSelectionModel().select(tab);
+        reader.setFileNameColumn(reader.getColumnIndex((String) fileColumnComboBox.getValue()));
+        reader.read();
+        LinkedHashMap<String, List<String>> report = reader.getReport();
+        for(String key: report.keySet()){
+            List<String> row = report.get(key);
+            ObservableList<List<String>> orow = FXCollections.observableArrayList();
+            for(String s: headers)
+            {
+                TableColumn<List<String>,String> = new TableColumn<>("")
+            }
+            table.getItems().add(row);
+        }
 
     }
 }
