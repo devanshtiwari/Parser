@@ -12,8 +12,8 @@ public class CSVReader extends ReadSpreadSheet {
     private String line;
     private final String COMMA_DELIMITER = ",";
 
-    public CSVReader(String sspath, String workingDir) {
-        super(sspath,workingDir);
+    public CSVReader(String sspath, FastSearch Fsearch) {
+        super(sspath,Fsearch);
         try {
             this.br = new BufferedReader(new FileReader(sspath));
         } catch (FileNotFoundException e) {
@@ -37,8 +37,7 @@ public class CSVReader extends ReadSpreadSheet {
     }
     
     public void read(){
-        fastReference = new FastSearch();
-            fastReference.init(workingDir);
+
         if(fileNameColumn != -1) {
             readCSV();
         }

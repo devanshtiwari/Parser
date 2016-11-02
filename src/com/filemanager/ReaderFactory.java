@@ -1,15 +1,22 @@
 package com.filemanager;
 
+import com.FastSearch.FastSearch;
+
 import java.io.File;
 
 public class ReaderFactory {
-    public ReadSpreadSheet getReader(String sspath,String workingDir) {
+    private FastSearch Fsearch = new FastSearch();
+    public ReaderFactory(String workingDir) {
+        Fsearch.init(workingDir);
+    }
+
+    public ReadSpreadSheet getReader(String sspath) {
         if (getFileExtension(new File(sspath)).equals("csv")) {
-            return new CSVReader(sspath, workingDir);
+            return new CSVReader(sspath, Fsearch);
         }
         else if(getFileExtension(new File(sspath)).equals("xls"))
         {
-            return new ExcelReader(sspath,workingDir);
+            return new ExcelReader(sspath,Fsearch);
         }
         return null;
     }

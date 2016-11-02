@@ -14,8 +14,8 @@ import java.io.IOException;
 public class TableCompliance1 {
 
     public static void main(String[] args) throws IOException {
-        ReaderFactory readerFactory = new ReaderFactory();
-        ReadSpreadSheet reader = readerFactory.getReader("C:\\Users\\devanshtiwari\\IdeaProjects\\TableComplaince\\Column.csv","D:\\rms\\APP\\Clusters");
+        ReaderFactory readerFactory = new ReaderFactory("D:\\rms\\APP\\Clusters");
+        ReadSpreadSheet reader = readerFactory.getReader("C:\\Users\\devanshtiwari\\IdeaProjects\\TableComplaince\\Column.csv");
         reader.setFileNameColumn(2);
         reader.read();
         reader.consoleOut();

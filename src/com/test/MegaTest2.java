@@ -14,8 +14,8 @@ public class MegaTest2 {
         //Tag for c:set element
         Tag tag1 = new Tag("set");
         //CSV Reader
-        ReaderFactory readerFactory = new ReaderFactory();
-        ReadSpreadSheet reader = readerFactory.getReader("D:\\WorkUpon.csv","D:\\rms\\APP\\Clusters");
+        ReaderFactory readerFactory = new ReaderFactory("D:\\rms\\APP\\Clusters");
+        ReadSpreadSheet reader = readerFactory.getReader("D:\\WorkUpon.csv");
         reader.setFileNameColumn(2);
         reader.read();
         reader.consoleOut();

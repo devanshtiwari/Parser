@@ -14,17 +14,15 @@ public class ReadSpreadSheet {
 
     protected int fileNameColumn;
     protected String[] headers;
-    protected String workingDir;
     protected FastSearch fastReference;
 
-    public ReadSpreadSheet(String sspath,String workingDir)
+    public ReadSpreadSheet(String sspath,FastSearch Fsearch)
     {
         this.ssFile = new File(sspath);
         this.internal = new Report();
         this.fileNameColumn = -1;
-        this.workingDir = workingDir;
+        this.fastReference = Fsearch;
     }
-
     public int getColumnIndex(String name) {
         return internal.getColumnIndex(name);
     }
