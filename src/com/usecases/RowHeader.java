@@ -10,8 +10,8 @@ import java.io.IOException;
 
 public class RowHeader {
     public static void main(String[] args){
-        ReaderFactory readerFactory = new ReaderFactory();
-        ReadSpreadSheet reader = readerFactory.getReader("C:\\Users\\devanshtiwari\\IdeaProjects\\TableCompliance2\\RMS.csv","D:\\rms\\APP\\Clusters");
+        ReaderFactory readerFactory = new ReaderFactory("D:\\rms\\APP\\Clusters");
+        ReadSpreadSheet reader = readerFactory.getReader("C:\\Users\\devanshtiwari\\IdeaProjects\\TableCompliance2\\RMS.csv");
         reader.setFileNameColumn(2);
         reader.read();
         reader.consoleOut();

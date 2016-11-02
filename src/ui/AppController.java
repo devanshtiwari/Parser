@@ -9,6 +9,7 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -42,7 +43,8 @@ public class AppController {
     public Button readSS;
     public TabPane bottomTab;
     public Tab console;
-    ReadSpreadSheet reader;
+    ReaderFactory readerFactory = null;
+    ReadSpreadSheet reader = null;
     String[] headers;
 
 
@@ -61,6 +63,7 @@ public class AppController {
     }
 
 
+
     //Select Project Directory from Directory chooser
     public void selectProjectDir(ActionEvent actionEvent) throws IOException {
         DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -68,6 +71,26 @@ public class AppController {
         File selectedDir = directoryChooser.showDialog(null);
         if (selectedDir != null) {
             proDir.setText(selectedDir.getCanonicalPath());
+
+            Task task = new Task() {
+                @Override
+                protected Object call() throws Exception {
+                    System.out.println("Inside background thread!");
+                    readerFactory = new ReaderFactory(proDir.getText());
+                    System.out.println("after index");
+                    return null;
+                }
+
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+                    System.out.println("Indexing Complete!!");
+                    updateMessage("Indexing Done!");
+                }
+            };
+            Thread th = new Thread(task);
+            th.setDaemon(true);
+            th.start();
         } else {
         }
     }
@@ -84,7 +107,7 @@ public class AppController {
     //Fetch headers from given spreadsheet
     public void fetchHeaders(ActionEvent actionEvent) {
         if(!ssPath.getText().isEmpty()&& !fileSelector.getText().isEmpty())
-        reader = new ReaderFactory().getReader(ssPath.getText(),proDir.getText());
+            reader = readerFactory.getReader(ssPath.getText());
         headers = reader.getHeaders();
         ssHeadersBox.getChildren().clear();
         for(String header: headers) {
@@ -94,6 +117,8 @@ public class AppController {
         fileColumnComboBox.getItems().clear();
         fileColumnComboBox.getItems().addAll(headers);
     }
+
+
 
     public void readSS(ActionEvent actionEvent) {
         Tab tab = new Tab("Internal Report");
