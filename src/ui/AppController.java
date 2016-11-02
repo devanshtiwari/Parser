@@ -5,6 +5,7 @@ import com.filemanager.ReaderFactory;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
@@ -17,11 +18,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-/**
- * Created by devanshtiwari on 28-Oct-16.
- */
 public class AppController {
-
     public TextField proDir;
     public Button fileSelector;
     public ComboBox parseMethod;
@@ -34,16 +31,15 @@ public class AppController {
     public Button readSS;
     public TabPane bottomTab;
     public Tab console;
-    ReaderFactory readerFactory = null;
-    ReadSpreadSheet reader = null;
-    String[] headers;
-    Boolean indexing = false;
-    String proDirTextVal = "";
+    private ReaderFactory readerFactory = null;
+    private ReadSpreadSheet reader = null;
+    private Boolean indexing = false;
+    private String proDirTextVal = "";
+    private indexService indexService = null;
 
     public void initialize(){
-
         proDir.focusedProperty().addListener((observable, oldValue, newValue) ->{
-            if(newValue == false)
+            if(!newValue)
                 startIndexing();
         });
 
@@ -67,28 +63,13 @@ public class AppController {
 
     private void startIndexing(){
         if(!proDirTextVal.equals(proDir.getText())) {
+            if(indexService != null){
+                indexService.cancel();
+            }
+            indexService = new indexService();
+            indexService.stateProperty().addListener((obs, oldState, newState) -> System.out.println(newState));
+            indexService.restart();
             proDirTextVal = proDir.getText();
-            Task task = new Task() {
-                @Override
-                protected Object call() throws Exception {
-                    System.out.println("Inside background thread!");
-                    readerFactory = new ReaderFactory(proDir.getText());
-                    System.out.println("after index");
-                    return null;
-                }
-
-                @Override
-                protected void succeeded() {
-                    super.succeeded();
-                    System.out.println("Indexing Complete!!");
-                    updateMessage("Indexing Done!");
-                    indexing = true;
-                }
-            };
-            System.out.println("new Thread!");
-            Thread th = new Thread(task);
-            th.setDaemon(true);
-            th.start();
         }
     }
 
@@ -100,8 +81,6 @@ public class AppController {
         if (selectedDir != null) {
             proDir.setText(selectedDir.getCanonicalPath());
             startIndexing();
-        }
-        else {
         }
     }
 
@@ -119,7 +98,7 @@ public class AppController {
     public void fetchHeaders(ActionEvent actionEvent) {
         if(!ssPath.getText().isEmpty()&& !fileSelector.getText().isEmpty())
             reader = readerFactory.getReader(ssPath.getText());
-        headers = reader.getHeaders();
+        String[] headers = reader.getHeaders();
         ssHeadersBox.getChildren().clear();
         for(String header: headers) {
             Label label = new Label(header);
@@ -129,8 +108,6 @@ public class AppController {
         fileColumnComboBox.getItems().addAll(headers);
     }
 
-
-
     public void readSS(ActionEvent actionEvent) {
         Tab tab = new Tab("Internal Report");
         TableView<List<String>> table = new TableView<>();
@@ -138,13 +115,11 @@ public class AppController {
         reader.read();
         LinkedHashMap<String, List<String>> report = reader.getReport();
         LinkedHashMap<String, Integer> columns = reader.getColumns();
-        final int[] c = {0};
         for (String s : columns.keySet()) {
             TableColumn<List<String>,String> col = new TableColumn<>(s);
                 col.setCellValueFactory(data -> {
                     List<String> rowValues = data.getValue();
                     String cellValue = rowValues.get(reader.getColumnIndex(s));
-                    System.out.println("Data"+(++c[0])+" = " + cellValue);
                     return new ReadOnlyStringWrapper(cellValue);
                 });
             table.getColumns().add(col);
@@ -157,4 +132,19 @@ public class AppController {
         bottomTab.getSelectionModel().select(tab);
         reader.consoleOut();
     }
+    private class indexService extends Service<Void>{
+        @Override
+        protected Task<Void> createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    System.out.println("Inside background thread!");
+                    readerFactory = new ReaderFactory(proDir.getText());
+                    System.out.println("after index");
+                    return null;
+                }
+            };
+        }
+    }
 }
+
