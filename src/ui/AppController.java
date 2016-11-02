@@ -57,7 +57,12 @@ public class AppController {
             return !ssPath.getText().isEmpty();
         }, ssPath.textProperty());
 
+        BooleanBinding readValid = Bindings.createBooleanBinding(() -> {
+            return !fileColumnComboBox.getItems().isEmpty();
+        }, fileColumnComboBox.valueProperty());
+
         fetchHeaders.disableProperty().bind(ssPathValid.not().or(proDirValid.not()));
+        readSS.disableProperty().bind(readValid.not());
     }
 
 
