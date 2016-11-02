@@ -89,7 +89,6 @@
                                                   </columnConstraints>
                                                   <rowConstraints>
                                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                      <RowConstraints maxHeight="44.666656494140625" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
                                                     <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                                                       <RowConstraints maxHeight="62.666656494140625" minHeight="10.0" prefHeight="53.333343505859375" vgrow="SOMETIMES" />
                                                     <RowConstraints maxHeight="25.333343505859375" minHeight="0.66668701171875" prefHeight="0.66668701171875" vgrow="SOMETIMES" />
@@ -102,7 +101,7 @@
                                                             <Button fx:id="browseSS" mnemonicParsing="false" onAction="#ssSelector" text="+" />
                                                          </children>
                                                       </HBox>
-                                                      <FlowPane fx:id="ssHeadersBox" alignment="CENTER" hgap="5.0" prefHeight="70.0" prefWidth="224.0" rowValignment="TOP" styleClass="ss-headers" vgap="5.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
+                                                      <FlowPane fx:id="ssHeadersBox" alignment="CENTER" hgap="5.0" prefHeight="70.0" prefWidth="224.0" rowValignment="TOP" styleClass="ss-headers" vgap="5.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
                                                          <children>
                                                             <Label text="Headers will appear here!" />
                                                          </children>
@@ -110,13 +109,8 @@
                                                             <Insets bottom="10.0" left="2.0" right="2.0" top="10.0" />
                                                          </padding>
                                                       </FlowPane>
-                                                      <HBox alignment="CENTER_LEFT" prefHeight="24.0" prefWidth="175.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                                         <children>
-                                                            <Button fx:id="fetchHeaders" defaultButton="true" mnemonicParsing="false" onAction="#fetchHeaders" text="Fetch Headers" />
-                                                         </children>
-                                                      </HBox>
-                                                      <Label text="Select File Column" GridPane.rowIndex="3" />
-                                                      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                                      <Label text="Select File Column" GridPane.rowIndex="2" />
+                                                      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                                          <children>
                                                             <ComboBox fx:id="fileColumnComboBox" prefHeight="25.0" promptText="Select File Column" HBox.hgrow="ALWAYS" />
                                                             <Button fx:id="readSS" mnemonicParsing="false" onAction="#readSS" text="Read" HBox.hgrow="ALWAYS">

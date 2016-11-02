@@ -31,7 +31,6 @@ public class AppController {
     public TextField ssPath;
     public Button browseSS;
     public FlowPane ssHeadersBox;
-    public Button fetchHeaders;
     public ComboBox fileColumnComboBox;
     public Button readSS;
     public TabPane bottomTab;
@@ -49,15 +48,10 @@ public class AppController {
             if(!newValue)
                 startIndexing();
         });
-
-        //Bindings for checking whether Project Directory and Spreadsheet Path is empty or not
-        BooleanBinding proDirValid = Bindings.createBooleanBinding(() -> {
-            return !proDir.getText().isEmpty();
-        }, proDir.textProperty());
-
-        BooleanBinding ssPathValid = Bindings.createBooleanBinding(() -> {
-            return !ssPath.getText().isEmpty();
-        }, ssPath.textProperty());
+        ssPath.focusedProperty().addListener(((observable, oldValue, newValue) -> {
+            if(!newValue)
+                fetchHeaders();
+        }));
 
         BooleanBinding readValid = Bindings.createBooleanBinding(() -> {
             return (fileColumnComboBox.getItems().isEmpty());
@@ -72,7 +66,6 @@ public class AppController {
         AnchorPane.setRightAnchor(statusBar, 0.0);
         container.getChildren().add(statusBar);
 
-        fetchHeaders.disableProperty().bind(ssPathValid.not().or(proDirValid.not()));
         readSS.disableProperty().bind(Bindings.or(indexValid, readValid));
     }
 
@@ -114,10 +107,11 @@ public class AppController {
         File selectedFile = fileChooser.showOpenDialog(null);
         if(selectedFile != null){
             ssPath.setText(selectedFile.getCanonicalPath());
+            fetchHeaders();
         }
     }
     //Fetch headers from given spreadsheet
-    public void fetchHeaders(ActionEvent actionEvent) {
+    private void fetchHeaders() {
         if(!ssPath.getText().isEmpty()&& !fileSelector.getText().isEmpty())
             reader = readerFactory.getReader(ssPath.getText());
         String[] headers = reader.getHeaders();
