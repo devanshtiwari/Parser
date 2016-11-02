@@ -2,27 +2,18 @@ package ui;
 
 import com.filemanager.ReadSpreadSheet;
 import com.filemanager.ReaderFactory;
-import com.filemanager.ssIterator;
-import com.xpathgenerator.Tag;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-import org.apache.poi.ss.usermodel.Table;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -46,10 +37,16 @@ public class AppController {
     ReaderFactory readerFactory = null;
     ReadSpreadSheet reader = null;
     String[] headers;
-
-
+    Boolean indexing = false;
+    String proDirTextVal = "";
 
     public void initialize(){
+
+        proDir.focusedProperty().addListener((observable, oldValue, newValue) ->{
+            if(newValue == false)
+                startIndexing();
+        });
+
         //Bindings for checking whether Project Directory and Spreadsheet Path is empty or not
         BooleanBinding proDirValid = Bindings.createBooleanBinding(() -> {
             return !proDir.getText().isEmpty();
@@ -60,23 +57,17 @@ public class AppController {
         }, ssPath.textProperty());
 
         BooleanBinding readValid = Bindings.createBooleanBinding(() -> {
-            return !fileColumnComboBox.getItems().isEmpty();
+            return !fileColumnComboBox.getItems().isEmpty() || indexing;
         }, fileColumnComboBox.valueProperty());
 
         fetchHeaders.disableProperty().bind(ssPathValid.not().or(proDirValid.not()));
         readSS.disableProperty().bind(readValid.not());
+
     }
 
-
-
-    //Select Project Directory from Directory chooser
-    public void selectProjectDir(ActionEvent actionEvent) throws IOException {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Select Folder");
-        File selectedDir = directoryChooser.showDialog(null);
-        if (selectedDir != null) {
-            proDir.setText(selectedDir.getCanonicalPath());
-
+    private void startIndexing(){
+        if(!proDirTextVal.equals(proDir.getText())) {
+            proDirTextVal = proDir.getText();
             Task task = new Task() {
                 @Override
                 protected Object call() throws Exception {
@@ -91,14 +82,29 @@ public class AppController {
                     super.succeeded();
                     System.out.println("Indexing Complete!!");
                     updateMessage("Indexing Done!");
+                    indexing = true;
                 }
             };
+            System.out.println("new Thread!");
             Thread th = new Thread(task);
             th.setDaemon(true);
             th.start();
-        } else {
         }
     }
+
+    //Select Project Directory from Directory chooser
+    public void selectProjectDir(ActionEvent actionEvent) throws IOException {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Select Folder");
+        File selectedDir = directoryChooser.showDialog(null);
+        if (selectedDir != null) {
+            proDir.setText(selectedDir.getCanonicalPath());
+            startIndexing();
+        }
+        else {
+        }
+    }
+
     //Select spreadsheet from file Chooser
     public void ssSelector(ActionEvent actionEvent) throws IOException {
         FileChooser fileChooser = new FileChooser();
