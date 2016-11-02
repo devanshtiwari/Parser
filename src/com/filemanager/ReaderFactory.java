@@ -5,18 +5,21 @@ import com.FastSearch.FastSearch;
 import java.io.File;
 
 public class ReaderFactory {
-    private FastSearch Fsearch = new FastSearch();
-    public ReaderFactory(String workingDir) {
+    static FastSearch Fsearch = new FastSearch();
+    public ReaderFactory() {
+    }
+
+    public void index(String workingDir){
         Fsearch.init(workingDir);
     }
 
     public ReadSpreadSheet getReader(String sspath) {
         if (getFileExtension(new File(sspath)).equals("csv")) {
-            return new CSVReader(sspath, Fsearch);
+            return new CSVReader(sspath);
         }
         else if(getFileExtension(new File(sspath)).equals("xls"))
         {
-            return new ExcelReader(sspath,Fsearch);
+            return new ExcelReader(sspath);
         }
         return null;
     }

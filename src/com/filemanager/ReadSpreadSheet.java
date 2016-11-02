@@ -16,12 +16,12 @@ public class ReadSpreadSheet {
     protected String[] headers;
     protected FastSearch fastReference;
 
-    public ReadSpreadSheet(String sspath,FastSearch Fsearch)
+    public ReadSpreadSheet(String sspath)
     {
         this.ssFile = new File(sspath);
         this.internal = new Report();
         this.fileNameColumn = -1;
-        this.fastReference = Fsearch;
+        this.fastReference = ReaderFactory.Fsearch;
     }
     public int getColumnIndex(String name) {
         return internal.getColumnIndex(name);

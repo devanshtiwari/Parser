@@ -6,8 +6,8 @@ import org.apache.poi.*;
  */
 public class ExcelReader extends ReadSpreadSheet {
 
-    public ExcelReader(String sspath, FastSearch Fsearch) {
-        super(sspath, Fsearch);
+    public ExcelReader(String sspath) {
+        super(sspath);
     }
 
 }

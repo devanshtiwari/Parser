@@ -4,14 +4,19 @@ import com.filemanager.ReadSpreadSheet;
 import com.filemanager.ReaderFactory;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import org.controlsfx.control.StatusBar;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,11 +36,13 @@ public class AppController {
     public Button readSS;
     public TabPane bottomTab;
     public Tab console;
-    private ReaderFactory readerFactory = null;
+    public AnchorPane container;
+    private ReaderFactory readerFactory = new ReaderFactory();
     private ReadSpreadSheet reader = null;
-    private Boolean indexing = false;
+    private BooleanProperty indexing = new SimpleBooleanProperty(false);
     private String proDirTextVal = "";
     private indexService indexService = null;
+    private StatusBar statusBar = new StatusBar();
 
     public void initialize(){
         proDir.focusedProperty().addListener((observable, oldValue, newValue) ->{
@@ -53,13 +60,24 @@ public class AppController {
         }, ssPath.textProperty());
 
         BooleanBinding readValid = Bindings.createBooleanBinding(() -> {
-            return !fileColumnComboBox.getItems().isEmpty() || indexing;
+            return (fileColumnComboBox.getItems().isEmpty());
         }, fileColumnComboBox.valueProperty());
 
-        fetchHeaders.disableProperty().bind(ssPathValid.not().or(proDirValid.not()));
-        readSS.disableProperty().bind(readValid.not());
+        BooleanBinding indexValid = Bindings.createBooleanBinding(() -> {
+          return !indexing.getValue().equals(true);
+        }, indexing);
 
+        AnchorPane.setBottomAnchor(statusBar, 0.0);
+        AnchorPane.setLeftAnchor(statusBar, 0.0);
+        AnchorPane.setRightAnchor(statusBar, 0.0);
+        container.getChildren().add(statusBar);
+
+        fetchHeaders.disableProperty().bind(ssPathValid.not().or(proDirValid.not()));
+        readSS.disableProperty().bind(Bindings.or(indexValid, readValid));
     }
+
+
+
 
     private void startIndexing(){
         if(!proDirTextVal.equals(proDir.getText())) {
@@ -69,6 +87,10 @@ public class AppController {
             indexService = new indexService();
             indexService.stateProperty().addListener((obs, oldState, newState) -> System.out.println(newState));
             indexService.restart();
+            ProgressIndicator progressIndicator = new ProgressIndicator();
+            progressIndicator.setProgress(progressIndicator.INDETERMINATE_PROGRESS);
+            statusBar.getRightItems().clear();
+            statusBar.getRightItems().addAll(new Label("Indexing"),progressIndicator);
             proDirTextVal = proDir.getText();
         }
     }
@@ -115,6 +137,11 @@ public class AppController {
         reader.read();
         LinkedHashMap<String, List<String>> report = reader.getReport();
         LinkedHashMap<String, Integer> columns = reader.getColumns();
+
+        TableColumn<List<String>,Number> SNCol = new TableColumn<>("#");
+        SNCol.setSortable(false);
+        SNCol.setCellValueFactory(column -> new ReadOnlyObjectWrapper<Number>((table.getItems().indexOf(column.getValue()))+1));
+        table.getColumns().add(SNCol);
         for (String s : columns.keySet()) {
             TableColumn<List<String>,String> col = new TableColumn<>(s);
                 col.setCellValueFactory(data -> {
@@ -139,9 +166,24 @@ public class AppController {
                 @Override
                 protected Void call() throws Exception {
                     System.out.println("Inside background thread!");
-                    readerFactory = new ReaderFactory(proDir.getText());
+                    readerFactory.index(proDir.getText());
                     System.out.println("after index");
                     return null;
+                }
+
+                @Override
+                protected void cancelled() {
+                    super.cancelled();
+                    statusBar.getRightItems().clear();
+                    statusBar.getRightItems().add(new Label("Indexing Cancelled"));
+                }
+
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+                    statusBar.getRightItems().clear();
+                    statusBar.getRightItems().addAll(new Label("Indexing Done"));
+                    indexing.setValue(true);
                 }
             };
         }

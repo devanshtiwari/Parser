@@ -12,8 +12,8 @@ public class CSVReader extends ReadSpreadSheet {
     private String line;
     private final String COMMA_DELIMITER = ",";
 
-    public CSVReader(String sspath, FastSearch Fsearch) {
-        super(sspath,Fsearch);
+    public CSVReader(String sspath) {
+        super(sspath);
         try {
             this.br = new BufferedReader(new FileReader(sspath));
         } catch (FileNotFoundException e) {
@@ -45,6 +45,11 @@ public class CSVReader extends ReadSpreadSheet {
 
     private  void readCSV() {
         try {
+            if(this.br.readLine() == null)
+            {
+                br = new BufferedReader(new FileReader(ssFile));
+                br.readLine();
+            }
             String[] row;
             int rowKey = 1;
             while((line = br.readLine()) != null)
