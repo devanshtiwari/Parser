@@ -72,17 +72,17 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <SplitPane dividerPositions="0.4338461538461538, 0.6784615384615384" prefHeight="421.0" prefWidth="857.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <SplitPane dividerPositions="0.3594994311717861, 0.6666666666666666" prefHeight="421.0" prefWidth="857.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <Accordion layoutX="-56.0" layoutY="23.0" prefHeight="159.0" prefWidth="146.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <Accordion layoutX="-56.0" layoutY="23.0" prefHeight="159.0" prefWidth="146.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" expandedPane="$ssPane">
                                 <panes>
-                                  <TitledPane animated="false" text="Spread Sheet">
+                                  <TitledPane fx:id="ssPane" animated="false" text="Spread Sheet">
                                        <content>
-                                          <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0">
+                                          <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
                                              <content>
-                                                <GridPane hgap="5.0" vgap="5.0">
+                                                <GridPane fx:id="gridInside1" hgap="5.0" vgap="5.0">
                                                   <columnConstraints>
                                                     <ColumnConstraints hgrow="ALWAYS" />
                                                     <ColumnConstraints hgrow="ALWAYS" />
@@ -129,7 +129,7 @@
                                           </ScrollPane>
                                        </content>
                                   </TitledPane>
-                                    <TitledPane prefHeight="200.0" prefWidth="200.0" text="Output Report">
+                                    <TitledPane animated="false" expanded="false" text="Output Report">
                                        <content>
                                           <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
                                              <content>
@@ -195,12 +195,12 @@
                                 <panes>
                                   <TitledPane animated="false" text="Tags">
                                        <content>
-                                          <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                                          <ScrollPane fitToWidth="true">
                                              <content>
-                                                <GridPane>
+                                                <GridPane hgap="5.0" prefHeight="116.0" prefWidth="278.0" vgap="5.0">
                                                   <columnConstraints>
-                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                    <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                                    <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
                                                   </columnConstraints>
                                                   <rowConstraints>
                                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -211,6 +211,9 @@
                                                       <Button mnemonicParsing="false" text="Add a Tag" GridPane.columnIndex="1" />
                                                       <Label text="Element" GridPane.rowIndex="1" />
                                                    </children>
+                                                   <padding>
+                                                      <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                                                   </padding>
                                                 </GridPane>
                                              </content>
                                           </ScrollPane>
