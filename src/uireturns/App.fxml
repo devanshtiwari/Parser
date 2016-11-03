@@ -8,8 +8,8 @@
 
 <AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="696.0" prefWidth="883.0" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uireturns.controllers.AppController">
     <children>
-        <fx:include source="views/menubar.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-        <fx:include source="views/ProjectConfig.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0" />
+        <fx:include fx:id="menubar" source="views/menubar.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <fx:include fx:id="projectconfig" source="views/ProjectConfig.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0" />
         <Separator prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0" />
         <SplitPane dividerPositions="0.4991869918699187" layoutX="97.0" layoutY="131.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
             <items>
@@ -21,8 +21,8 @@
                                     <children>
                                         <Accordion layoutX="-56.0" layoutY="23.0" prefHeight="159.0" prefWidth="146.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <panes>
-                                                <fx:include source="views/spreadsheet.fxml" />
-                                                <fx:include source="views/outputReport.fxml" />
+                                                <fx:include fx:id="spreadsheet" source="views/spreadsheet.fxml" />
+                                                <fx:include fx:id="outputReport" source="views/outputReport.fxml" />
                                             </panes>
                                         </Accordion>
                                     </children>
@@ -40,7 +40,7 @@
                                     <children>
                                         <Accordion layoutX="-22.0" layoutY="32.0" prefHeight="159.0" prefWidth="146.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <panes>
-                                                <fx:include source="views/tags.fxml" />
+                                                <fx:include fx:id="tags" source="views/tags.fxml" />
                                             </panes>
                                         </Accordion>
                                     </children>
@@ -51,7 +51,7 @@
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="322.0" prefWidth="857.0">
                     <children>
-                        <fx:include source="views/bottomPane.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <fx:include fx:id="bottompane" source="views/bottomPane.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                     </children></AnchorPane>
             </items>
         </SplitPane>
