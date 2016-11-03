@@ -1,7 +1,8 @@
 package uireturns.controllers;
 
-/**
- * Created by devanshtiwari on 03-Nov-16.
- */
+import javafx.scene.layout.AnchorPane;
+
 public class AppController {
+
+    public AnchorPane container;
 }
