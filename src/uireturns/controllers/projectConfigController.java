@@ -96,6 +96,14 @@ public class projectConfigController {
                     statusBar.getRightItems().addAll(new Label("Indexing Done"));
                     indexing.setValue(true);
                 }
+                @Override
+                protected void failed() {
+                    super.failed();
+                    super.cancel();
+                    statusBar.getRightItems().clear();
+                    statusBar.setText("OK");
+                    statusBar.getRightItems().addAll(new Label("Indexing Failed."));
+                }
             };
         }
     }

@@ -16,6 +16,11 @@ public class bottomPaneController {
     @FXML
     public Tab console;
 
+    public void initialize()
+    {
+        bottomTab.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
+    }
+
     public void init(AppController appController) {
         this.appController = appController;
     }

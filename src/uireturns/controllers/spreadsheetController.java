@@ -93,9 +93,9 @@ public class spreadsheetController {
             table.getItems().add(report.get(key));
         }
         tab.setContent(table);
+        tab.setClosable(true);
         appController.bottomPaneController.bottomTab.getTabs().add(tab);
         appController.bottomPaneController.bottomTab.getSelectionModel().select(tab);
-        reader.consoleOut();
     }
 
     private void initBindings(){
@@ -163,6 +163,15 @@ public class spreadsheetController {
                     statusBar.getRightItems().clear();
                     statusBar.setText("OK");
                     statusBar.getRightItems().addAll(new Label("Reading completed."));
+                }
+
+                @Override
+                protected void failed() {
+                    super.failed();
+                    super.cancel();
+                    statusBar.getRightItems().clear();
+                    statusBar.setText("OK");
+                    statusBar.getRightItems().addAll(new Label("Reading Failed."));
                 }
             };
         }
