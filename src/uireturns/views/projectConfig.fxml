@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uireturns.controllers.ProjectConfigController">
+<HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uireturns.controllers.projectConfigController">
     <children>
         <Label text="Project Directory">
             <HBox.margin>

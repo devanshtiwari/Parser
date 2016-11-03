@@ -20,7 +20,26 @@ public class AppController {
     //Util Variables
     static BooleanProperty indexing = new SimpleBooleanProperty(false);
 
+    @FXML
+     bottomPaneController bottomPaneController;
+    @FXML
+     MenuBarController menuBarController;
+    @FXML
+     outputReportController outputReportController;
+    @FXML
+    projectConfigController projectConfigController;
+    @FXML
+     spreadsheetController spreadsheetController;
+    @FXML
+     tagsController tagsController;
+
     public void initialize(){
+        bottomPaneController.init(this);
+        menuBarController.init(this);
+        projectConfigController.init(this);
+        outputReportController.init(this);
+        spreadsheetController.init(this);
+        tagsController.init(this);
         addStatusBar();
     }
 

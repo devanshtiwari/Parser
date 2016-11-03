@@ -14,14 +14,17 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static uireturns.controllers.AppController.*;
-import static uireturns.controllers.ProjectConfigController.*;
-import static uireturns.controllers.bottomPaneController.bottomTab;
+import static uireturns.controllers.AppController.indexing;
+import static uireturns.controllers.AppController.reader;
+import static uireturns.controllers.AppController.readerFactory;
+
 
 /**
  * Created by devanshtiwari on 03-Nov-16.
  */
 public class spreadsheetController {
+    AppController appController;
+
     public TextField ssPath;
     public Button browseSS;
     public FlowPane ssHeadersBox;
@@ -71,8 +74,8 @@ public class spreadsheetController {
             table.getItems().add(report.get(key));
         }
         tab.setContent(table);
-        bottomTab.getTabs().add(tab);
-        bottomTab.getSelectionModel().select(tab);
+        appController.bottomPaneController.bottomTab.getTabs().add(tab);
+        appController.bottomPaneController.bottomTab.getSelectionModel().select(tab);
         reader.consoleOut();
     }
 
@@ -95,7 +98,7 @@ public class spreadsheetController {
 
     //Fetch headers from given spreadsheet
     private void fetchHeaders() {
-        if(!ssPath.getText().isEmpty() ) {
+        if(!ssPath.getText().isEmpty()  ) {
             reader = readerFactory.getReader(ssPath.getText());
             String[] headers = reader.getHeaders();
             ssHeadersBox.getChildren().clear();
@@ -106,5 +109,9 @@ public class spreadsheetController {
             fileColumnComboBox.getItems().clear();
             fileColumnComboBox.getItems().addAll(headers);
         }
+    }
+
+    public void init(AppController appController) {
+        this.appController = appController;
     }
 }

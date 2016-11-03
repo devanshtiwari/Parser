@@ -4,15 +4,21 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import static uireturns.controllers.AppController.*;
 
-public class ProjectConfigController {
+public class projectConfigController {
+
+    AppController appController;
+
     public TextField proDir;
     public Button fileSelector;
     public ComboBox parseMethod;
@@ -53,6 +59,12 @@ public class ProjectConfigController {
             proDirTextVal = proDir.getText();
         }
     }
+
+    public void init(AppController appController) {
+
+        this.appController = appController;
+    }
+
 
     //Index Service
     private class indexService extends Service<Void> {
