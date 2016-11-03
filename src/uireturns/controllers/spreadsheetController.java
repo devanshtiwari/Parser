@@ -4,7 +4,10 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
@@ -14,9 +17,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static uireturns.controllers.AppController.indexing;
-import static uireturns.controllers.AppController.reader;
-import static uireturns.controllers.AppController.readerFactory;
+import static uireturns.controllers.AppController.*;
 
 
 /**
@@ -31,6 +32,8 @@ public class spreadsheetController {
     public ComboBox fileColumnComboBox;
     public Button readSS;
 
+    //Util variables
+    private readService readService = null;
 
     public void initialize(){
         initBindings();
@@ -50,10 +53,26 @@ public class spreadsheetController {
     }
 
     public void readSS(ActionEvent actionEvent) {
+        reader.setFileNameColumn(reader.getColumnIndex((String) fileColumnComboBox.getValue()));
+        if(readService != null)
+            readService.cancel();
+
+        readService = new readService();
+        readService.stateProperty().addListener((obs, oldState, newState) -> System.out.println(newState));
+        readService.restart();
+        //Status
+        ProgressIndicator progressIndicator = new ProgressIndicator();
+        progressIndicator.setProgress(progressIndicator.INDETERMINATE_PROGRESS);
+        progressIndicator.setPadding(new Insets(2));
+        statusBar.setText("Processing...");
+        statusBar.getRightItems().clear();
+        statusBar.getRightItems().addAll(new Label("Reading SpreadSheet"),progressIndicator);
+
+    }
+    private void generateInternalRepotTable(){
         Tab tab = new Tab("Internal Report");
         TableView<List<String>> table = new TableView<>();
-        reader.setFileNameColumn(reader.getColumnIndex((String) fileColumnComboBox.getValue()));
-        reader.read();
+
         LinkedHashMap<String, List<String>> report = reader.getReport();
         LinkedHashMap<String, Integer> columns = reader.getColumns();
 
@@ -113,5 +132,39 @@ public class spreadsheetController {
 
     public void init(AppController appController) {
         this.appController = appController;
+    }
+
+    //Read SpreadSheet Service
+   private class readService extends Service<Void>{
+
+        @Override
+        protected Task<Void> createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    System.out.println("Inside Read SS Service!!");
+                    reader.read();
+                    System.out.println("Reading done!");
+                    return null;
+                }
+
+                @Override
+                protected void cancelled() {
+                    super.cancelled();
+                    statusBar.getRightItems().clear();
+                    statusBar.setText("OK");
+                    statusBar.getRightItems().add(new Label("Reading cancelled."));
+                }
+
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+                    generateInternalRepotTable();
+                    statusBar.getRightItems().clear();
+                    statusBar.setText("OK");
+                    statusBar.getRightItems().addAll(new Label("Reading completed."));
+                }
+            };
+        }
     }
 }

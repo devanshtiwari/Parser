@@ -13,7 +13,7 @@ public class Driver extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("App.fxml"));
         primaryStage.setTitle("XML Parser");
-        primaryStage.setScene(new Scene(root, 969, 719));
+        primaryStage.setScene(new Scene(root, 969, 650));
         primaryStage.show();
     }
 

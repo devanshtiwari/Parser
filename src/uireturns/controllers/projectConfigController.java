@@ -5,6 +5,8 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.chart.Axis;
 import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
 
@@ -53,6 +55,7 @@ public class projectConfigController {
             indexService.stateProperty().addListener((obs, oldState, newState) -> System.out.println(newState));
             indexService.restart();
             ProgressIndicator progressIndicator = new ProgressIndicator();
+            progressIndicator.setPadding(new Insets(3));
             progressIndicator.setProgress(progressIndicator.INDETERMINATE_PROGRESS);
             statusBar.getRightItems().clear();
             statusBar.getRightItems().addAll(new Label("Indexing"),progressIndicator);
