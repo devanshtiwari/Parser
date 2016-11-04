@@ -54,12 +54,12 @@ public class CSVReader extends ReadSpreadSheet {
             while((line = br.readLine()) != null)
             {
                 row = line.split(COMMA_DELIMITER,-1);
-                ArrayList<String> path = fastReference.Fsearch(row[fileNameColumn]);
+                ArrayList<File> path = fastReference.Fsearch(row[fileNameColumn]);
                 if(!path.isEmpty())
                 {
                     if(path.size() == 1)
                     {
-                        File file = new File(path.get(0));
+                        File file = new File(String.valueOf(path.get(0).getCanonicalFile()));
                         internal.initRow(String.valueOf(rowKey), file);
                         int i=0;
                         for(String r : row)
