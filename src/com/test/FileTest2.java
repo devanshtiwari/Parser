@@ -2,7 +2,6 @@ package com.test;
 
 import com.fastsearch.FastSearch;
 import com.fastsearch.FileDetail;
-import com.filemanager.FileManager;
 
 import java.io.File;
 import java.util.ArrayList;
