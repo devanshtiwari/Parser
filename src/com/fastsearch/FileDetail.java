@@ -1,4 +1,4 @@
-package com.FastSearch;
+package com.fastsearch;
 
 import java.io.File;
 
@@ -10,7 +10,7 @@ import java.io.File;
  * @since 2016-08-11
  */
 
-class FileDetail {
+public class FileDetail {
 
     /**
      * Name of the Folder or file.
@@ -61,19 +61,19 @@ class FileDetail {
         this.next = next;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    File getF() {
+    public File getF() {
         return f;
     }
 
-    Boolean getDir() {
+    public Boolean getDir() {
         return dir;
     }
 
-    FileDetail getNext() {
+    public FileDetail getNext() {
         return next;
     }
 

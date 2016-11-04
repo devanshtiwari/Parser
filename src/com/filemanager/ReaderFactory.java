@@ -1,6 +1,5 @@
 package com.filemanager;
-
-import com.FastSearch.FastSearch;
+import com.fastsearch.FastSearch;
 
 import java.io.File;
 

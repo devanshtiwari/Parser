@@ -1,6 +1,6 @@
 package com.filemanager;
 
-import com.FastSearch.*;
+import com.fastsearch.*;
 import com.report.Report;
 import java.io.*;
 import java.util.Iterator;

@@ -12,17 +12,11 @@ public class FileManagerTest {
         Scanner in=new Scanner(System.in);
         System.out.println("Enter file Path");
         String path=in.nextLine();
-        String ex[]={};
+        String ex[]={"xml"};
         ArrayList<File> All=F.init(path,ex);
         for(File temp:All)
         {
-            System.out.println(temp.getAbsolutePath());
-            System.out.println(F.getValueFromFilePath(temp.getAbsolutePath(),2));
-            String[] farray=F.getArrayFromFilePath(temp.getAbsolutePath());
-            for(String str:farray)
-            {
-                System.out.print(str+" ");
-            }
+            System.out.println(temp.getName());
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.filemanager;
 
-import com.FastSearch.FastSearch;
-import com.report.*;
+import com.report.Report;
 
 import java.io.*;
 import java.util.ArrayList;

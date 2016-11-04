@@ -1,4 +1,4 @@
-package com.FastSearch;
+package com.fastsearch;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * @since   2016-08-11
  */
 
-public class FastSearch extends Thread {
+public class FastSearch {
 
     /**
      * Variable ArrayList of type {@link FileDetail} which will be used to index the Files and Folders and thereafter searching in them.
@@ -131,4 +131,14 @@ public class FastSearch extends Thread {
 
         return dirs;
     }
+
+    public ArrayList<FileDetail> getFileList() {
+        return F;
+    }
+
+    public String getValueFromFilePath(String path, int index){
+        return path.split("\\\\")[index];
+    }
+
+    public String[] getArrayFromFilePath(String path){  return path.split("\\\\");}
 }
