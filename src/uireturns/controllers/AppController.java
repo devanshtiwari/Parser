@@ -1,5 +1,6 @@
 package uireturns.controllers;
 
+import com.fastsearch.FastSearch;
 import com.filemanager.ReadSpreadSheet;
 import com.filemanager.ReaderFactory;
 import com.xpathgenerator.Tag;
@@ -13,6 +14,7 @@ public class AppController {
     //FXML variables
     public AnchorPane container;
     //Parser Library Variables
+    static FastSearch fastSearch = new FastSearch();
     static ReaderFactory readerFactory = new ReaderFactory();
     static ReadSpreadSheet reader = null;
     static Tag tag = new Tag();

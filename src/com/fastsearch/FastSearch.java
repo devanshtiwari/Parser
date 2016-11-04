@@ -21,10 +21,17 @@ import java.util.List;
 
 public class FastSearch {
 
+    public FastSearch() {
+    }
+
+    public FastSearch(String dir){
+        init(dir);
+    }
+
     /**
      * Variable ArrayList of type {@link FileDetail} which will be used to index the Files and Folders and thereafter searching in them.
      */
-    private ArrayList<FileDetail> F=new ArrayList<>();
+    private ArrayList<FileDetail> F = null;
     private List<String> extensions = new ArrayList<>();
 
     public List<String> getExtensions() {
@@ -43,6 +50,7 @@ public class FastSearch {
 
     public void init(String filePath)
     {
+        F = new ArrayList<>();
         indexit(filePath);
     }
 
@@ -68,6 +76,7 @@ public class FastSearch {
             }
             else
                 fil.setDir(false);
+
             File file = new File(path.toString());
             fil.setF(file);
             fil.setName(path.getFileName().toString());
@@ -78,7 +87,6 @@ public class FastSearch {
                     t = t.getNext();
                 }
                 t.setNext(fil);
-                F.add(fil);
             } else
                 F.add(fil);
         }
@@ -146,24 +154,46 @@ public class FastSearch {
         }
         return dirs;
     }
+    public ArrayList<File> ExSearch(String[] extn){
+        return ExSearch(extn,false);
+    }
 
-    public ArrayList<File> ExSearch(String[] exten){
+
+    public ArrayList<File> ExSearch(String[] exten, Boolean ignoreDuplicate){
         this.setExtensions(Arrays.asList(exten));
 
         ArrayList<File> dirs = new ArrayList<>();
         FileDetail temp = new FileDetail();
         for(FileDetail f: F) {
-                if(this.extensions.contains(f.getExten()))
-                {
+
+            if(this.extensions.contains(f.getExten())) {
+                if(ignoreDuplicate){
+                    System.out.println("First if");
                     dirs.add(f.getF());
-                    continue;
                 }
+                else {
+                    System.out.println("First else");
+                    FileDetail t = f;
+                    while (t != null) {
+                        try {
+                            System.out.println("Loop:" +t.getF().getCanonicalPath());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        dirs.add(t.getF());
+                        t = t.getNext();
+                    }
+                }
+            }
         }
         return dirs;
     }
 
     public ArrayList<File> ExSearch(String exten){
         return ExSearch(new String[] {exten});
+    }
+    public ArrayList<File> ExSearch(String exten,Boolean ignoreDuplicate){
+        return ExSearch(new String[] {exten},ignoreDuplicate);
     }
 
     public ArrayList<FileDetail> getFileList() {

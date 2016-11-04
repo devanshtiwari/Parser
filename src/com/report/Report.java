@@ -60,7 +60,10 @@ public class Report {
             }
         return key;
     }
-
+    public void initEmptyRow(String key){
+        String[] initial = new String[columns.size()];
+        report.put(key, Arrays.asList(initial));
+    }
     public void initRow(String key, File file){
         String[] initial = new String[columns.size()];
         if(sNoIndex != -1)

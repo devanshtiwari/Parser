@@ -1,5 +1,6 @@
 package com.test;
 
+import com.fastsearch.FastSearch;
 import com.filemanager.*;
 import com.parser.*;
 import com.report.*;
@@ -9,15 +10,14 @@ import java.io.File;
 
 public class MegaTest2 {
     public static void main(String[] args) throws Exception {
+        FastSearch fastSearch = new FastSearch("C:\\test\\APP\\Clusters");
         Report opReport = new Report();
         opReport.addColumn(new String[] {Report.SNO,Report.FILE_NAME,"Added"});
         //Tag for c:set element
         Tag tag1 = new Tag("set");
         //CSV Reader
         ReaderFactory readerFactory = new ReaderFactory();
-        readerFactory.index("D:\\rms\\APP\\Clusters");
-        ReadSpreadSheet reader = readerFactory.getReader("D:\\WorkUpon.csv");
-        reader.setFileNameColumn(2);
+        ReadSpreadSheet reader = readerFactory.getReader("D:\\XML Parser Projects\\trustmode\\work.csv");
         reader.read();
         reader.consoleOut();
         Parser parser = ParserFactory.getParser(ParserFactory.Parsers.VTD);
@@ -26,8 +26,8 @@ public class MegaTest2 {
         while(iter.hasNext())
         {
             iter.next();
-            File currentFile =new File(iter.getFilePath());
-            System.out.println(iter.getFilePath());
+            File currentFile = fastSearch.Fsearch(iter.getValue(2)).get(0);
+            System.out.println(currentFile.getCanonicalPath());
             vtdParser.parse(currentFile);
             Element e = vtdParser.createElement(tag1.getXpath());
             Tag temp = new Tag("appsTable");
