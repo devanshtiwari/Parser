@@ -1,5 +1,6 @@
 package com.test;
 
+import com.fastsearch.FastSearch;
 import com.filemanager.*;
 import com.parser.*;
 import com.report.*;
@@ -9,12 +10,13 @@ import java.util.ArrayList;
 
 public class ElementTest {
     public static void main(String[] args) throws ReportException {
-        FileManager fil = new FileManager();
+        FastSearch fastSearch = new FastSearch();
         Report R = new Report();
         Tag tag = new Tag();
         R.addColumn(new String[]{Report.SNO, Report.FILE_NAME,"Root Name","ID"});
         tag.setName("TransientExpression");
-        ArrayList<File> files = fil.init("D:\\rms\\APP\\Clusters","xml");
+        fastSearch.init("D:\\rms\\APP\\Clusters");
+        ArrayList<File> files = fastSearch.ExSearch("xml");
         try {
             Parser parser= ParserFactory.getParser(ParserFactory.Parsers.VTD);
             VTDParser vtdParser = (VTDParser) parser;
