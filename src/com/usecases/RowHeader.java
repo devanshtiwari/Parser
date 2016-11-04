@@ -1,5 +1,6 @@
 package com.usecases;
 
+import com.fastsearch.FastSearch;
 import com.filemanager.*;
 import com.parser.*;
 import com.report.Report;
@@ -11,9 +12,8 @@ import java.io.IOException;
 public class RowHeader {
     public static void main(String[] args){
         ReaderFactory readerFactory = new ReaderFactory();
-        readerFactory.index("D:\\rms\\APP\\Clusters");
+        FastSearch fastSearch = new FastSearch("D:\\rms\\APP\\Clusters");
         ReadSpreadSheet reader = readerFactory.getReader("C:\\Users\\devanshtiwari\\IdeaProjects\\TableCompliance2\\RMS.csv");
-        reader.setFileNameColumn(2);
         reader.read();
         reader.consoleOut();
 
@@ -28,7 +28,7 @@ public class RowHeader {
             //Column Tag
             Tag col = new Tag("column");
             col.addAttribute("id",iter.getValue(4));
-            File currentFile = new File(iter.getFilePath());
+            File currentFile = fastSearch.Fsearch(iter.getValue(2)).get(0);
             parser.parse(currentFile);
             Element e = parser.createElement(col.getXpath());
             report.initRow(currentFile);

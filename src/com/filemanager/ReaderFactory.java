@@ -4,13 +4,10 @@ import com.fastsearch.FastSearch;
 import java.io.File;
 
 public class ReaderFactory {
-    static FastSearch Fsearch = new FastSearch();
+
     public ReaderFactory() {
     }
 
-    public void index(String workingDir){
-        Fsearch.init(workingDir);
-    }
 
     public ReadSpreadSheet getReader(String sspath) {
         if (getFileExtension(new File(sspath)).equals("csv")) {

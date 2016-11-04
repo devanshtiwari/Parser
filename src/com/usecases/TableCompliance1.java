@@ -1,4 +1,5 @@
 package com.usecases;
+import com.fastsearch.FastSearch;
 import com.filemanager.ReadSpreadSheet;
 import com.filemanager.ReaderFactory;
 import com.filemanager.ssIterator;
@@ -14,10 +15,9 @@ import java.io.IOException;
 public class TableCompliance1 {
 
     public static void main(String[] args) throws IOException {
+        FastSearch fastSearch = new FastSearch("C:\\test\\APP\\Clusters");
         ReaderFactory readerFactory = new ReaderFactory();
-        readerFactory.index("D:\\rms\\APP\\Clusters");
         ReadSpreadSheet reader = readerFactory.getReader("C:\\Users\\devanshtiwari\\IdeaProjects\\TableComplaince\\Column.csv");
-        reader.setFileNameColumn(2);
         reader.read();
         reader.consoleOut();
         Tag tag = new Tag("column");
@@ -28,7 +28,7 @@ public class TableCompliance1 {
         while(iter.hasNext())
         {
             iter.next();
-            File current = new File(iter.getFilePath());
+            File current = fastSearch.Fsearch(iter.getValue(3)).get(0);
             parser.parse(current);
             Element e = parser.createElement(tag.getXpath());
             while(e.next() != -1)

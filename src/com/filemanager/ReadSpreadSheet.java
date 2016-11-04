@@ -9,31 +9,19 @@ import java.util.List;
 
 public class ReadSpreadSheet {
 
-    protected File ssFile;
-    protected Report internal;
+    File ssFile;
+    Report internal;
+    String[] headers;
 
-    protected int fileNameColumn;
-    protected String[] headers;
-    protected FastSearch fastReference;
-
-    public ReadSpreadSheet(String sspath)
+    ReadSpreadSheet(String sspath)
     {
         this.ssFile = new File(sspath);
         this.internal = new Report();
-        this.fileNameColumn = -1;
-        this.fastReference = ReaderFactory.Fsearch;
     }
     public int getColumnIndex(String name) {
         return internal.getColumnIndex(name);
     }
 
-    public int getFileNameColumn() {
-        return fileNameColumn;
-    }
-
-    public void setFileNameColumn(int fileNameColumn) {
-        this.fileNameColumn = fileNameColumn;
-    }
     public String[] getHeaders(){
         return this.headers;
     }
@@ -76,11 +64,6 @@ public class ReadSpreadSheet {
         @Override
         public String getValue(String columnName){
             return internal.getValue(currentKey, columnName);
-        }
-
-        @Override
-        public String getFilePath() {
-            return getValue(Report.FILE_PATH);
         }
 
         public String getValue(int columnIndex){

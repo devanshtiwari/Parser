@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class CSVReader extends ReadSpreadSheet {
 
-    private BufferedReader br ;
+    private BufferedReader br;
     private String line;
     private final String COMMA_DELIMITER = ",";
 
@@ -27,73 +27,39 @@ public class CSVReader extends ReadSpreadSheet {
             if ((line = br.readLine()) != null) {
                 this.headers = line.split(COMMA_DELIMITER,-1);
                 this.internal.addColumn(headers);
-                this.internal.addColumn(Report.FILE_PATH);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
-    
-    public void read(){
 
-        if(fileNameColumn != -1) {
-            readCSV();
-        }
+    public void read(){
+        readCSV();
     }
 
     private  void readCSV() {
         try {
-            if(this.br.readLine() == null)
-            {
-                br = new BufferedReader(new FileReader(ssFile));
-                br.readLine();
-            }
+            br = new BufferedReader(new FileReader(ssFile));
+            br.readLine();
             String[] row;
             int rowKey = 1;
             while((line = br.readLine()) != null)
             {
                 row = line.split(COMMA_DELIMITER,-1);
-                ArrayList<File> path = fastReference.Fsearch(row[fileNameColumn]);
-                if(!path.isEmpty())
+                internal.initEmptyRow(String.valueOf(rowKey));
+                int i=0;
+                for(String r : row)
                 {
-                    if(path.size() == 1)
-                    {
-                        File file = new File(String.valueOf(path.get(0).getCanonicalFile()));
-                        internal.initRow(String.valueOf(rowKey), file);
-                        int i=0;
-                        for(String r : row)
-                        {
-                            internal.addValue(String.valueOf(rowKey),headers[i], r);
-                            i++;
-                        }
-                        rowKey++;
-                    }
-                    else
-                    {
-                        try {
-                            throw new Exception("Multiple File with same name"+path.get(1));
-                        } catch (Exception e) {
-                            System.out.println("More than one File");
-                            System.out.println(path);
-                        }
-                    }
+                    internal.addValue(String.valueOf(rowKey),headers[i], r);
+                    i++;
                 }
-                else
-                {
-                    try {
-                        throw new Exception("File Not Found");
-                    } catch (Exception e) {
-                        System.out.println("File not Found: "+row[fileNameColumn]);
-                    }
-                }
-
+                rowKey++;
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public void consoleOut()

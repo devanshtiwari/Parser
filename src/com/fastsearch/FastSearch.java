@@ -21,6 +21,13 @@ import java.util.List;
 
 public class FastSearch {
 
+    public FastSearch() {
+    }
+
+    public FastSearch(String dir){
+        init(dir);
+    }
+
     /**
      * Variable ArrayList of type {@link FileDetail} which will be used to index the Files and Folders and thereafter searching in them.
      */
