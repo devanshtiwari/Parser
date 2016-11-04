@@ -7,6 +7,8 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * <h1>FastSearch!</h1>
@@ -23,6 +25,15 @@ public class FastSearch {
      * Variable ArrayList of type {@link FileDetail} which will be used to index the Files and Folders and thereafter searching in them.
      */
     private ArrayList<FileDetail> F=new ArrayList<>();
+    private List<String> extensions = new ArrayList<>();
+
+    public List<String> getExtensions() {
+        return extensions;
+    }
+
+    public void setExtensions(List<String> extensions) {
+        this.extensions = extensions;
+    }
 
     /**
      * This method will take input the path of directory to be indexed and then index the whole directory.
@@ -84,8 +95,22 @@ public class FastSearch {
      * @param filename String Parameter which takes File Name to be searched.
      * @return ArrayList of String which is specific directory of search
      */
-    public ArrayList<String> Fsearch(String filename) {
-        return Fsearch(filename,false);
+    public ArrayList<File> Fsearch(String filename) {
+        return Fsearch(filename,false,false);
+    }
+    public ArrayList<File> Fsearch(String filename,Boolean extnCheck){
+        return Fsearch(filename,extnCheck,false);
+    }
+    public ArrayList<File> Fsearch(String filename,Boolean extnCheck,Boolean dir){
+        if(extnCheck){
+            return Fsearch(filename,this.extensions, dir);
+        }
+        else {
+            return Fsearch(filename,new String[]{}, dir);
+        }
+    }
+    public ArrayList<File> Fsearch(String filename, List<String> extn, Boolean dir){
+        return Fsearch(filename, (String[]) extn.toArray(),dir);
     }
 
     /**
@@ -94,34 +119,45 @@ public class FastSearch {
      * @param dir dir takes true if it is directory name to be searched or false when it is file to be searched.
      * @return ArrayList of String which is specific directory of search
      */
-    public ArrayList<String> Fsearch(String filename, Boolean dir) {
+    public ArrayList<File> Fsearch(String filename,String[] exten, Boolean dir) {
+        this.setExtensions(Arrays.asList(exten));
         FileDetail temp = new FileDetail();
         temp.setName(filename);
         temp.setDir(dir);
-        ArrayList<String> dirs=new ArrayList<>();
+        ArrayList<File> dirs=new ArrayList<>();
         if (F.contains(temp)) {
             int s=F.indexOf(temp);
             FileDetail t;
             t=F.get(s);
-            while(t!=null){
-                dirs.add(t.getF().getAbsolutePath());
-                t=t.getNext();
+            if(this.extensions.size() !=0 ) {
+                if (this.getExtensions().contains(t.getExten())) {
+                    while (t != null) {
+                        dirs.add(t.getF());
+                        t = t.getNext();
+                    }
+                }
+            }
+            else {
+                while (t != null) {
+                    dirs.add(t.getF());
+                    t = t.getNext();
+                }
             }
         }
         return dirs;
     }
 
     public ArrayList<File> ExSearch(String[] exten){
+        this.setExtensions(Arrays.asList(exten));
+
         ArrayList<File> dirs = new ArrayList<>();
         FileDetail temp = new FileDetail();
         for(FileDetail f: F) {
-            for(String ex: exten) {
-                if(ex.equals(f.getExten()))
+                if(this.extensions.contains(f.getExten()))
                 {
                     dirs.add(f.getF());
                     continue;
                 }
-            }
         }
         return dirs;
     }
