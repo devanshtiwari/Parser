@@ -29,19 +29,10 @@ public class FastSearch {
      * @param filePath Path taken by the function init. This will the the directory which will be indexed wholly.
      * @return Nothing to be returned
      */
-    public void init(String filePath, String exten)
-    {
-        String[] str= new String[]{exten};
-        init(filePath,str);
-    }
 
     public void init(String filePath)
     {
-        String[] str= new String[]{};
-        init(filePath,str);
-    }
-    public void  init(String filePath,String[] exten){
-        indexit(filePath,exten);
+        indexit(filePath);
     }
 
     /**
@@ -49,47 +40,36 @@ public class FastSearch {
      * @param filePath This is the same filepath assigned from init method.
      * @exception IOException This exception might occur in case of File or Path doesnt exist.
      */
-    private void indexit(String filePath,String[] exten) {
-        Path dir = FileSystems.getDefault().getPath( filePath );
+    private void indexit(String filePath) {
+        Path dir = FileSystems.getDefault().getPath(filePath);
         DirectoryStream<Path> stream = null;
         try {
             stream = Files.newDirectoryStream( dir );
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("\nUnable to read the Directory. Does not Exist");
+            System.out.println("\nUnable to read the Directory. Does not Exist OR Permission Denied");
         }
         for (Path path : stream) {
             FileDetail fil=new FileDetail();
             if(new File(String.valueOf(path)).isDirectory()) {
                 fil.setDir(true);
-                indexit(String.valueOf(path),exten);
-                if(exten.length!=0)
-                    continue;
+                indexit(String.valueOf(path));
             }
             else
                 fil.setDir(false);
-            int check=0;
-            if(exten.length==0)
-                check=1;
-            for(String s: exten)
-            {
-                if(path.getFileName().toString().endsWith("."+s))
-                    check++;
-            }
-            if(check==1) {
-                fil.setF(new File(path.toString()));
-                fil.setName(path.getFileName().toString());
-                if (F.contains(fil)) {
-                    FileDetail t = F.get(F.indexOf(fil));
-                    while (t.getNext() != null) {
-                        t = t.getNext();
-                    }
-                    t.setNext(fil);
-                    F.add(fil);
-                } else
-
-                    F.add(fil);
-            }
+            File file = new File(path.toString());
+            fil.setF(file);
+            fil.setName(path.getFileName().toString());
+            fil.setExten(file.getName().substring(1+file.getName().lastIndexOf(".")));
+            if (F.contains(fil)) {
+                FileDetail t = F.get(F.indexOf(fil));
+                while (t.getNext() != null) {
+                    t = t.getNext();
+                }
+                t.setNext(fil);
+                F.add(fil);
+            } else
+                F.add(fil);
         }
         try {
             stream.close();
@@ -128,8 +108,26 @@ public class FastSearch {
                 t=t.getNext();
             }
         }
-
         return dirs;
+    }
+
+    public ArrayList<File> ExSearch(String[] exten){
+        ArrayList<File> dirs = new ArrayList<>();
+        FileDetail temp = new FileDetail();
+        for(FileDetail f: F) {
+            for(String ex: exten) {
+                if(ex.equals(f.getExten()))
+                {
+                    dirs.add(f.getF());
+                    continue;
+                }
+            }
+        }
+        return dirs;
+    }
+
+    public ArrayList<File> ExSearch(String exten){
+        return ExSearch(new String[] {exten});
     }
 
     public ArrayList<FileDetail> getFileList() {

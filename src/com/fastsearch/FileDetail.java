@@ -24,9 +24,22 @@ public class FileDetail {
      * Variable whether it is directory or not
      */
     private Boolean dir;
+
+    public void setExten(String exten) {
+        this.exten = exten;
+    }
+
+    public String getExten() {
+        return exten;
+    }
+
     /**
      * Linking next directory if the name of file/folder is same
      */
+
+    private String exten;
+
+
     private FileDetail next=null;
 
     /**
