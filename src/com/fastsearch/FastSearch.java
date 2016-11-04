@@ -146,18 +146,28 @@ public class FastSearch {
         }
         return dirs;
     }
+    public ArrayList<File> ExSearch(String[] extn){
+        return ExSearch(extn,false);
+    }
 
-    public ArrayList<File> ExSearch(String[] exten){
+    public ArrayList<File> ExSearch(String[] exten, Boolean ignoreDuplicate){
         this.setExtensions(Arrays.asList(exten));
 
         ArrayList<File> dirs = new ArrayList<>();
         FileDetail temp = new FileDetail();
         for(FileDetail f: F) {
-                if(this.extensions.contains(f.getExten()))
-                {
+            FileDetail t = f;
+            if(this.extensions.contains(f.getExten())) {
+                if(ignoreDuplicate){
                     dirs.add(f.getF());
-                    continue;
                 }
+                else {
+                    while (t != null) {
+                        dirs.add(f.getF());
+                        t = t.getNext();
+                    }
+                }
+            }
         }
         return dirs;
     }
