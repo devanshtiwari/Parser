@@ -77,7 +77,7 @@ public class projectConfigController {
                 @Override
                 protected Void call() throws Exception {
                     System.out.println("Inside background thread!");
-                    //AppController.readerFactory.index(proDir.getText());
+                    AppController.fastSearch.init(proDir.getText());
                     System.out.println("after index");
                     return null;
                 }
