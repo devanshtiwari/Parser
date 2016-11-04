@@ -13,10 +13,10 @@ public class FileTest2 {
         Scanner in=new Scanner(System.in);
         System.out.println("Enter file Path");
         String path=in.nextLine();
+        F.init(path);
         while (true) {
             System.out.println("Enter Extension Name: ");
             String exten = in.nextLine();
-            F.init(path);
             ArrayList<File> All = F.ExSearch(exten);
             for (File temp : All) {
                 System.out.println(temp.getName());

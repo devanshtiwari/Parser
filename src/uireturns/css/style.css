@@ -8,3 +8,8 @@
     -fx-text-fill: white;
     -fx-padding: 5px;
 }
+
+.tagname-hbox{
+    -fx-background-color:aqua;
+    -fx-font-family: fantasy;
+}

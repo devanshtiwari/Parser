@@ -2,6 +2,7 @@ package uireturns.controllers;
 
 import com.filemanager.ReadSpreadSheet;
 import com.filemanager.ReaderFactory;
+import com.xpathgenerator.Tag;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ public class AppController {
     //Parser Library Variables
     static ReaderFactory readerFactory = new ReaderFactory();
     static ReadSpreadSheet reader = null;
+    static Tag tag = new Tag();
     //Status Bar
     static StatusBar statusBar = new StatusBar();
 
