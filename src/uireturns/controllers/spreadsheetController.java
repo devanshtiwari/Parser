@@ -1,7 +1,6 @@
 package uireturns.controllers;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
+
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.concurrent.Service;
@@ -20,9 +19,6 @@ import java.util.List;
 import static uireturns.controllers.AppController.*;
 
 
-/**
- * Created by devanshtiwari on 03-Nov-16.
- */
 public class spreadsheetController {
     AppController appController;
 
