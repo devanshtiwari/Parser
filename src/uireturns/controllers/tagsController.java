@@ -1,36 +1,26 @@
 package uireturns.controllers;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
+import javafx.beans.binding.*;
+import javafx.event.*;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Stack;
 
-import static uireturns.controllers.AppController.tag;
 
 public class tagsController {
-    public Button addTag ;
-    public Text details = new Text();
 
+    static int i=0;
+    //FXML Variables
+    public Button addTag ;
     public GridPane tagGrid;
     public Button removeTag;
-    AppController appController;
-    static int i=0;
-    Stack<tagcontainer> tagcontainerList = new Stack<>();
+
+    //Internal Variables
+    private AppController appController;
+    private Stack<tagcontainer> tagcontainerList = new Stack<>();
 
     public void init(AppController appController) {
         this.appController = appController;
@@ -43,36 +33,43 @@ public class tagsController {
     }
 
     public void addTag(ActionEvent actionEvent) {
-
         tagcontainer temp = new tagcontainer();
         tagcontainerList.add(temp);
         removeTag.setDisable(false);
     }
 
     public void removeTag(ActionEvent actionEvent) {
-
         tagcontainer temp = tagcontainerList.pop();
         temp.remove();
     }
 
     class tagcontainer{
-        int seq=i/4  + 1;
+
+        //Settiing up Sequence Value
+        int seq= i/4  + 1;
+
+        //Components to be used in the Container
         HBox hbox = new HBox();
-        Label label;
+        Label tagname;
         public  Label tagType[] =new Label[3];
         public Label attrlabel = new Label("Attribute ID/Value");
         public TextField tagTypeText[] = new TextField[3];
         public ComboBox attrID = new ComboBox();
         public Button btnattr = new Button("+");
         public Button removeattr = new Button("-");
+        public TextField attrVal = new TextField();
 
-        public ComboBox attrVal = new ComboBox();
+        //Internal Variables
+        HashMap<String, String> attrs = new HashMap<String, String>();
 
+        //Constructor
         tagcontainer()
         {
             attrID.setEditable(true);
-            attrVal.setEditable(true);
+            attrID.setPromptText("Attribute ID");
+            attrVal.setPromptText("Attribute Value");
 
+            //Add Attribute Button Action Listener
             btnattr.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -80,35 +77,52 @@ public class tagsController {
                 }
             });
 
+            //Remove Attribute Button Action Listener
+            removeattr.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    removeattr();
+                }
+            });
 
-            label = new Label("Tag "+seq);
+            tagname = new Label("Tag "+seq);
+
             for(int i=0;i<3;i++){
                 tagType[i] = new Label();
                 tagTypeText[i] = new TextField();
             }
+
             tagType[0].setText("GrandParent");
+            tagTypeText[0].setPromptText("GrandParent");
             tagType[1].setText("Parent");
+            tagTypeText[1].setPromptText("Parent");
             tagType[2].setText("Name");
+            tagTypeText[2].setPromptText("Name");
 
             hbox.setAlignment(Pos.CENTER_RIGHT);
             hbox.getStyleClass().add("tagname-hbox");
-            hbox.getChildren().add(label);
+            hbox.getChildren().add(tagname);
 
             tagGrid.setHgap(15);
             tagGrid.setVgap(5);
+
+            //Adding Row One
             tagGrid.addRow(++i);
             tagGrid.add(hbox,0,i,GridPane.REMAINING,1);
 
+            //Addomg Row Two
             tagGrid.addRow(++i);
             tagGrid.add(tagType[0],0,i);
             tagGrid.add(tagType[1],1,i);
             tagGrid.add(tagType[2],2,i);
 
+            //Adding Row Three
             tagGrid.addRow(++i);
             tagGrid.add(tagTypeText[0],0,i);
             tagGrid.add(tagTypeText[1],1,i);
             tagGrid.add(tagTypeText[2],2,i);
 
+            //Adding Row 4
             tagGrid.addRow(++i);
             tagGrid.add(attrlabel,0,i);
             tagGrid.add(attrID,1,i);
@@ -116,37 +130,71 @@ public class tagsController {
             tagGrid.add(btnattr,3,i);
             tagGrid.add(removeattr,4,i);
 
-            addTag.disableProperty().bind(tagTypeText[2].textProperty().isEmpty());
+            //Boolean Binding
+            BooleanBinding removeValid = Bindings.createBooleanBinding(() -> {
+                if(attrs.size()!=0&&attrID!=null ){
+                    if (attrs.containsKey(attrID.getValue().toString()))
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                    return false;
+            }, attrID.valueProperty(),btnattr.focusedProperty());
 
-            //BooleanBinding attrValChanged = Bindings.createBooleanBinding(() -> )
-            btnattr.disableProperty().bind(attrVal.valueProperty().isNull().or(attrID.valueProperty().isNull()));
+
+            //Change Listener for attribute ID
+            attrID.valueProperty().addListener((observable, oldValue, newValue) -> {
+                if(oldValue !=newValue)
+                {
+                    if(attrs!=null && newValue!=null)
+                        attrVal.setText(attrs.get(newValue.toString()));
+                }
+            } );
+
+            //Button Disable Property
+            btnattr.disableProperty().bind(attrVal.textProperty().isNull().or(attrID.valueProperty().isNull()));
+            removeattr.disableProperty().bind(removeValid.not());
+            addTag.disableProperty().bind(tagTypeText[2].textProperty().isEmpty());
         }
 
+        //Listener to Attribute + Button
         void addAttribute() {
-            if(!attrID.getValue().toString().isEmpty() && !attrVal.getValue().toString().isEmpty()) {
+            if(!attrID.getValue().toString().isEmpty() && !attrVal.getText().toString().isEmpty()&& !attrs.containsKey(attrID.getValue().toString())) {
                 attrID.getItems().add(attrID.getValue().toString());
-                attrVal.getItems().add(attrVal.getValue().toString());
+                attrs.put(attrID.getValue().toString(),attrVal.getText().toString());
             }
         }
 
+        //Listener to Attribute - Button
+        void removeattr(){
 
+            attrs.remove(attrID.getValue().toString());
+            attrID.getItems().remove(attrID.getValue().toString());
+            attrID.setValue("");
+            attrVal.setText("");
+        }
 
-
+        //Remove Function to remove All Components
         public void remove() {
             tagGrid.getChildren().remove(hbox);
             tagGrid.getChildren().remove(attrlabel);
-            tagGrid.getChildren().remove(tagTypeText[0]);
-            tagGrid.getChildren().remove(tagTypeText[1]);
-            tagGrid.getChildren().remove(tagTypeText[2]);
-            tagGrid.getChildren().remove(tagType[0]);
-            tagGrid.getChildren().remove(tagType[1]);
-            tagGrid.getChildren().remove(tagType[2]);
+            for(int i =0;i<3;i++){
+                tagGrid.getChildren().remove(tagType[i]);
+                tagGrid.getChildren().remove(tagTypeText[i]);
+            }
             tagGrid.getChildren().remove(attrID);
             tagGrid.getChildren().remove(attrVal);
+            tagGrid.getChildren().remove(btnattr);
+            tagGrid.getChildren().remove(removeattr);
+
+            //Updating the Value of i
             i=i-4;
-            //Binding
+
+            //Updating the Add Tag Binding to upper component
             addTag.disableProperty().bind(tagcontainerList.peek().tagTypeText[2].textProperty().isEmpty());
 
+            //Checking for last component
             if(i==4)
                 removeTag.setDisable(true);
         }
