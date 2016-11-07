@@ -68,6 +68,9 @@ public class tagsController {
             attrID.setEditable(true);
             attrID.setPromptText("Attribute ID");
             attrVal.setPromptText("Attribute Value");
+            btnattr.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            btnattr.setWrapText(true);
+            removeattr.setWrapText(true);
 
             //Add Attribute Button Action Listener
             btnattr.setOnAction(new EventHandler<ActionEvent>() {
