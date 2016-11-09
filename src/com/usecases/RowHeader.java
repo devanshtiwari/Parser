@@ -1,6 +1,6 @@
 package com.usecases;
 
-import com.fastsearch.FastSearch;
+import com.FastSearch.FastSearch;
 import com.filemanager.*;
 import com.parser.*;
 import com.report.Report;

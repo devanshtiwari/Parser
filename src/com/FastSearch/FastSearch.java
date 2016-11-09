@@ -1,4 +1,4 @@
-package com.fastsearch;
+package com.FastSearch;
 
 import java.io.File;
 import java.io.IOException;

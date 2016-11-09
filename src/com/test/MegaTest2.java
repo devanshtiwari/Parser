@@ -1,6 +1,6 @@
 package com.test;
 
-import com.fastsearch.FastSearch;
+import com.FastSearch.FastSearch;
 import com.filemanager.*;
 import com.parser.*;
 import com.report.*;
@@ -10,14 +10,14 @@ import java.io.File;
 
 public class MegaTest2 {
     public static void main(String[] args) throws Exception {
-        FastSearch fastSearch = new FastSearch("C:\\test\\APP\\Clusters");
+        FastSearch fastSearch = new FastSearch("D:\\rms\\APP\\Clusters");
         Report opReport = new Report();
         opReport.addColumn(new String[] {Report.SNO,Report.FILE_NAME,"Added"});
         //Tag for c:set element
         Tag tag1 = new Tag("set");
         //CSV Reader
         ReaderFactory readerFactory = new ReaderFactory();
-        ReadSpreadSheet reader = readerFactory.getReader("D:\\XML Parser Projects\\trustmode\\work.csv");
+        ReadSpreadSheet reader = readerFactory.getReader("D:\\WorkUpon.csv");
         reader.read();
         reader.consoleOut();
         Parser parser = ParserFactory.getParser(ParserFactory.Parsers.VTD);

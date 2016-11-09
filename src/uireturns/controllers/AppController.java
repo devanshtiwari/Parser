@@ -1,6 +1,6 @@
 package uireturns.controllers;
 
-import com.fastsearch.FastSearch;
+import com.FastSearch.FastSearch;
 import com.filemanager.ReadSpreadSheet;
 import com.filemanager.ReaderFactory;
 import com.xpathgenerator.Tag;

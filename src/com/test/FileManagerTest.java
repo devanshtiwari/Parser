@@ -1,6 +1,6 @@
 package com.test;
-import com.fastsearch.FastSearch;
-import com.filemanager.*;
+
+import com.FastSearch.FastSearch;
 
 import java.io.File;
 import java.util.ArrayList;
