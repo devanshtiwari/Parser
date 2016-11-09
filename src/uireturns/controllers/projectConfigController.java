@@ -1,14 +1,20 @@
 package uireturns.controllers;
 
+import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import static uireturns.controllers.AppController.*;
 
@@ -29,6 +35,11 @@ public class projectConfigController {
             if(!newValue)
                 System.out.println(proDir.getText());
         }));
+
+        List<String> methods = new ArrayList<String>();
+        methods.add("CSV");
+        methods.add("Non CSV");
+        parseMethod.getItems().addAll(methods);
     }
     //Select Project Directory from Directory chooser
     public void selectProjectDir(ActionEvent actionEvent) throws IOException {
@@ -61,6 +72,18 @@ public class projectConfigController {
     public void init(AppController appController) {
 
         this.appController = appController;
+    }
+
+    public void parserMethodSelector(ActionEvent actionEvent) throws IOException {
+
+        appController.logicBox.getChildren().clear();
+        if(parseMethod.getValue().toString().equals("CSV")){
+            appController.logicBox.getChildren().add(FXMLLoader.load(getClass().getClassLoader().getResource("uireturns/views/CSV.fxml")));
+        }
+        else
+        {
+            appController.logicBox.getChildren().add(FXMLLoader.load(getClass().getClassLoader().getResource("uireturns/views/NonCSV.fxml")));
+        }
     }
 
 

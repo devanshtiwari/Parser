@@ -8,6 +8,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import org.controlsfx.control.StatusBar;
 
 public class AppController {
@@ -23,6 +24,7 @@ public class AppController {
 
     //Util Variables
     static BooleanProperty indexing = new SimpleBooleanProperty(false);
+    public VBox logicBox;
 
     @FXML
      bottomPaneController bottomPaneController;

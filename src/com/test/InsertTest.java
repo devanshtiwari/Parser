@@ -24,7 +24,6 @@ public class InsertTest {
                 vtdParser.parse(f);
 
                 Element e = vtdParser.createElement(tag.getXpath());
-
                     String key = R.getKey(f.getCanonicalPath());
                     System.out.println(f.getName());
                     R.initRow(key, f);
