@@ -16,10 +16,6 @@ public class bottomPaneController {
     @FXML
     public Tab console;
 
-    public void initialize()
-    {
-        bottomTab.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
-    }
 
     public void init(AppController appController) {
         this.appController = appController;
@@ -27,5 +23,6 @@ public class bottomPaneController {
 
     public void initialize(){
         consoleText.setText("Welcome to Generic Parser");
+        bottomTab.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
     }
 }
