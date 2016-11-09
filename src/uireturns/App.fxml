@@ -19,7 +19,7 @@
                             <items>
                                 <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                     <children>
-                                        <Accordion layoutX="-56.0" layoutY="23.0" prefHeight="159.0" prefWidth="146.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                        <Accordion layoutX="-56.0" layoutY="23.0" prefHeight="159.0" prefWidth="146.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" expandedPane="$spreadsheet">
                                             <panes>
                                                 <fx:include fx:id="spreadsheet" source="views/spreadsheet.fxml" />
                                                 <fx:include fx:id="outputReport" source="views/outputReport.fxml" />
@@ -38,7 +38,7 @@
                                 </AnchorPane>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                     <children>
-                                        <Accordion layoutX="-22.0" layoutY="32.0" prefHeight="159.0" prefWidth="146.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                        <Accordion layoutX="-22.0" layoutY="32.0" prefHeight="159.0" prefWidth="146.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" expandedPane="$tags">
                                             <panes>
                                                 <fx:include fx:id="tags" source="views/tags.fxml" />
                                             </panes>

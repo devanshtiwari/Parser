@@ -1,11 +1,11 @@
 package com.xpathgenerator;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Tag {
     String name = "", parent = "", grandParent = "", xpath ="";
-    HashMap<String,String> attrsOR = new HashMap<>();
-    HashMap<String, String> attrsAND = new HashMap<>();
+    List<Attribute> attributes = new ArrayList<>();
     private xPathGen xPathGen = new xPathGen();
     public static final String OR = "or";
     public static final String AND = "and";
@@ -22,23 +22,14 @@ public class Tag {
         this.parent = parent;
         this.grandParent = grandParent;
     }
-    public Tag(String name, String parent, String grandParent, HashMap<String,String> attrs){
+    public Tag(String name, String parent, String grandParent, List<Attribute> attributes){
         this.name = name;
         this.parent = parent;
         this.grandParent = grandParent;
-        this.attrsOR = attrs;
-    }
-    public Tag(String name, String parent, String grandParent, HashMap<String,String> attrs1, HashMap<String, String> attrs2){
-        this.name = name;
-        this.parent = parent;
-        this.grandParent = grandParent;
-        this.attrsOR = attrs1;
-        this.attrsAND=attrs2;
+        this.attributes = attributes;
     }
     public String getXpath(){
-        if(this.xpath.equals("")){
-            this.xpath = xPathGen.getXpath(this);
-        }
+        this.xpath = xPathGen.getXpath(this);
         return xpath;
     }
     public String combineXpath(Tag t){
@@ -46,6 +37,19 @@ public class Tag {
         combinedXpath = this.getXpath()+"|"+ t.getXpath();
         return combinedXpath;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public String getGrandParent() {
+        return grandParent;
+    }
+
 
     /**
      *
@@ -71,45 +75,55 @@ public class Tag {
         this.grandParent = grandParent;
     }
 
-    /**
-     *
-     * @param attrs Addition of Attribute conditions with OR Condition as Hashmap
-     */
-    public void setAttrsOR(HashMap<String,String> attrs) {
-        this.attrsOR = attrs;
+    public void addAttribute(String name){
+        addAttribute(name,"");
+    }
+    public void addAttribute(String name, Attribute.Condition condition){
+        addAttribute(name,"", condition);
     }
 
-    /**
-     *
-     * @param attrs Addition of Attribute conditions with AND Condition as Hashmap
-     */
-    public void setAttrsAND(HashMap<String,String> attrs) { this.attrsAND = attrs; }
-
-    public void addAttribute(String key,int flag){
-        addAttribute(key,"",flag);
+    public void addAttribute(String name, String value, Attribute.Condition condition){
+        Attribute attr = new Attribute(name,value,condition);
+        attributes.add(attr);
     }
 
-    /**
-     *
-     * @param key Key for the new attribute
-     * @param value Value related to the attribute
-     * @param flag IF 0 then OR otherwise AND
-     */
-    public void addAttribute(String key, String value,int flag){
-        if(flag==0)
-            this.attrsOR.put(key, value);
-        else
-            this.attrsAND.put(key,value);
-    }
-
-    public void addAttribute(String key, String value)
-    {
+    public void addAttribute(String name, String value) {
         //Default OR
-        this.addAttribute(key,value,0);
+        this.addAttribute(name,value, Attribute.Condition.OR);
     }
-
-    /**
-     *
-     * @return Returns the XPath on the given constraints.
-     */
+    public void updateAttrValue(String name, String value){
+        Attribute attr = getAttrByName(name);
+        attr.setValue(value);
+    }
+    public void updateAttrCondition(String name, Attribute.Condition condition){
+        Attribute attr = getAttrByName(name);
+        attr.setCondition(condition);
+    }
+    public void updateAttrName(String oldName, String newName){
+        Attribute attr = getAttrByName(oldName);
+        if(!newName.equals(""))
+            attr.setName(newName);
+    }
+    public Attribute getAttrByName(String name){
+        for(Attribute attr: attributes){
+            if(attr.getName().equals(name))
+                return attr;
+        }
+        return null;
+    }
+    public boolean hasAttribute(String name){
+        for(Attribute attr: attributes){
+            if(attr.getName().equals(name))
+                return true;
+        }
+        return false;
+    }
+    public void removeAttr(String name){
+        for(Attribute attr: attributes){
+            if(attr.getName().equals(name)){
+                attributes.remove(attr);
+                break;
+            }
+        }
+    }
 }
