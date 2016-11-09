@@ -1,35 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
 <TitledPane animated="false" prefHeight="582.0" prefWidth="658.0" text="Tags" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uireturns.controllers.tagsController">
     <content>
-        <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
-            <content>
-                <GridPane fx:id="tagGrid" alignment="CENTER">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
-                        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
-                  <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
-                    </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
-               </rowConstraints>
+        <ScrollPane fitToWidth="true">
+         <content>
+            <AnchorPane>
                <children>
-                  <Button fx:id="addTag" alignment="CENTER" mnemonicParsing="false" onAction="#addTag" text="Add Tag" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" />
-                  <Button fx:id="removeTag" alignment="CENTER" mnemonicParsing="false" onAction="#removeTag" text="Remove Tag" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" />
+                  <VBox fx:id="tagContainer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="37.0" prefWidth="656.0">
+                           <children>
+                              <Button fx:id="addTag" mnemonicParsing="false" onAction="#addTag" text="Add" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
                </children>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-                </GridPane>
-            </content>
+            </AnchorPane>
+         </content>
         </ScrollPane>
     </content>
 </TitledPane>
