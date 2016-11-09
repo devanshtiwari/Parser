@@ -1,5 +1,5 @@
 package com.filemanager;
-import com.FastSearch.FastSearch;
+import com.fastsearch.FastSearch;
 import org.apache.poi.*;
 /**
  * Created by devanshtiwari on 24-Oct-16.

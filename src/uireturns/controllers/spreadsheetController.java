@@ -1,7 +1,6 @@
 package uireturns.controllers;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
+
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.concurrent.Service;
@@ -20,17 +19,12 @@ import java.util.List;
 import static uireturns.controllers.AppController.*;
 
 
-/**
- * Created by devanshtiwari on 03-Nov-16.
- */
 public class spreadsheetController {
     AppController appController;
 
     public TextField ssPath;
     public Button browseSS;
     public FlowPane ssHeadersBox;
-    public ComboBox fileColumnComboBox;
-    public Button readSS;
 
     //Util variables
     private readService readService = null;
@@ -52,8 +46,7 @@ public class spreadsheetController {
         }
     }
 
-    public void readSS(ActionEvent actionEvent) {
-        reader.setFileNameColumn(reader.getColumnIndex((String) fileColumnComboBox.getValue()));
+    private void readSS() {
         if(readService != null)
             readService.cancel();
 
@@ -62,7 +55,7 @@ public class spreadsheetController {
         readService.restart();
         //Status
         ProgressIndicator progressIndicator = new ProgressIndicator();
-        progressIndicator.setProgress(progressIndicator.INDETERMINATE_PROGRESS);
+        progressIndicator.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
         progressIndicator.setPadding(new Insets(2));
         statusBar.setText("Processing...");
         statusBar.getRightItems().clear();
@@ -103,21 +96,11 @@ public class spreadsheetController {
             if(!newValue)
                 fetchHeaders();
         }));
-
-        BooleanBinding readValid = Bindings.createBooleanBinding(() -> {
-            return (fileColumnComboBox.getItems().isEmpty());
-        }, fileColumnComboBox.valueProperty());
-
-        BooleanBinding indexValid = Bindings.createBooleanBinding(() -> {
-            return !indexing.getValue().equals(true);
-        }, indexing);
-
-        readSS.disableProperty().bind(Bindings.or(indexValid, readValid));
     }
 
     //Fetch headers from given spreadsheet
     private void fetchHeaders() {
-        if(!ssPath.getText().isEmpty()  ) {
+        if(!ssPath.getText().isEmpty()) {
             reader = readerFactory.getReader(ssPath.getText());
             String[] headers = reader.getHeaders();
             ssHeadersBox.getChildren().clear();
@@ -125,8 +108,7 @@ public class spreadsheetController {
                 Label label = new Label(header);
                 ssHeadersBox.getChildren().addAll(label);
             }
-            fileColumnComboBox.getItems().clear();
-            fileColumnComboBox.getItems().addAll(headers);
+            readSS();
         }
     }
 

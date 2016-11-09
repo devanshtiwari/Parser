@@ -3,17 +3,12 @@ package uireturns.controllers;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.chart.Axis;
 import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import static uireturns.controllers.AppController.*;
 
@@ -77,7 +72,7 @@ public class projectConfigController {
                 @Override
                 protected Void call() throws Exception {
                     System.out.println("Inside background thread!");
-                    AppController.readerFactory.index(proDir.getText());
+                    AppController.fastSearch.init(proDir.getText());
                     System.out.println("after index");
                     return null;
                 }

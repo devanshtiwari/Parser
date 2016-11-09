@@ -1,6 +1,6 @@
 package com.usecases;
 
-import com.filemanager.FileManager;
+import com.fastsearch.FastSearch;
 import com.parser.*;
 import com.report.Report;
 import com.xpathgenerator.Tag;
@@ -11,10 +11,11 @@ import java.util.ArrayList;
 public class DuplicateID {
 
     public static void main(String[] args) throws IOException {
-        FileManager fileManager = new FileManager();
+        FastSearch fileManager = new FastSearch();
         Report report = new Report();
         report.addColumn(new String[] {Report.SNO,Report.FILE_NAME,"ID","Duplicate"});
-        ArrayList<File> files = fileManager.init("D:\\rms\\APP\\Clusters","xlf");
+        fileManager.init("D:\\rms\\APP\\Clusters");
+        ArrayList<File> files = fileManager.ExSearch("xlf");
         VTDParser parser = (VTDParser) ParserFactory.getParser(ParserFactory.Parsers.VTD);
         Tag trans = new Tag("trans-unit");
         int count = 0;

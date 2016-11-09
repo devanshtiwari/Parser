@@ -1,4 +1,4 @@
-package com.FastSearch;
+package com.fastsearch;
 
 import java.io.File;
 
@@ -10,7 +10,7 @@ import java.io.File;
  * @since 2016-08-11
  */
 
-class FileDetail {
+public class FileDetail {
 
     /**
      * Name of the Folder or file.
@@ -24,9 +24,22 @@ class FileDetail {
      * Variable whether it is directory or not
      */
     private Boolean dir;
+
+    public void setExten(String exten) {
+        this.exten = exten;
+    }
+
+    public String getExten() {
+        return exten;
+    }
+
     /**
      * Linking next directory if the name of file/folder is same
      */
+
+    private String exten;
+
+
     private FileDetail next=null;
 
     /**
@@ -61,19 +74,19 @@ class FileDetail {
         this.next = next;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    File getF() {
+    public File getF() {
         return f;
     }
 
-    Boolean getDir() {
+    public Boolean getDir() {
         return dir;
     }
 
-    FileDetail getNext() {
+    public FileDetail getNext() {
         return next;
     }
 

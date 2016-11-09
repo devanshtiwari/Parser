@@ -8,5 +8,4 @@ public interface ssIterator {
     public void next();
     public String getValue(String columnName);
     public String getValue(int columnIndex);
-    public String getFilePath();
 }

@@ -1,14 +1,14 @@
 package uireturns.controllers;
 
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.text.TextFlow;
 
-/**
- * Created by devanshtiwari on 03-Nov-16.
- */
 public class bottomPaneController {
+    public TextField consoleText;
     private AppController appController;
 
     @FXML
@@ -23,5 +23,9 @@ public class bottomPaneController {
 
     public void init(AppController appController) {
         this.appController = appController;
+    }
+
+    public void initialize(){
+        consoleText.setText("Welcome to Generic Parser");
     }
 }
