@@ -24,20 +24,21 @@ public class AppController {
 
     //Util Variables
     static BooleanProperty indexing = new SimpleBooleanProperty(false);
-    public VBox logicBox;
 
     @FXML
      bottomPaneController bottomPaneController;
     @FXML
      MenuBarController menuBarController;
     @FXML
-     outputReportController outputReportController;
+    outputReportController outputReportController;
     @FXML
     projectConfigController projectConfigController;
     @FXML
      spreadsheetController spreadsheetController;
     @FXML
      tagsController tagsController;
+    @FXML
+    logicController logicController;
 
     public void initialize(){
         bottomPaneController.init(this);
@@ -46,6 +47,7 @@ public class AppController {
         outputReportController.init(this);
         spreadsheetController.init(this);
         tagsController.init(this);
+        logicController.init(this);
         addStatusBar();
     }
 

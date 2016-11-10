@@ -29,7 +29,7 @@ import java.util.List;
  * Created by avinaana on 11/8/2016.
  */
 public class tagVM {
-    private Tag tag;
+    Tag tag;
     private VBox vBox;
     Button remove;
     Label name;
@@ -114,17 +114,14 @@ public class tagVM {
         ComboBox<String> options = new ComboBox<>();
         options.getItems().addAll("OR","AND");
         options.setValue("OR");
-        options.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(tag.hasAttribute(attrName.getText())) {
-                    if (options.getValue().equals("OR"))
-                        tag.updateAttrCondition(attrName.getText(), Attribute.Condition.OR);
-                    else if(options.getValue().equals("AND"))
-                        tag.updateAttrCondition(attrName.getText(), Attribute.Condition.AND);
-                }
-                updateXpathLabel();
+        options.setOnAction(event -> {
+            if(tag.hasAttribute(attrName.getText())) {
+                if (options.getValue().equals("OR"))
+                    tag.updateAttrCondition(attrName.getText(), Attribute.Condition.OR);
+                else if(options.getValue().equals("AND"))
+                    tag.updateAttrCondition(attrName.getText(), Attribute.Condition.AND);
             }
+            updateXpathLabel();
         });
 
         //Binding
@@ -143,26 +140,18 @@ public class tagVM {
         hbox.setPadding(new Insets(0, 10, 0, 10));
         hbox.setSpacing(5);
         hbox.getChildren().addAll(attrName,attrVal,options,addNew,delete);
-        addNew.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                addAttr(hbox);
-            }
-        });
+        addNew.setOnAction(event -> addAttr(hbox));
         //Button Bindings
         BooleanBinding validDelete = Bindings.createBooleanBinding(() -> {
             return data.size() == 1;
         },data);
         delete.disableProperty().bind(validDelete);
         addNew.disableProperty().bind(validAttr);
-        delete.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                data.remove(hbox);
-                tag.removeAttr(attrName.getText());
-                vBox.getChildren().remove(hbox);
-                updateXpathLabel();
-            }
+        delete.setOnAction(event -> {
+            data.remove(hbox);
+            tag.removeAttr(attrName.getText());
+            vBox.getChildren().remove(hbox);
+            updateXpathLabel();
         });
         data.add(hbox);
         vBox.getChildren().add(index,hbox);
