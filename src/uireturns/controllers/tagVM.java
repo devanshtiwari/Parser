@@ -45,6 +45,7 @@ public class tagVM {
         addXpathLabel();
         HBox box = addDefault();
         addAttr(box);
+
     }
     private void addLabel(){
         HBox hbox = new HBox();
