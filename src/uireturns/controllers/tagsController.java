@@ -32,7 +32,6 @@ public class tagsController {
     private AppController appController;
 
     static ObservableMap<String,String> xpathlist = FXCollections.observableHashMap();
-
     static ObservableList<tagVM> tags = FXCollections.observableArrayList(new ArrayList<tagVM>());
     public void initialize(){
         BindingService b = new BindingService();

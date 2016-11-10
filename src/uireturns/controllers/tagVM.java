@@ -47,12 +47,10 @@ public class tagVM {
         HBox box = addDefault();
         addAttr(box);
         xpath.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(oldValue !=newValue) {
                 tagsController.xpathlist.clear();
                 for (int i = 0; i < tagsController.tags.size(); i++) {
-                    tagsController.xpathlist.put(tagsController.tags.get(i).name.textProperty().getValue(),tagsController.tags.get(i).xpath.textProperty().getValue());
+                    tagsController.xpathlist.put(tagsController.tags.get(i).tag.getName(),tagsController.tags.get(i).tag.getXpath());
                 }
-            }
         });
 
     }

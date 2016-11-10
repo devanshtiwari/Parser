@@ -1,5 +1,6 @@
 package uireturns.controllers;
 
+import javafx.beans.InvalidationListener;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -45,6 +46,20 @@ public class logicBox {
         //Tags
         tags = new ComboBox<>();
         tags.setPromptText("Tags");
+        tags.getItems().clear();
+        for(tagVM t : tagsController.tags){
+            tags.getItems().add(t.tag.getName());
+        }
+        tagsController.xpathlist.addListener((InvalidationListener) change -> {
+            tags.getItems().clear();
+            tags.getItems().addAll(tagsController.xpathlist.keySet());
+        });
+        tagsController.tags.addListener((InvalidationListener) change -> {
+            tags.getItems().clear();
+            for(tagVM t : tagsController.tags){
+                tags.getItems().add(t.tag.getName());
+            }
+        });
         //Methods
         methods = new ComboBox<>();
         methods.setPromptText("Methods");
