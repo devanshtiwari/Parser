@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<TitledPane animated="false" prefHeight="200.0" prefWidth="200.0" text="Output Report" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uireturns.controllers.outputReportController">
+<TitledPane animated="false" prefHeight="551.0" prefWidth="595.0" text="Output Report" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uireturns.controllers.outputReportController">
     <content>
         <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
             <content>
@@ -28,12 +28,12 @@
                     </rowConstraints>
                     <children>
                         <Label text="Report Name" />
-                        <TextField promptText="Output Report Name" GridPane.columnIndex="1" />
+                        <TextField fx:id="opReport" promptText="Output Report Name" GridPane.columnIndex="1" />
                         <Label text="Report Path" GridPane.rowIndex="1" />
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <children>
-                                <TextField promptText="Select Report Path" HBox.hgrow="ALWAYS" />
-                                <Button mnemonicParsing="false" text="Browse" />
+                                <TextField fx:id="opReportPath" promptText="Select Report Path" HBox.hgrow="ALWAYS" />
+                                <Button fx:id="opReportBrowse" mnemonicParsing="false" onAction="#opReportBrowse" style="-fx-wrap-text: true;" text="+" />
                             </children>
                         </HBox>
                         <Label text="Columns" GridPane.rowIndex="2" />

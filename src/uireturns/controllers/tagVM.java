@@ -1,5 +1,6 @@
 package uireturns.controllers;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.xpathgenerator.Attribute;
 import com.xpathgenerator.Tag;
 import javafx.beans.binding.Bindings;
@@ -45,6 +46,14 @@ public class tagVM {
         addXpathLabel();
         HBox box = addDefault();
         addAttr(box);
+        xpath.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(oldValue !=newValue) {
+                tagsController.xpathlist.clear();
+                for (int i = 0; i < tagsController.tags.size(); i++) {
+                    tagsController.xpathlist.put(tagsController.tags.get(i).name.textProperty().getValue(),tagsController.tags.get(i).xpath.textProperty().getValue());
+                }
+            }
+        });
 
     }
     private void addLabel(){

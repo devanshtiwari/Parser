@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.*;
@@ -15,6 +16,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Observable;
 
 
 public class tagsController {
@@ -28,15 +31,16 @@ public class tagsController {
     //Internal Variables
     private AppController appController;
 
-    ObservableList<tagVM> tags = FXCollections.observableArrayList(new ArrayList<tagVM>());
+    static ObservableMap<String,String> xpathlist = FXCollections.observableHashMap();
+
+    static ObservableList<tagVM> tags = FXCollections.observableArrayList(new ArrayList<tagVM>());
     public void initialize(){
         BindingService b = new BindingService();
-
         tagContainer.setSpacing(10);
         tagContainer.setPadding(new Insets(10,0,20,0));
         tags.addListener((ListChangeListener)(c -> {
-                size.setValue(tags.size());
-                b.restart();
+            size.setValue(tags.size());
+            b.restart();
         }) );
 
     }
@@ -58,6 +62,7 @@ public class tagsController {
         tagContainer.getChildren().add(1,temp.render());
     }
 
+
     private class BindingService extends Service<Void> {
         @Override
         protected Task<Void> createTask() {
@@ -70,6 +75,7 @@ public class tagsController {
                         Thread.sleep(100);
                     }
                     BooleanBinding addValid = Bindings.createBooleanBinding(() -> {
+
                         if (size.getValue() != 0 && tags != null) {
                             if (!tags.get(size.getValue() - 1).xpath.getText().equals("//"))
                                 return false;
