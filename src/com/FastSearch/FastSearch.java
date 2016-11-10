@@ -168,18 +168,11 @@ public class FastSearch {
 
             if(this.extensions.contains(f.getExten())) {
                 if(ignoreDuplicate){
-                    System.out.println("First if");
                     dirs.add(f.getF());
                 }
                 else {
-                    System.out.println("First else");
                     FileDetail t = f;
                     while (t != null) {
-                        try {
-                            System.out.println("Loop:" +t.getF().getCanonicalPath());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                         dirs.add(t.getF());
                         t = t.getNext();
                     }

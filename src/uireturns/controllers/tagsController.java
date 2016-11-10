@@ -10,10 +10,10 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.event.*;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,13 +51,10 @@ public class tagsController {
     public void addTag(ActionEvent actionEvent) {
         tagVM temp = new tagVM();
         tags.add(temp);
-        temp.remove.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Removing "+ temp.name.getText());
-                tags.remove(temp);
-                tagContainer.getChildren().remove(temp.render());
-            }
+        temp.remove.setOnAction(event -> {
+            System.out.println("Removing "+ temp.name.getText());
+            tags.remove(temp);
+            tagContainer.getChildren().remove(temp.render());
         });
         tagContainer.getChildren().add(1,temp.render());
     }

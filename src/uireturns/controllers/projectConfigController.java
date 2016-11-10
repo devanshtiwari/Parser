@@ -32,8 +32,12 @@ public class projectConfigController {
     private indexService indexService = null;
     public void initialize(){
         proDir.focusedProperty().addListener(((observable, oldValue, newValue) -> {
-            if(!newValue)
-                System.out.println(proDir.getText());
+            if(!newValue) {
+                if (!proDirTextVal.equals(proDir.getText())) {
+                    startIndexing();
+                }
+                proDirTextVal = proDir.getText();
+            }
         }));
 
         List<String> methods = new ArrayList<String>();
@@ -48,7 +52,10 @@ public class projectConfigController {
         File selectedDir = directoryChooser.showDialog(null);
         if (selectedDir != null) {
             proDir.setText(selectedDir.getCanonicalPath());
-            startIndexing();
+            if(!proDirTextVal.equals(proDir.getText())) {
+                startIndexing();
+                proDirTextVal = proDir.getText();
+            }
         }
     }
 
@@ -75,14 +82,12 @@ public class projectConfigController {
     }
 
     public void parserMethodSelector(ActionEvent actionEvent) throws IOException {
-
-        appController.logicBox.getChildren().clear();
         if(parseMethod.getValue().toString().equals("CSV")){
-            appController.logicBox.getChildren().add(FXMLLoader.load(getClass().getClassLoader().getResource("uireturns/views/CSV.fxml")));
+            appController.logicController.addCsvView();
         }
         else
         {
-            appController.logicBox.getChildren().add(FXMLLoader.load(getClass().getClassLoader().getResource("uireturns/views/NonCSV.fxml")));
+            appController.logicController.addNonCsvView();
         }
     }
 
@@ -94,9 +99,7 @@ public class projectConfigController {
             return new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    System.out.println("Inside background thread!");
                     AppController.fastSearch.init(proDir.getText());
-                    System.out.println("after index");
                     return null;
                 }
 
