@@ -9,9 +9,9 @@
     <tabs>
         <Tab fx:id="console" closable="false" text="Console">
             <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <AnchorPane fx:id="consoletabPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="consoleText" alignment="TOP_LEFT" editable="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+
                </children></AnchorPane>
             </content>
         </Tab>

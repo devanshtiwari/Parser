@@ -101,6 +101,7 @@ public class projectConfigController {
             return new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
+                    bottomPaneController.consoleText.appendText("\nIndexing the Project Directory "+proDir.getText()+"\n");
                     AppController.fastSearch.init(proDir.getText());
                     return null;
                 }
@@ -110,6 +111,7 @@ public class projectConfigController {
                     super.cancelled();
                     statusBar.getRightItems().clear();
                     statusBar.getRightItems().add(new Label("Indexing Cancelled"));
+                    bottomPaneController.consoleText.appendText("Indexing Cancelled! \n");
                 }
 
                 @Override
@@ -118,6 +120,7 @@ public class projectConfigController {
                     statusBar.getRightItems().clear();
                     statusBar.getRightItems().addAll(new Label("Indexing Done"));
                     indexing.setValue(true);
+                    bottomPaneController.consoleText.appendText("Indexing Successful! \n");
                 }
                 @Override
                 protected void failed() {
@@ -126,6 +129,7 @@ public class projectConfigController {
                     statusBar.getRightItems().clear();
                     statusBar.setText("OK");
                     statusBar.getRightItems().addAll(new Label("Indexing Failed."));
+                    bottomPaneController.consoleText.appendText("Indexing Failed! \n");
                 }
             };
         }

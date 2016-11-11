@@ -58,7 +58,6 @@ public class outputReportController {
         defaultcol.getCheckModel().getCheckedItems().addListener((InvalidationListener) observable -> {
             inputColumn.clear();
             inputColumn.addAll(defaultcol.getCheckModel().getCheckedItems());
-            System.out.println(inputColumn);
         });
 
         columnList.addListener((InvalidationListener) observable -> {
@@ -66,7 +65,6 @@ public class outputReportController {
             for(int i=0;i<columnList.size();i++)
                 if(!columnList.get(i).name.getText().isEmpty())
                     reportColumn.add(columnList.get(i).name.getText());
-            System.out.println(reportColumn.toString());
         });
 
     }
@@ -120,7 +118,6 @@ public class outputReportController {
                     for (int i = 0; i < columnList.size(); i++)
                         reportColumn.add(columnList.get(i).name.getText());
                 }
-                System.out.println(reportColumn.toString());
             });
 
             BooleanBinding addValid = Bindings.createBooleanBinding(()->{

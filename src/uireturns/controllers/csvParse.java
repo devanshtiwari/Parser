@@ -122,6 +122,7 @@ public class csvParse {
 
                     cancel.setDisable(false);
                     run.setDisable(true);
+                    bottomPaneController.consoleText.appendText("\nParsing all the Files\n");
                     if(extnsInput.getText().length() != 0)
                         extns = extnsInput.getText().split(",");
                     if(rootsInput.getText().length() != 0)
@@ -148,6 +149,7 @@ public class csvParse {
                     statusBar.getRightItems().add(new Label("Parsing Cancelled"));
                     run.setDisable(false);
                     cancel.setDisable(true);
+                    bottomPaneController.consoleText.appendText("Parsing Cancelled\n");
                 }
 
                 @Override
@@ -157,6 +159,7 @@ public class csvParse {
                     statusBar.getRightItems().addAll(new Label("Parsing Done"));
                     run.setDisable(false);
                     cancel.setDisable(true);
+                    bottomPaneController.consoleText.appendText("Parsing Successful!\n");
                 }
 
                 @Override
@@ -167,6 +170,7 @@ public class csvParse {
                     statusBar.getRightItems().addAll(new Label("Parsing Failed."));
                     run.setDisable(false);
                     cancel.setDisable(true);
+                    bottomPaneController.consoleText.appendText("Parsing Failed\n");
                 }
             };
         }
