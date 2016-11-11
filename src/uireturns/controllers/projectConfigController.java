@@ -1,25 +1,22 @@
 package uireturns.controllers;
 
-import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static uireturns.controllers.AppController.*;
 
 public class projectConfigController {
 
+    public Label proText;
     AppController appController;
 
     public TextField proDir;

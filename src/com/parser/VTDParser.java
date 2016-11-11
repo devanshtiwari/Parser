@@ -39,6 +39,7 @@ public class VTDParser implements Parser {
     static void writeChanges(File file){
         try {
             xm.output(new FileOutputStream(file));
+            System.gc();
         } catch (IOException | ModifyException | TranscodeException e) {
             e.printStackTrace();
         }

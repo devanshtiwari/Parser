@@ -1,6 +1,5 @@
 package uireturns.controllers;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.xpathgenerator.Attribute;
 import com.xpathgenerator.Tag;
 import javafx.beans.binding.Bindings;
@@ -20,15 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by avinaana on 11/8/2016.
- */
 public class tagVM {
     Tag tag;
     private VBox vBox;

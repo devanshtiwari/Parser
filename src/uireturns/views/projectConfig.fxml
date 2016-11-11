@@ -9,7 +9,7 @@
 
 <HBox alignment="CENTER_LEFT" prefHeight="45.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uireturns.controllers.projectConfigController">
     <children>
-        <Label text="Project Directory">
+        <Label fx:id="proText" text="Project Directory">
             <HBox.margin>
                 <Insets right="16.0" />
             </HBox.margin>

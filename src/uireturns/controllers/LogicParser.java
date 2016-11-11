@@ -29,6 +29,7 @@ public class LogicParser {
     }
     public void parseXML(File file, String[] roots) {
         System.out.println("Inside ParseXML");
+        System.out.println(file.getAbsolutePath());
         vtdParser.parse(file);
         createElementFromTags();
         if(vtdParser.checkRootFor(roots)){
@@ -222,6 +223,7 @@ public class LogicParser {
 
     private void createElementFromTags() {
         for(tagVM t: tagsController.tags){
+            if(elements!=null && vtdParser!=null)
             elements.put(t.tag.getName(),vtdParser.createElement(t.tag.getXpath()));
         }
     }

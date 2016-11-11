@@ -5,9 +5,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
-/**
- * Created by avinaana on 11/9/2016.
- */
 public class logicController {
     public VBox centerContainer;
 

@@ -7,9 +7,7 @@ import com.xpathgenerator.Tag;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.Accordion;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import org.controlsfx.control.StatusBar;
 
 public class AppController {
@@ -42,6 +40,7 @@ public class AppController {
     logicController logicController;
 
     public void initialize(){
+
         bottomPaneController.init(this);
         menuBarController.init(this);
         projectConfigController.init(this);
@@ -51,6 +50,7 @@ public class AppController {
         logicController.init(this);
         addStatusBar();
         logicController.addCsvView();
+
     }
 
     private void addStatusBar(){
