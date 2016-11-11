@@ -35,17 +35,18 @@ public class outputReportController {
     //Main App Controller
     private AppController appController;
     static int count =3;
-    static int count_2=3;
-
 
     //CheckComboBox
     ObservableList<String> cols=FXCollections.observableArrayList(new String[]{Report.FILE_NAME,Report.FILE_PATH});
     CheckComboBox<String> defaultcol = new CheckComboBox(cols);
 
     //List Available for insertion in Report
-    static ArrayList<String>  inputColumn = new ArrayList<>();
 
-    ArrayList<Column> columnList =  new ArrayList<>();
+    ObservableList<Column> columnList =  FXCollections.observableList(new ArrayList<>());
+
+    //To be used Outside Variables
+    static ObservableList<String>  inputColumn = FXCollections.observableArrayList();
+    static ObservableList<String> reportColumn = FXCollections.observableArrayList();
 
     public void init(AppController appController) {
         this.appController = appController;
@@ -59,6 +60,15 @@ public class outputReportController {
             inputColumn.addAll(defaultcol.getCheckModel().getCheckedItems());
             System.out.println(inputColumn);
         });
+
+        columnList.addListener((InvalidationListener) observable -> {
+            reportColumn.clear();
+            for(int i=0;i<columnList.size();i++)
+                if(!columnList.get(i).name.getText().isEmpty())
+                    reportColumn.add(columnList.get(i).name.getText());
+            System.out.println(reportColumn.toString());
+        });
+
     }
 
     public void opReportBrowse(ActionEvent actionEvent) throws IOException {
@@ -76,17 +86,17 @@ public class outputReportController {
         addColumn.setDisable(true);
     }
 
-
     class Column
     {
         HBox hbox = new HBox();
         TextField name = new TextField();
         Button addNew = new Button("+");
         Button remove = new Button("-");
-        int seq=count+1;
+        int seq;
         IntegerProperty disable=new SimpleIntegerProperty(0);
 
         Column(){
+            setSeq();
             count++;
             name.setPromptText("Column Name");
             hbox.setPadding(new Insets(4,8,4,8));
@@ -104,20 +114,27 @@ public class outputReportController {
                 remove();
             });
 
+            name.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue != oldValue) {
+                    reportColumn.clear();
+                    for (int i = 0; i < columnList.size(); i++)
+                        reportColumn.add(columnList.get(i).name.getText());
+                }
+                System.out.println(reportColumn.toString());
+            });
+
             BooleanBinding addValid = Bindings.createBooleanBinding(()->{
                 return !name.getText().equals("") && disable.getValue()==0;
             },name.textProperty(),disable);
 
             addNew.disableProperty().bind(addValid.not());
-
-    }
+        }
 
         private void remove() {
             if(columnList.contains(this))
             {
                 gpane.getChildren().remove(hbox);
                 columnList.remove(this);
-                gpane.getChildren().remove(seq,seq);
                 gpane.getRowConstraints();
                 count--;
             }
@@ -125,16 +142,24 @@ public class outputReportController {
                 gpane.getChildren().remove((hbox));
             if(columnList.size()==0)
                 addColumn.setDisable(false);
-            //System.out.println(columnList.get(seq-5).seq );
-            System.out.println("Column Size "+columnList.size());
-            System.out.println("seq"+seq);
-            if(columnList.get(seq-5).seq == columnList.size()-5);
-                columnList.get(seq-5).disable.setValue(0);
+//            System.out.println("Column Size "+columnList.size());
+//            System.out.println("seq"+seq);
+            setSeq();
+            if(seq!=0) {
+                if (columnList.get(seq - 1).seq == columnList.size() - 1) ;
+                columnList.get(seq - 1).disable.setValue(0);
+            }
+        }
+
+        private void setSeq() {
+            for(int i=0;i<columnList.size();i++)
+                columnList.get(i).seq=i;
         }
 
         private void addNew() {
             Column temp = new Column();
             columnList.add(temp);
+            setSeq();
             disable.setValue(1);
         }
     }

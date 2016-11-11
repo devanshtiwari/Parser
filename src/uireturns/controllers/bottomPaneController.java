@@ -3,9 +3,7 @@ package uireturns.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.text.TextFlow;
 
 public class bottomPaneController {
     public TextField consoleText;

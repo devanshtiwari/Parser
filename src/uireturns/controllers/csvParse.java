@@ -1,40 +1,38 @@
 package uireturns.controllers;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static uireturns.controllers.AppController.indexing;
 import static uireturns.controllers.AppController.statusBar;
 
-/**
- * Created by avinaana on 11/10/2016.
- */
 public class csvParse {
     VBox vBox;
     VBox logicContainer;
     TextField extnsInput;
     TextField rootsInput;
+
+    Button run;
+    Button cancel;
     //Util Variables
     String[] extns = new String[]{};
     String[] roots = new String[]{};
     ArrayList<File> validFiles;
     private parseService parseService = null;
     static List<LogicBox> logicBoxes = new ArrayList<>();
+    IntegerProperty statusValue = new SimpleIntegerProperty(0);
     csvParse(){
         vBox = new VBox();
         vBox.setSpacing(10);
@@ -56,25 +54,35 @@ public class csvParse {
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setSpacing(20);
         Button addLogicMain = new Button("Add Logic");
-        Button run = new Button("Run");
-        buttonBox.getChildren().addAll(addLogicMain, run);
+        run = new Button("Run");
+        cancel = new Button("Cancel");
+        buttonBox.getChildren().addAll(addLogicMain, run,cancel);
         addLogicMain.setOnAction(event -> addLogicBox());
+        cancel.setDisable(true);
         //Run button Event
         run.setOnAction(event -> {
-//            if(parseService != null)
-//                parseService.cancel();
-//
-//            parseService = new parseService();
-//            parseService.stateProperty().addListener((obs, oldState, newState) -> System.out.println(newState));
-//            parseService.restart();
-//            ProgressIndicator progressIndicator = new ProgressIndicator();
-//            progressIndicator.setPadding(new Insets(3));
-//            progressIndicator.setProgress(progressIndicator.INDETERMINATE_PROGRESS);
-//            statusBar.getRightItems().clear();
-//            statusBar.getRightItems().addAll(new Label("Parsing"),progressIndicator);
-            runIt();
+            if(parseService != null)
+                parseService.cancel();
 
+            parseService = new parseService();
+            parseService.stateProperty().addListener((obs, oldState, newState) -> System.out.println(newState));
+            parseService.restart();
+            ProgressIndicator progressIndicatorParser = new ProgressIndicator();
+            progressIndicatorParser.setPadding(new Insets(3));
+            progressIndicatorParser.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+            ProgressBar progress = new ProgressBar();
+            progress.setProgress(0);
+            progress.progressProperty().unbind();
+            progress.progressProperty().bind(parseService.progressProperty());
+            statusBar.getRightItems().clear();
+            statusBar.getRightItems().addAll(new Label("Parsing"),progress);
+            System.gc();
         });
+
+        cancel.setOnAction(event -> {
+            parseService.cancel();
+        });
+
         //Add all to gridPane
         gridPane.add(extns,0,0);
         gridPane.add(extnsInput,1,0);
@@ -103,57 +111,64 @@ public class csvParse {
         logicContainer.getChildren().add(newLogicBox.render());
     }
 
-    private void runIt(){
-        if(extnsInput.getText().length() != 0)
-            extns = extnsInput.getText().split(",");
-        if(rootsInput.getText().length() != 0)
-            roots = rootsInput.getText().split(",");
-        validFiles = AppController.fastSearch.ExSearch(extns);
-        LogicParser logicParser = new LogicParser();
-        for(File f : validFiles){
-            try {
-                System.out.println(f.getCanonicalPath());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            logicParser.parseXML(f,roots);
-        }
-        logicParser.getOpReport().consoleReport();
-    }
-
     //Parsing Service
-    private class parseService extends Service<Void>{
+    private class parseService extends Service<Void> {
 
         @Override
         protected Task<Void> createTask() {
             return new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    runIt();
+
+                    cancel.setDisable(false);
+                    run.setDisable(true);
+                    if(extnsInput.getText().length() != 0)
+                        extns = extnsInput.getText().split(",");
+                    if(rootsInput.getText().length() != 0)
+                        roots = rootsInput.getText().split(",");
+                    validFiles = AppController.fastSearch.ExSearch(extns);
+                    LogicParser logicParser = new LogicParser();
+                    int i=0;
+                    int size= validFiles.size();
+                    for(File f : validFiles){
+                        if(isCancelled())
+                            break;
+                        logicParser.parseXML(f,roots);
+                        updateProgress(i++,size);
+                    }
+                    logicParser.getOpReport().consoleReport();
                     return null;
                 }
-            };
-        }
-        @Override
-        protected void cancelled() {
-            super.cancelled();
-            statusBar.getRightItems().clear();
-            statusBar.getRightItems().add(new Label("Parsing Cancelled"));
-        }
 
-        @Override
-        protected void succeeded() {
-            super.succeeded();
-            statusBar.getRightItems().clear();
-            statusBar.getRightItems().addAll(new Label("Parsing Done"));
-        }
-        @Override
-        protected void failed() {
-            super.failed();
-            super.cancel();
-            statusBar.getRightItems().clear();
-            statusBar.setText("OK");
-            statusBar.getRightItems().addAll(new Label("Parsing Failed."));
+                @Override
+                protected void cancelled() {
+                    super.cancelled();
+                    super.cancel();
+                    statusBar.getRightItems().clear();
+                    statusBar.getRightItems().add(new Label("Parsing Cancelled"));
+                    run.setDisable(false);
+                    cancel.setDisable(true);
+                }
+
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+                    statusBar.getRightItems().clear();
+                    statusBar.getRightItems().addAll(new Label("Parsing Done"));
+                    run.setDisable(false);
+                    cancel.setDisable(true);
+                }
+
+                @Override
+                protected void failed() {
+                    super.failed();
+                    super.cancel();
+                    statusBar.getRightItems().clear();
+                    statusBar.getRightItems().addAll(new Label("Parsing Failed."));
+                    run.setDisable(false);
+                    cancel.setDisable(true);
+                }
+            };
         }
     }
 }
