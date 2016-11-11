@@ -91,6 +91,7 @@ public class csvParse {
         gridPane.add(buttonBox,0,2,1,GridPane.REMAINING);
         //Logic Box
         logicContainer = new VBox();
+        logicContainer.setSpacing(10);
 
         //add To vbox
         vBox.getChildren().addAll(gridPane, logicContainer);

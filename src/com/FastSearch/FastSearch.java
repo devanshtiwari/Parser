@@ -193,9 +193,9 @@ public class FastSearch {
         return F;
     }
 
-    public String getValueFromFilePath(String path, int index){
+    public static String getValueFromFilePath(String path, int index){
         return path.split("\\\\")[index];
     }
 
-    public String[] getArrayFromFilePath(String path){  return path.split("\\\\");}
+    public static String[] getArrayFromFilePath(String path){  return path.split("\\\\");}
 }

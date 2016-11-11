@@ -1,5 +1,6 @@
 package uireturns.controllers;
 
+import com.FastSearch.FastSearch;
 import com.parser.Element;
 import com.parser.Parser;
 import com.parser.ParserFactory;
@@ -7,6 +8,8 @@ import com.parser.VTDParser;
 import com.report.Report;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,6 +17,7 @@ public class LogicParser {
     private Report opReport;
     private VTDParser vtdParser;
     private HashMap<String ,Element> elements;
+    private List<String> parameters;
     LogicParser() {
         opReport = new Report();
         opReport.addColumn(new String[]{Report.SNO,Report.FILE_NAME,Report.FILE_PATH});
@@ -21,14 +25,15 @@ public class LogicParser {
         Parser parser = ParserFactory.getParser(ParserFactory.Parsers.VTD);
         vtdParser = (VTDParser) parser;
         elements = new HashMap<>();
+        parameters = new ArrayList<>();
     }
     public void parseXML(File file, String[] roots) {
         System.out.println("Inside ParseXML");
         System.out.println(file.getAbsolutePath());
         vtdParser.parse(file);
         createElementFromTags();
-        opReport.initRow(file);
         if(vtdParser.checkRootFor(roots)){
+            opReport.initRow(file);
             csvParse.logicBoxes.forEach((box) -> runLogic(box, file));
             opReport.incrementKey();
         }
@@ -57,6 +62,7 @@ public class LogicParser {
     }
 
     private void report(LogicBox box) {
+
     }
 
     private void search(LogicBox box,File file) {
@@ -70,12 +76,14 @@ public class LogicParser {
         String method = box.methods.getValue();
         switch (method){
             case "updateAttr":
-                e.updateAttr(box.paramList.get(0),box.paramList.get(1),file);
+                parameters = evalParms(box,file);
+                e.updateAttr(parameters.get(0),parameters.get(1),file);
                 break;
             case "insertAttrAtFront":
                 break;
             case "insertAttrAtEnd":
-                String insert = box.paramList.get(0)+"=\""+box.paramList.get(1)+"\"";
+                parameters = evalParms(box,file);
+                String insert = parameters.get(0)+"=\""+parameters.get(1)+"\"";
                 e.insertAtEnd(insert,file);
                 break;
             case "removeAttr":
@@ -102,44 +110,82 @@ public class LogicParser {
 
     private void runElse(LogicBox box, File file) {
         System.out.println("Inside Else");
-        System.out.println("evalParentCondition: "+evalParentConditions(box));
-        if(evalParentConditions(box))
+        System.out.println("evalParentCondition: "+evalParentConditions(box,file));
+        if(evalParentConditions(box,file))
             processChildren(box,file);
     }
 
     private void runElseIf(LogicBox box, File file) {
         System.out.println("Inside runElseIf");
-        System.out.println(evalCondition(box));
-        System.out.println(evalParentConditions(box));
-        if(evalCondition(box)){
-            if(evalParentConditions(box))
+        System.out.println(evalCondition(box,file));
+        System.out.println(evalParentConditions(box,file));
+        if(evalCondition(box,file)){
+            if(evalParentConditions(box,file))
                 processChildren(box,file);
         }
     }
 
     private void runIf(LogicBox box, File file) {
         System.out.println("inside runIf");
-        System.out.println("Result: " +evalCondition(box));
-        if(evalCondition(box))
+        System.out.println("Result: " +evalCondition(box,file));
+        if(evalCondition(box,file))
             processChildren(box,file);
     }
-    private Boolean evalCondition(LogicBox box){
+    private List<String> evalParms(LogicBox box, File file){
+        List<ParamBox> paramBoxes = box.paramList;
+        List<String> params = new ArrayList<>();
+        for(ParamBox paramBox: paramBoxes){
+            List<Param> concats = paramBox.concats;
+            String parameter = "";
+            for(Param param: concats){
+                parameter += evalParam(param, file);
+            }
+            params.add(parameter);
+        }
+        System.out.println(params.toString());
+        return params;
+    }
+    private String evalParam(Param param,File file){
+        String parameter = "";
+        String type = param.inputType.getValue();
+        switch (type){
+            case "TextField":
+                parameter = param.inputField.getText();
+                break;
+            case "From File Path":
+                try {
+                    parameter = FastSearch.getValueFromFilePath(file.getCanonicalPath(),Integer.parseInt(param.inputField.getText()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "Attribute Value":
+                Element e = elements.get(param.tags.getValue());
+                parameter = e.getAttrVal(param.inputField.getText());
+                break;
+            case "From CSV":
+                break;
+        }
+        return parameter;
+    }
+    private Boolean evalCondition(LogicBox box,File file){
         Element e = elements.get(box.tags.getValue());
         String method = box.methods.getValue();
         Boolean result = false;
         switch(method){
             case "hasAttr":
-                result = e.hasAttr(box.paramList.get(0));
-                System.out.println("hasAttr: "+ e.hasAttr(box.paramList.get(0)));
+                parameters = evalParms(box,file);
+                result = e.hasAttr(parameters.get(0));
+                System.out.println("hasAttr: "+ e.hasAttr(parameters.get(0)));
                 break;
             case "checkAttrVal":
-                result = e.getAttrVal(box.paramList.get(0)).equals(box.paramList.get(1));
+                result = e.getAttrVal(parameters.get(0)).equals(parameters.get(1));
                 break;
         }
         return result;
     }
 
-    private Boolean evalParentConditions(LogicBox box){
+    private Boolean evalParentConditions(LogicBox box, File file){
         List<LogicBox> siblings = box.parent.childrens;
         int index = siblings.indexOf(box)-1;
         Boolean result = true;
@@ -149,13 +195,13 @@ public class LogicParser {
             System.out.println("Inside Parent check Loop"+temp.toString());
             if(temp.conditions.getValue().equals("IF")){
                 foundIf = true;
-                if(evalCondition(temp)){
+                if(evalCondition(temp,file)){
                     result = false;
                     break;
                 }
             }
             if(temp.conditions.getValue().equals("ELSE IF")){
-                if(evalCondition(temp)){
+                if(evalCondition(temp,file)){
                     result = false;
                     break;
                 }

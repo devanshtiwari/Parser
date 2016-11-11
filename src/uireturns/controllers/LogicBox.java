@@ -20,11 +20,12 @@ public class LogicBox {
     ComboBox<String> conditions;
     ComboBox<String> tags;
     ComboBox<String> methods;
+    Button insertInReport;
     Button addLogic;
     Button deleteLogic;
-    VBox paramBox;
+    VBox paramsContainer;
     List<LogicBox> childrens = new ArrayList<>();
-    List<String> paramList;
+    List<ParamBox> paramList;
     LogicBox parent = null;
 
     LogicBox(){
@@ -35,8 +36,8 @@ public class LogicBox {
         logic = new HBox();
         logic.setSpacing(5);
         //Param Box
-        paramBox = new VBox();
-        paramBox.setSpacing(7);
+        paramsContainer = new VBox();
+        paramsContainer.setSpacing(7);
         //logic Type e.g. Condition/Action/Search/Report
         logicType = new ComboBox<>();
         logicType.getItems().addAll("Condition","Action","Search","Report");
@@ -46,22 +47,7 @@ public class LogicBox {
         conditions.setPromptText("Condition");
         conditions.getItems().addAll("IF","ELSE IF","ELSE");
         //Tags
-        tags = new ComboBox<>();
-        tags.setPromptText("Tags");
-        tags.getItems().clear();
-        for(tagVM t : tagsController.tags){
-            tags.getItems().add(t.tag.getName());
-        }
-        tagsController.xpathlist.addListener((InvalidationListener) change -> {
-            tags.getItems().clear();
-            tags.getItems().addAll(tagsController.xpathlist.keySet());
-        });
-        tagsController.tags.addListener((InvalidationListener) change -> {
-            tags.getItems().clear();
-            for(tagVM t : tagsController.tags){
-                tags.getItems().add(t.tag.getName());
-            }
-        });
+        tags = logicController.getTagCombobox();
         //Methods
         methods = new ComboBox<>();
         methods.setPromptText("Methods");
@@ -70,7 +56,7 @@ public class LogicBox {
         deleteLogic = new Button("x");
         //Action settings
         logicType.setOnAction(event -> {
-            box.getChildren().remove(paramBox);
+            box.getChildren().remove(paramsContainer);
             for(LogicBox l: childrens)
                 box.getChildren().remove(l.render());
             if(logicType.getValue() != null)
@@ -88,8 +74,13 @@ public class LogicBox {
         addLogic.setOnAction(event -> {
             addNewLogicBox();
         });
+        //insertInReport
+        insertInReport = new Button("Insert");
+        insertInReport.setOnAction(event -> {
+            addParam(new String[]{"Report Insertion"});
+        });
         //Vbox addition
-        logic.getChildren().addAll(logicType,tags,deleteLogic);
+        logic.getChildren().addAll(logicType,deleteLogic);
         box.getChildren().addAll(logic);
     }
 
@@ -97,19 +88,15 @@ public class LogicBox {
         String condition = conditions.getValue();
         switch (condition){
             case "IF":
-//                logic.getChildren().remove(methods);
-//                logic.getChildren().add(3,methods);
-//                methods.getItems().clear();
-//                methods.getItems().addAll("hasAttr", "checkAttrVal");
-//                break;
             case "ELSE IF":
-                logic.getChildren().remove(methods);
+                logic.getChildren().removeAll(methods,tags);
+                logic.getChildren().add(2,tags);
                 logic.getChildren().add(3,methods);
                 methods.getItems().clear();
                 methods.getItems().addAll("hasAttr", "checkAttrVal");
                 break;
             case "ELSE":
-                logic.getChildren().remove(methods);
+                logic.getChildren().removeAll(methods,tags);
 
 
         }
@@ -132,26 +119,27 @@ public class LogicBox {
         switch (type) {
             case "Condition":
                 logic.getChildren().add(1, conditions);
-                logic.getChildren().removeAll(addLogic,methods);
-                logic.getChildren().add(4, addLogic);
+                logic.getChildren().removeAll(addLogic,methods,insertInReport,tags);
+                logic.getChildren().add(2, addLogic);
                 if(conditions.getValue() != null)
                     updateLogicRowForConditions();
                 break;
             case "Action":
-                logic.getChildren().removeAll(conditions, addLogic,methods);
-                methods.getItems().clear();
+                logic.getChildren().removeAll(conditions, addLogic,methods,insertInReport,tags);
+                logic.getChildren().add(1,tags);
                 logic.getChildren().add(2,methods);
+                methods.getItems().clear();
                 methods.getItems().addAll("updateAttr", "insertAttrAtFront", "insertAttrAtEnd", "removeAttr", "removeElement");
                 break;
             case "Search":
-                logic.getChildren().removeAll(conditions, addLogic,methods);
+                logic.getChildren().removeAll(conditions, addLogic,methods,insertInReport,tags);
+                logic.getChildren().add(1,tags);
                 logic.getChildren().add(2,addLogic);
                 break;
             case "Report":
-                logic.getChildren().removeAll(conditions, addLogic,methods);
-                logic.getChildren().add(2,methods);
-                methods.getItems().clear();
-                methods.getItems().addAll("addToReport");
+                logic.getChildren().removeAll(conditions, addLogic,methods,insertInReport,tags);
+                logic.getChildren().add(1,insertInReport);
+                addParam(new String[]{"Report Insertion1"});
                 break;
         }
     }
@@ -182,29 +170,20 @@ public class LogicBox {
             case "searchForTag":
                 addParam(new String[]{});
                 break;
-            case "addToReport":
-                addParam(new String[]{});
-                break;
         }
     }
 
     private void addParam(String[] params) {
-        paramBox.getChildren().clear();
-        paramList = new ArrayList<>(Arrays.asList(new String[params.length]));
+        paramsContainer.getChildren().clear();
+        paramList = new ArrayList<>(Arrays.asList(new ParamBox[params.length]));
         for(String param: params){
-            HBox hbox = new HBox();
-            TextField input = new TextField();
-            input.setPromptText(param);
-            input.focusedProperty().addListener((observable, oldValue, newValue) -> {
-                if(!newValue)
-                    paramList.add(Arrays.asList(params).indexOf(param),input.getText());
-            });
-            hbox.getChildren().addAll(input);
-            paramBox.getChildren().add(hbox);
+            ParamBox paramBox = new ParamBox(param,false,true);
+            paramsContainer.getChildren().add(paramBox.render());
+            paramList.add(paramBox);
         }
-        box.getChildren().remove(paramBox);
+        box.getChildren().remove(paramsContainer);
         if(params.length !=0)
-            box.getChildren().add(1,paramBox);
+            box.getChildren().add(1, paramsContainer);
     }
 
     public Node render() {
