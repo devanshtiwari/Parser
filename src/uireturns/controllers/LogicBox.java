@@ -175,7 +175,7 @@ public class LogicBox {
 
     private void addParam(String[] params) {
         paramsContainer.getChildren().clear();
-        paramList = new ArrayList<>(Arrays.asList(new ParamBox[params.length]));
+        paramList = new ArrayList<>();
         for(String param: params){
             ParamBox paramBox = new ParamBox(param,false,true);
             paramsContainer.getChildren().add(paramBox.render());
