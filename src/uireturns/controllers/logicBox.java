@@ -6,26 +6,28 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class logicBox {
+public class LogicBox {
     VBox box;
     HBox logic;
     ComboBox<String> logicType;
     ComboBox<String> conditions;
-    ComboBox tags;
+    ComboBox<String> tags;
     ComboBox<String> methods;
     Button addLogic;
     Button deleteLogic;
     VBox paramBox;
-    List<logicBox> childrens = new ArrayList<>();
+    List<LogicBox> childrens = new ArrayList<>();
+    List<String> paramList;
+    LogicBox parent = null;
 
-    logicBox(){
+    LogicBox(){
         box = new VBox();
         box.setSpacing(7);
         box.setPadding(new Insets(0,0,0,20));
@@ -69,7 +71,7 @@ public class logicBox {
         //Action settings
         logicType.setOnAction(event -> {
             box.getChildren().remove(paramBox);
-            for(logicBox l: childrens)
+            for(LogicBox l: childrens)
                 box.getChildren().remove(l.render());
             if(logicType.getValue() != null)
                 updateLogicRow();
@@ -78,22 +80,49 @@ public class logicBox {
             if(methods.getValue() != null)
                updateParamInputs();
         });
+        conditions.setOnAction(event -> {
+            if(conditions.getValue() != null)
+                updateLogicRowForConditions();
+        });
         //Button Actions
         addLogic.setOnAction(event -> {
             addNewLogicBox();
         });
         //Vbox addition
-        logic.getChildren().addAll(logicType,tags,methods,deleteLogic);
+        logic.getChildren().addAll(logicType,tags,deleteLogic);
         box.getChildren().addAll(logic);
     }
 
+    private void updateLogicRowForConditions() {
+        String condition = conditions.getValue();
+        switch (condition){
+            case "IF":
+//                logic.getChildren().remove(methods);
+//                logic.getChildren().add(3,methods);
+//                methods.getItems().clear();
+//                methods.getItems().addAll("hasAttr", "checkAttrVal");
+//                break;
+            case "ELSE IF":
+                logic.getChildren().remove(methods);
+                logic.getChildren().add(3,methods);
+                methods.getItems().clear();
+                methods.getItems().addAll("hasAttr", "checkAttrVal");
+                break;
+            case "ELSE":
+                logic.getChildren().remove(methods);
+
+
+        }
+    }
+
     private void addNewLogicBox() {
-        logicBox newLogicBox = new logicBox();
+        LogicBox newLogicBox = new LogicBox();
         newLogicBox.deleteLogic.setOnAction(event -> {
             box.getChildren().remove(newLogicBox.render());
             childrens.remove(newLogicBox);
         });
         box.getChildren().add(newLogicBox.render());
+        newLogicBox.parent = this;
         childrens.add(newLogicBox);
     }
 
@@ -103,24 +132,24 @@ public class logicBox {
         switch (type) {
             case "Condition":
                 logic.getChildren().add(1, conditions);
-                logic.getChildren().remove(addLogic);
+                logic.getChildren().removeAll(addLogic,methods);
                 logic.getChildren().add(4, addLogic);
-                methods.getItems().clear();
-                methods.getItems().addAll("hasAttr", "checkAttrVal");
+                if(conditions.getValue() != null)
+                    updateLogicRowForConditions();
                 break;
             case "Action":
-                logic.getChildren().removeAll(conditions, addLogic);
+                logic.getChildren().removeAll(conditions, addLogic,methods);
                 methods.getItems().clear();
+                logic.getChildren().add(2,methods);
                 methods.getItems().addAll("updateAttr", "insertAttrAtFront", "insertAttrAtEnd", "removeAttr", "removeElement");
                 break;
             case "Search":
-                logic.getChildren().removeAll(conditions, addLogic);
-                logic.getChildren().add(3,addLogic);
-                methods.getItems().clear();
-                methods.getItems().addAll("searchForTag");
+                logic.getChildren().removeAll(conditions, addLogic,methods);
+                logic.getChildren().add(2,addLogic);
                 break;
             case "Report":
-                logic.getChildren().removeAll(conditions, addLogic);
+                logic.getChildren().removeAll(conditions, addLogic,methods);
+                logic.getChildren().add(2,methods);
                 methods.getItems().clear();
                 methods.getItems().addAll("addToReport");
                 break;
@@ -161,10 +190,15 @@ public class logicBox {
 
     private void addParam(String[] params) {
         paramBox.getChildren().clear();
+        paramList = new ArrayList<>(Arrays.asList(new String[params.length]));
         for(String param: params){
             HBox hbox = new HBox();
             TextField input = new TextField();
             input.setPromptText(param);
+            input.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                if(!newValue)
+                    paramList.add(Arrays.asList(params).indexOf(param),input.getText());
+            });
             hbox.getChildren().addAll(input);
             paramBox.getChildren().add(hbox);
         }
