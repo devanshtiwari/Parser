@@ -15,7 +15,7 @@
     <content>
         <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
             <content>
-                <GridPane hgap="5.0" vgap="5.0">
+                <GridPane fx:id="gpane">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" />
                         <ColumnConstraints hgrow="SOMETIMES" />
@@ -24,35 +24,40 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
                         <Label text="Report Name" />
-                        <TextField fx:id="opReport" promptText="Output Report Name" GridPane.columnIndex="1" />
+                        <TextField fx:id="opReport" promptText="Output Report Name" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </GridPane.margin></TextField>
                         <Label text="Report Path" GridPane.rowIndex="1" />
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <children>
                                 <TextField fx:id="opReportPath" promptText="Select Report Path" HBox.hgrow="ALWAYS" />
                                 <Button fx:id="opReportBrowse" mnemonicParsing="false" onAction="#opReportBrowse" style="-fx-wrap-text: true;" text="+" />
                             </children>
-                        </HBox>
-                        <Label text="Columns" GridPane.rowIndex="2" />
-                        <HBox alignment="CENTER_LEFT" layoutX="87.0" layoutY="40.0" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                            <children>
-                                <TextField promptText="Add Column" HBox.hgrow="ALWAYS" />
-                                <Button mnemonicParsing="false" text="+" />
-                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" layoutX="87.0" layoutY="70.0" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                            <children>
-                                <TextField promptText="Add Column" HBox.hgrow="ALWAYS" />
-                                <Button mnemonicParsing="false" text="+" />
-                            </children>
-                        </HBox>
-                    </children>
-                    <padding>
+                     <padding>
                         <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                    </padding>
+                     </padding>
+                        </HBox>
+                        <Label text="Columns" GridPane.rowIndex="3" />
+                        <HBox alignment="CENTER_LEFT" layoutX="87.0" layoutY="40.0" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </padding></HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <children>
+                                <TextField fx:id="Column1" promptText="Add Column" HBox.hgrow="ALWAYS" />
+                                <Button fx:id="addColumn" mnemonicParsing="false" onAction="#addColumn" text="+" />
+                     </children>
+                     <padding>
+                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                     </padding>
+                  </HBox>
+                  <Label text="Select Columns" GridPane.rowIndex="2" />
+                    </children>
                 </GridPane>
             </content>
         </ScrollPane>

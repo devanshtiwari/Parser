@@ -30,11 +30,15 @@ public class projectConfigController {
     //Variables for private use
     private String proDirTextVal = "";
     private indexService indexService = null;
-    public void initialize(){
+    public void initialize() throws IOException {
         proDir.focusedProperty().addListener(((observable, oldValue, newValue) -> {
             if(!newValue) {
                 if (!proDirTextVal.equals(proDir.getText())) {
-                    startIndexing();
+                    try {
+                        startIndexing();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 proDirTextVal = proDir.getText();
             }
@@ -44,6 +48,7 @@ public class projectConfigController {
         methods.add("CSV");
         methods.add("Non CSV");
         parseMethod.getItems().addAll(methods);
+        parseMethod.setValue(methods.get(0));
     }
     //Select Project Directory from Directory chooser
     public void selectProjectDir(ActionEvent actionEvent) throws IOException {
@@ -59,7 +64,7 @@ public class projectConfigController {
         }
     }
 
-    private void startIndexing(){
+    private void startIndexing() throws IOException {
         if(!proDirTextVal.equals(proDir.getText())) {
             if(indexService != null){
                 indexService.cancel();
