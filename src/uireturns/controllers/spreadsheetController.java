@@ -32,6 +32,7 @@ public class spreadsheetController {
     //Util variables
     private readService readService = null;
 
+    private String spreadsheetpath;
     static ObservableList<String> ssHeaders = FXCollections.observableArrayList();
 
     public void initialize(){
@@ -98,13 +99,16 @@ public class spreadsheetController {
 
     private void initBindings(){
         ssPath.focusedProperty().addListener(((observable, oldValue, newValue) -> {
-            if(!newValue)
-                fetchHeaders();
+            if(!newValue) {
+                if(!ssPath.getText().equals(spreadsheetpath))
+                    fetchHeaders();
+            }
         }));
     }
 
     //Fetch headers from given spreadsheet
     private void fetchHeaders() {
+        spreadsheetpath=ssPath.getText();
         if(!ssPath.getText().isEmpty()) {
             reader = readerFactory.getReader(ssPath.getText());
             String[] headers = reader.getHeaders();
