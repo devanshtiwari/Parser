@@ -38,7 +38,7 @@ public class spreadsheetController {
     public void ssSelector(ActionEvent actionEvent) throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select SpreadSheet");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV Files","*.csv"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV Files","*.csv","*.xls"));
         File selectedFile = fileChooser.showOpenDialog(null);
         if(selectedFile != null){
             ssPath.setText(selectedFile.getCanonicalPath());
