@@ -1,8 +1,11 @@
 package uireturns.controllers;
 
 
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -28,6 +31,8 @@ public class spreadsheetController {
 
     //Util variables
     private readService readService = null;
+
+    static ObservableList<String> ssHeaders = FXCollections.observableArrayList();
 
     public void initialize(){
         initBindings();
@@ -105,6 +110,7 @@ public class spreadsheetController {
             String[] headers = reader.getHeaders();
             ssHeadersBox.getChildren().clear();
             for (String header : headers) {
+                ssHeaders.add(header);
                 Label label = new Label(header);
                 ssHeadersBox.getChildren().addAll(label);
             }
@@ -114,6 +120,20 @@ public class spreadsheetController {
 
     public void init(AppController appController) {
         this.appController = appController;
+    }
+
+    public static ComboBox getHeaderComboBox(){
+        ComboBox<String> headers = new ComboBox();
+        headers.setPromptText("Headers");
+        headers.getItems().clear();
+        headers.getItems().addAll(ssHeaders);
+
+        ssHeaders.addListener((InvalidationListener) observable -> {
+            headers.getItems().clear();
+            headers.getItems().addAll(ssHeaders);
+        });
+        
+        return headers;
     }
 
     //Read SpreadSheet Service
