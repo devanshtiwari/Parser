@@ -1,6 +1,7 @@
 package uireturns.controllers;
 
 import com.FastSearch.FastSearch;
+import com.filemanager.ssIterator;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.concurrent.Service;
@@ -18,26 +19,29 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static uireturns.controllers.AppController.statusBar;
-
+import static uireturns.controllers.AppController.*;
 public class csvParse {
-    VBox vBox;
-    VBox logicContainer;
-    TextField extnsInput;
-    TextField rootsInput;
-    TextField pathCheckInput;
-    ComboBox<String> pathCheckType;
-    Button run;
-    Button cancel;
+    private VBox vBox;
+    private VBox logicContainer;
+    private TextField extnsInput;
+    private TextField rootsInput;
+    private TextField pathCheckInput;
+    private ComboBox<String> csvColumns;
+    private ComboBox<String> pathCheckType;
+    private Button run;
+    private Button cancel;
     //Util Variables
-    String[] extns = new String[]{};
-    String[] roots = new String[]{};
-    String[] pathChecks = new String[]{};
-    ArrayList<File> validFiles;
-    private parseService parseService = null;
+    private String[] extns = new String[]{};
+    private String[] roots = new String[]{};
+    private ArrayList<File> validFiles;
+    private nonCsvParseService nonCsvParseService = null;
+    private csvParseService csvParseService = null;
     static List<LogicBox> logicBoxes = new ArrayList<>();
+    public boolean isCSV;
+    static ssIterator iter;
     IntegerProperty statusValue = new SimpleIntegerProperty(0);
-    csvParse(){
+    csvParse(boolean isCSV){
+        this.isCSV = isCSV;
         vBox = new VBox();
         vBox.setSpacing(10);
         GridPane gridPane = new GridPane();
@@ -73,6 +77,12 @@ public class csvParse {
         pathCheckHBox.setSpacing(8);
         HBox.setHgrow(pathCheckInput,Priority.ALWAYS);
         pathCheckHBox.getChildren().addAll(pathCheckType,pathCheckInput);
+        //CSV columns
+        Label fileCol = new Label("File Column");
+        if(isCSV){
+            csvColumns = spreadsheetController.getHeaderComboBox();
+            csvColumns.setPromptText("Select Column");
+        }
         //Buttons
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
@@ -85,26 +95,18 @@ public class csvParse {
         cancel.setDisable(true);
         //Run button Event
         run.setOnAction(event -> {
-            if(parseService != null)
-                parseService.cancel();
+            if(isCSV)
+                startCsvParseService();
+            else
+                startNoncsvParseService();
 
-            parseService = new parseService();
-            parseService.stateProperty().addListener((obs, oldState, newState) -> System.out.println(newState));
-            parseService.restart();
-            ProgressIndicator progressIndicatorParser = new ProgressIndicator();
-            progressIndicatorParser.setPadding(new Insets(3));
-            progressIndicatorParser.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
-            ProgressBar progress = new ProgressBar();
-            progress.setProgress(0);
-            progress.progressProperty().unbind();
-            progress.progressProperty().bind(parseService.progressProperty());
-            statusBar.getRightItems().clear();
-            statusBar.getRightItems().addAll(new Label("Parsing"),progress);
-            System.gc();
         });
 
         cancel.setOnAction(event -> {
-            parseService.cancel();
+            if(isCSV)
+                csvParseService.cancel();
+            else
+                nonCsvParseService.cancel();
         });
 
         //Add all to gridPane
@@ -114,7 +116,11 @@ public class csvParse {
         gridPane.add(rootsInput,1,1);
         gridPane.add(pathCheck,0,2);
         gridPane.add(pathCheckHBox,1,2);
-        gridPane.add(buttonBox,0,3,GridPane.REMAINING,1);
+        if(isCSV){
+            gridPane.add(fileCol,0,3);
+            gridPane.add(csvColumns,1,3);
+        }
+        gridPane.add(buttonBox,0,4,GridPane.REMAINING,1);
         //Logic Box
         logicContainer = new VBox();
         logicContainer.setSpacing(10);
@@ -128,7 +134,7 @@ public class csvParse {
     }
 
     private void addLogicBox() {
-        LogicBox newLogicBox = new LogicBox();
+        LogicBox newLogicBox = new LogicBox(isCSV);
         newLogicBox.box.setPadding(new Insets(0));
         newLogicBox.deleteLogic.setOnAction(event -> {
             logicContainer.getChildren().remove(newLogicBox.render());
@@ -138,15 +144,50 @@ public class csvParse {
         logicContainer.getChildren().add(newLogicBox.render());
     }
 
-    //Parsing Service
-    private class parseService extends Service<Void> {
+    private void startNoncsvParseService(){
+        if(nonCsvParseService != null)
+            nonCsvParseService.cancel();
 
+        nonCsvParseService = new nonCsvParseService();
+        nonCsvParseService.stateProperty().addListener((obs, oldState, newState) -> System.out.println(newState));
+        nonCsvParseService.restart();
+        ProgressIndicator progressIndicatorParser = new ProgressIndicator();
+        progressIndicatorParser.setPadding(new Insets(3));
+        progressIndicatorParser.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+        ProgressBar progress = new ProgressBar();
+        progress.setProgress(0);
+        progress.progressProperty().unbind();
+        progress.progressProperty().bind(nonCsvParseService.progressProperty());
+        statusBar.getRightItems().clear();
+        statusBar.getRightItems().addAll(new Label("Parsing"),progress);
+        System.gc();
+    }
+    private void startCsvParseService(){
+        if(csvParseService != null)
+            csvParseService.cancel();
+
+        csvParseService = new csvParseService();
+        csvParseService.stateProperty().addListener((obs, oldState, newState) -> System.out.println(newState));
+        csvParseService.restart();
+        ProgressIndicator progressIndicatorParser = new ProgressIndicator();
+        progressIndicatorParser.setPadding(new Insets(3));
+        progressIndicatorParser.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+        ProgressBar progress = new ProgressBar();
+        progress.setProgress(0);
+        progress.progressProperty().unbind();
+        progress.progressProperty().bind(csvParseService.progressProperty());
+        statusBar.getRightItems().clear();
+        statusBar.getRightItems().addAll(new Label("Parsing"),progress);
+        System.gc();
+    }
+
+    //Parsing Service
+    private class nonCsvParseService extends Service<Void> {
         @Override
         protected Task<Void> createTask() {
             return new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-
                     cancel.setDisable(false);
                     run.setDisable(true);
                     bottomPaneController.consoleText.appendText("\nParsing all the Files\n");
@@ -204,14 +245,81 @@ public class csvParse {
             };
         }
     }
+    private class csvParseService extends Service<Void> {
+        @Override
+        protected Task<Void> createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    cancel.setDisable(false);
+                    run.setDisable(true);
+                    bottomPaneController.consoleText.appendText("\nParsing all the Files\n");
+                    if(extnsInput.getText().length() != 0)
+                        extns = extnsInput.getText().split(",");
+                    if(rootsInput.getText().length() != 0)
+                        roots = rootsInput.getText().split(",");
+                    //File Column
+                    String fileColumn = csvColumns.getValue();
+                    LogicParser logicParser = new LogicParser();
+                    int i=0;
+                    int size= reader.getReport().size();
+                    iter = reader.getIterator();
+                    while (iter.hasNext()){
+                        if(isCancelled())
+                            break;
+                        iter.next();
+                        ArrayList<File> files = fastSearch.Fsearch(iter.getValue(fileColumn));
+                        for(File f: files) {
+                            if (checkInPath(f)) {
+                                logicParser.parseXML(f, roots);
+                            }
+                        }
+                        updateProgress(i++, size);
+                    }
+                    logicParser.getOpReport().consoleReport();
+                    return null;
+                }
+                @Override
+                protected void cancelled() {
+                    super.cancelled();
+                    super.cancel();
+                    statusBar.getRightItems().clear();
+                    statusBar.getRightItems().add(new Label("Parsing Cancelled"));
+                    run.setDisable(false);
+                    cancel.setDisable(true);
+                    bottomPaneController.consoleText.appendText("Parsing Cancelled\n");
+                }
 
+                @Override
+                protected void succeeded() {
+                    super.succeeded();
+                    statusBar.getRightItems().clear();
+                    statusBar.getRightItems().addAll(new Label("Parsing Done"));
+                    run.setDisable(false);
+                    cancel.setDisable(true);
+                    bottomPaneController.consoleText.appendText("Parsing Successful!\n");
+                }
+
+                @Override
+                protected void failed() {
+                    super.failed();
+                    super.cancel();
+                    statusBar.getRightItems().clear();
+                    statusBar.getRightItems().addAll(new Label("Parsing Failed."));
+                    run.setDisable(false);
+                    cancel.setDisable(true);
+                    bottomPaneController.consoleText.appendText("Parsing Failed\n");
+                }
+            };
+        }
+    }
     private boolean checkInPath(File file) {
         String type = pathCheckType.getValue();
         if(pathCheckInput.getText().length() != 0) {
             if (type.equals("By String")) {
                 return FastSearch.pathCheckBySubstring(pathCheckInput.getText(), file);
             } else if (type.equals("By Keywords")) {
-                pathChecks = pathCheckInput.getText().split(",");
+                String[] pathChecks = pathCheckInput.getText().split(",");
                 return FastSearch.pathCheckByKeywords(pathChecks,file);
             }
         }

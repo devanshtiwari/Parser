@@ -10,21 +10,15 @@ public class logicController {
 
     //Controller instance
     private AppController appController;
-    csvParse csvParse = new csvParse();
-    nonCsvParse nonCsvParse = new nonCsvParse();
 
     public void init(AppController appController) {
         this.appController = appController;
     }
 
-    public void addCsvView() {
+    public void addCsvView(boolean isCSV) {
+        csvParse csvParse = new csvParse(isCSV);
         centerContainer.getChildren().clear();
         centerContainer.getChildren().add(csvParse.render());
-    }
-
-    public void addNonCsvView() {
-        centerContainer.getChildren().clear();
-        centerContainer.getChildren().add(new Label("NON CSV VIEW"));
     }
 
     public static ComboBox<String> getTagCombobox(){

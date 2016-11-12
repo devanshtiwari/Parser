@@ -13,7 +13,7 @@ public class Param {
     ComboBox<String> inputType;
     TextField inputField;
     ComboBox<String> tags;
-    private ComboBox<String> csvColumns;
+    ComboBox<String> csvColumns;
     Button concat;
     Button delete;
     private int insertIndex;
@@ -38,7 +38,7 @@ public class Param {
         this.tags = logicController.getTagCombobox();
         //CSV columns
         if(isCSV){
-            this.csvColumns = new ComboBox<>();
+            this.csvColumns = spreadsheetController.getHeaderComboBox();
         }
         //Concat Button
         this.concat = new Button("+");

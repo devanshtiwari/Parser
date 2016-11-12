@@ -1,35 +1,33 @@
 package uireturns.controllers;
 
-import javafx.beans.InvalidationListener;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class LogicBox {
     VBox box;
-    HBox logic;
+    private HBox logic;
     ComboBox<String> logicType;
     ComboBox<String> conditions;
     ComboBox<String> tags;
     ComboBox<String> methods;
-    Button insertInReport;
-    Button addLogic;
+    private Button insertInReport;
+    private Button addLogic;
     Button deleteLogic;
-    VBox paramsContainer;
+    private VBox paramsContainer;
     List<LogicBox> childrens = new ArrayList<>();
     List<ParamBox> paramList;
     List<ReportBox> reportValList;
     LogicBox parent = null;
-
-    LogicBox(){
+    private boolean isCSV;
+    LogicBox(boolean isCSV){
+        this.isCSV = isCSV;
         box = new VBox();
         box.setSpacing(7);
         box.setPadding(new Insets(0,0,0,20));
@@ -104,7 +102,7 @@ public class LogicBox {
     }
 
     private void addNewLogicBox() {
-        LogicBox newLogicBox = new LogicBox();
+        LogicBox newLogicBox = new LogicBox(isCSV);
         newLogicBox.deleteLogic.setOnAction(event -> {
             box.getChildren().remove(newLogicBox.render());
             childrens.remove(newLogicBox);
@@ -192,7 +190,7 @@ public class LogicBox {
         paramsContainer.getChildren().clear();
         paramList = new ArrayList<>();
         for(String param: params){
-            ParamBox paramBox = new ParamBox(param,false,true);
+            ParamBox paramBox = new ParamBox(param,isCSV,true);
             paramsContainer.getChildren().add(paramBox.render());
             paramList.add(paramBox);
         }
@@ -203,7 +201,7 @@ public class LogicBox {
 
     private void addReportVal(){
         reportValList = new ArrayList<>();
-        ReportBox reportBox = new ReportBox();
+        ReportBox reportBox = new ReportBox(isCSV);
         reportBox.remove.setOnAction(event -> {
             paramsContainer.getChildren().remove(reportBox.render());
             reportValList.remove(reportBox);

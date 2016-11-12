@@ -44,7 +44,7 @@ public class spreadsheetController {
     public void ssSelector(ActionEvent actionEvent) throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select SpreadSheet");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV Files","*.csv","*.xls"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV Files","*.csv","*.xls","*.xlsx"));
         File selectedFile = fileChooser.showOpenDialog(null);
         if(selectedFile != null){
             ssPath.setText(selectedFile.getCanonicalPath());
@@ -113,6 +113,7 @@ public class spreadsheetController {
             reader = readerFactory.getReader(ssPath.getText());
             String[] headers = reader.getHeaders();
             ssHeadersBox.getChildren().clear();
+            ssHeaders.clear();
             for (String header : headers) {
                 ssHeaders.add(header);
                 Label label = new Label(header);

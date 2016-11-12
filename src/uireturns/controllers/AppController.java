@@ -43,14 +43,13 @@ public class AppController {
 
         bottomPaneController.init(this);
         menuBarController.init(this);
+        logicController.init(this);
         projectConfigController.init(this);
         outputReportController.init(this);
         spreadsheetController.init(this);
         tagsController.init(this);
-        logicController.init(this);
         addStatusBar();
-        logicController.addCsvView();
-
+        logicController.addCsvView(true);
     }
 
     private void addStatusBar(){

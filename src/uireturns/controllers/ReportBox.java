@@ -13,7 +13,7 @@ public class ReportBox {
     ComboBox<String> reportColumns;
     ParamBox paramBox;
     Button remove;
-    ReportBox(){
+    ReportBox(boolean isCSV){
         gridPane = new GridPane();
         reportColumns = new ComboBox<>();
         reportColumns.setPromptText("Column");
@@ -26,7 +26,7 @@ public class ReportBox {
         });
         //Remove Button
         remove = new Button("Remove");
-        paramBox = new ParamBox("Report Value",false,false);
+        paramBox = new ParamBox("Report Value",isCSV,false);
         gridPane.setHgap(10);
         gridPane.add(reportColumns,0,0);
         gridPane.add(paramBox.render(),1,0);

@@ -17,13 +17,12 @@ import static uireturns.controllers.AppController.*;
 public class projectConfigController {
 
     public Label proText;
-    AppController appController;
+    private AppController appController;
 
     public TextField proDir;
     public Button fileSelector;
     public ComboBox parseMethod;
     public ComboBox parser;
-
     //Variables for private use
     private String proDirTextVal = "";
     private indexService indexService = null;
@@ -85,11 +84,10 @@ public class projectConfigController {
 
     public void parserMethodSelector(ActionEvent actionEvent) throws IOException {
         if(parseMethod.getValue().toString().equals("CSV")){
-            appController.logicController.addCsvView();
+            appController.logicController.addCsvView(true);
         }
-        else
-        {
-            appController.logicController.addNonCsvView();
+        else {
+            appController.logicController.addCsvView(false);
         }
     }
 
