@@ -1,5 +1,7 @@
 package uireturns.controllers;
 
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -42,8 +44,6 @@ public class Param {
         this.concat = new Button("+");
         //Delete Button
         this.delete = new Button("x");
-        //
-        this.inputType.setValue("TextField");
         //Make HBox
         if(includeLabel) {
             hbox.getChildren().addAll(paramName, inputType, delete, concat);
@@ -53,6 +53,8 @@ public class Param {
             hbox.getChildren().addAll(inputType, delete, concat);
             insertIndex = 1;
         }
+        this.inputType.getSelectionModel().selectFirst();
+        this.inputType.fireEvent(new ActionEvent());
     }
 
     private void updateBox() {
