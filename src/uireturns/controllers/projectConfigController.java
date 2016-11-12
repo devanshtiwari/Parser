@@ -45,7 +45,7 @@ public class projectConfigController {
         methods.add("CSV");
         methods.add("Non CSV");
         parseMethod.getItems().addAll(methods);
-        parseMethod.setValue(methods.get(0));
+        parseMethod.getSelectionModel().selectFirst();
     }
     //Select Project Directory from Directory chooser
     public void selectProjectDir(ActionEvent actionEvent) throws IOException {

@@ -1,9 +1,11 @@
 package uireturns.controllers;
 
+import com.FastSearch.FastSearch;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -23,12 +25,14 @@ public class csvParse {
     VBox logicContainer;
     TextField extnsInput;
     TextField rootsInput;
-
+    TextField pathCheckInput;
+    ComboBox<String> pathCheckType;
     Button run;
     Button cancel;
     //Util Variables
     String[] extns = new String[]{};
     String[] roots = new String[]{};
+    String[] pathChecks = new String[]{};
     ArrayList<File> validFiles;
     private parseService parseService = null;
     static List<LogicBox> logicBoxes = new ArrayList<>();
@@ -49,6 +53,26 @@ public class csvParse {
         rootsInput = new TextField();
         rootsInput.setPromptText("Enter Root Element Names (Comma separated)");
         GridPane.setHgrow(rootsInput,Priority.ALWAYS);
+        //pathCheck
+        Label pathCheck = new Label("Check in Path");
+        pathCheckInput = new TextField();
+        pathCheckType = new ComboBox<>();
+        pathCheckType.getItems().addAll("By String","By Keywords");
+        pathCheckType.setOnAction(event -> {
+            String type = pathCheckType.getValue();
+            if(type.equals("By String")){
+                pathCheckInput.setPromptText("Enter a substring of path");
+            }
+            else if(type.equals("By Keywords")){
+                pathCheckInput.setPromptText("Enter Keywords of path (Comma Seperated)");
+            }
+        });
+        pathCheckType.getSelectionModel().selectFirst();
+        pathCheckType.fireEvent(new ActionEvent());
+        HBox pathCheckHBox = new HBox();
+        pathCheckHBox.setSpacing(8);
+        HBox.setHgrow(pathCheckInput,Priority.ALWAYS);
+        pathCheckHBox.getChildren().addAll(pathCheckType,pathCheckInput);
         //Buttons
         HBox buttonBox = new HBox();
         buttonBox.setAlignment(Pos.CENTER);
@@ -88,7 +112,9 @@ public class csvParse {
         gridPane.add(extnsInput,1,0);
         gridPane.add(roots,0,1);
         gridPane.add(rootsInput,1,1);
-        gridPane.add(buttonBox,0,2,1,GridPane.REMAINING);
+        gridPane.add(pathCheck,0,2);
+        gridPane.add(pathCheckHBox,1,2);
+        gridPane.add(buttonBox,0,3,GridPane.REMAINING,1);
         //Logic Box
         logicContainer = new VBox();
         logicContainer.setSpacing(10);
@@ -135,8 +161,10 @@ public class csvParse {
                     for(File f : validFiles){
                         if(isCancelled())
                             break;
-                        logicParser.parseXML(f,roots);
-                        updateProgress(i++,size);
+                        if(checkInPath(f)) {
+                            logicParser.parseXML(f, roots);
+                        }
+                        updateProgress(i++, size);
                     }
                     logicParser.getOpReport().consoleReport();
                     return null;
@@ -175,5 +203,18 @@ public class csvParse {
                 }
             };
         }
+    }
+
+    private boolean checkInPath(File file) {
+        String type = pathCheckType.getValue();
+        if(pathCheckInput.getText().length() != 0) {
+            if (type.equals("By String")) {
+                return FastSearch.pathCheckBySubstring(pathCheckInput.getText(), file);
+            } else if (type.equals("By Keywords")) {
+                pathChecks = pathCheckInput.getText().split(",");
+                return FastSearch.pathCheckByKeywords(pathChecks,file);
+            }
+        }
+        return true;
     }
 }

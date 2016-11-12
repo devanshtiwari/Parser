@@ -198,4 +198,14 @@ public class FastSearch {
     }
 
     public static String[] getArrayFromFilePath(String path){  return path.split("\\\\");}
+
+    public static boolean pathCheckBySubstring(String substring, File file){
+        String path = file.getAbsolutePath();
+        return path.contains(substring);
+    }
+    public static boolean pathCheckByKeywords(String[] keywords, File file){
+        String[] path = getArrayFromFilePath(file.getAbsolutePath());
+        Boolean result = false;
+        return Arrays.asList(path).containsAll(Arrays.asList(keywords));
+    }
 }
