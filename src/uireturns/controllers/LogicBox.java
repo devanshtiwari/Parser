@@ -26,6 +26,7 @@ public class LogicBox {
     VBox paramsContainer;
     List<LogicBox> childrens = new ArrayList<>();
     List<ParamBox> paramList;
+    List<ReportBox> reportValList;
     LogicBox parent = null;
 
     LogicBox(){
@@ -77,7 +78,7 @@ public class LogicBox {
         //insertInReport
         insertInReport = new Button("Insert");
         insertInReport.setOnAction(event -> {
-            addParam(new String[]{"Report Insertion"});
+            addReportVal();
         });
         //Vbox addition
         logic.getChildren().addAll(logicType,deleteLogic);
@@ -138,8 +139,9 @@ public class LogicBox {
                 break;
             case "Report":
                 logic.getChildren().removeAll(conditions, addLogic,methods,insertInReport,tags);
-                logic.getChildren().add(1,insertInReport);
-                addParam(new String[]{"Report Insertion1"});
+                logic.getChildren().add(1,methods);
+                methods.getItems().clear();
+                methods.getItems().addAll("initRow", "addValue","nextRow");
                 break;
         }
     }
@@ -170,6 +172,19 @@ public class LogicBox {
             case "searchForTag":
                 addParam(new String[]{});
                 break;
+            case "addValue":
+                logic.getChildren().remove(insertInReport);
+                logic.getChildren().add(2,insertInReport);
+                paramsContainer.getChildren().clear();
+                addReportVal();
+                break;
+            case "initRow":
+                paramsContainer.getChildren().clear();
+                break;
+            case "nextRow":
+                paramsContainer.getChildren().clear();
+                break;
+
         }
     }
 
@@ -186,6 +201,18 @@ public class LogicBox {
             box.getChildren().add(1, paramsContainer);
     }
 
+    private void addReportVal(){
+        reportValList = new ArrayList<>();
+        ReportBox reportBox = new ReportBox();
+        reportBox.remove.setOnAction(event -> {
+            paramsContainer.getChildren().remove(reportBox.render());
+            reportValList.remove(reportBox);
+        });
+        paramsContainer.getChildren().add(reportBox.render());
+        reportValList.add(reportBox);
+        box.getChildren().remove(paramsContainer);
+        box.getChildren().add(1, paramsContainer);
+    }
     public Node render() {
         return box;
     }

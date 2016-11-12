@@ -20,7 +20,20 @@ public class LogicParser {
     private List<String> parameters;
     LogicParser() {
         opReport = new Report();
-        opReport.addColumn(new String[]{Report.SNO,Report.FILE_NAME,Report.FILE_PATH});
+        opReport.addColumn(new String[]{Report.SNO});
+        if(outputReportController.inputColumn.size() == 1){
+            opReport.addColumn(outputReportController.inputColumn.get(0));
+            if(outputReportController.reportColumn.size() > 0)
+                for(String column: outputReportController.reportColumn)
+                    opReport.addColumn(column);
+        }
+        else if(outputReportController.inputColumn.size() == 2){
+            opReport.addColumn(outputReportController.inputColumn.get(0));
+            if(outputReportController.reportColumn.size() > 0)
+                for(String column: outputReportController.reportColumn)
+                    opReport.addColumn(column);
+            opReport.addColumn(outputReportController.inputColumn.get(1));
+        }
         opReport.setDefaultKey();
         Parser parser = ParserFactory.getParser(ParserFactory.Parsers.VTD);
         vtdParser = (VTDParser) parser;
@@ -33,7 +46,6 @@ public class LogicParser {
         vtdParser.parse(file);
         createElementFromTags();
         if(vtdParser.checkRootFor(roots)){
-            opReport.initRow(file);
             csvParse.logicBoxes.forEach((box) -> runLogic(box, file));
             opReport.incrementKey();
         }
@@ -56,13 +68,24 @@ public class LogicParser {
                 search(box,file);
                break;
             case "Report":
-                report(box);
+                report(box,file);
                 break;
         }
     }
 
-    private void report(LogicBox box) {
-
+    private void report(LogicBox box,File file) {
+        String method = box.methods.getValue();
+        switch (method){
+            case "initRow":
+                opReport.initRow(file);
+                break;
+            case "addValue":
+                evalReportBox(box,file);
+                break;
+            case "nextRow":
+                opReport.incrementKey();
+                break;
+        }
     }
 
     private void search(LogicBox box,File file) {
@@ -76,13 +99,13 @@ public class LogicParser {
         String method = box.methods.getValue();
         switch (method){
             case "updateAttr":
-                parameters = evalParms(box,file);
+                parameters = evalParmBox(box,file);
                 e.updateAttr(parameters.get(0),parameters.get(1),file);
                 break;
             case "insertAttrAtFront":
                 break;
             case "insertAttrAtEnd":
-                parameters = evalParms(box,file);
+                parameters = evalParmBox(box,file);
                 String insert = parameters.get(0)+"=\""+parameters.get(1)+"\"";
                 e.insertAtEnd(insert,file);
                 break;
@@ -131,7 +154,7 @@ public class LogicParser {
         if(evalCondition(box,file))
             processChildren(box,file);
     }
-    private List<String> evalParms(LogicBox box, File file){
+    private List<String> evalParmBox(LogicBox box, File file){
         List<ParamBox> paramBoxes = box.paramList;
         List<String> params = new ArrayList<>();
         for(ParamBox paramBox: paramBoxes){
@@ -168,13 +191,25 @@ public class LogicParser {
         }
         return parameter;
     }
+    private void evalReportBox(LogicBox box,File file){
+        List<ReportBox> reportBoxList = box.reportValList;
+        for(ReportBox reportBox: reportBoxList){
+            String column = reportBox.reportColumns.getValue();
+            List<Param> concats = reportBox.paramBox.concats;
+            String value = "";
+            for(Param param: concats){
+                value += evalParam(param, file);
+            }
+            opReport.addValue(column,value);
+        }
+    }
     private Boolean evalCondition(LogicBox box,File file){
         Element e = elements.get(box.tags.getValue());
         String method = box.methods.getValue();
         Boolean result = false;
         switch(method){
             case "hasAttr":
-                parameters = evalParms(box,file);
+                parameters = evalParmBox(box,file);
                 result = e.hasAttr(parameters.get(0));
                 System.out.println("hasAttr: "+ e.hasAttr(parameters.get(0)));
                 break;

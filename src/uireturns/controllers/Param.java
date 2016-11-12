@@ -42,7 +42,8 @@ public class Param {
         this.concat = new Button("+");
         //Delete Button
         this.delete = new Button("x");
-
+        //
+        this.inputType.setValue("TextField");
         //Make HBox
         if(includeLabel) {
             hbox.getChildren().addAll(paramName, inputType, delete, concat);
