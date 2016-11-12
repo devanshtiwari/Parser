@@ -7,7 +7,6 @@ import com.report.Report;
 import com.xpathgenerator.Tag;
 
 import java.io.File;
-import java.io.IOException;
 
 public class RowHeader {
     public static void main(String[] args){
