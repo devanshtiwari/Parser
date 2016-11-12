@@ -187,6 +187,7 @@ public class LogicParser {
                 parameter = e.getAttrVal(param.inputField.getText());
                 break;
             case "From CSV":
+                parameter = csvParse.iter.getValue(param.csvColumns.getValue());
                 break;
         }
         return parameter;
