@@ -156,13 +156,13 @@ public class LogicBox {
                 addParam(new String[]{"Attribute Name","Update Value"});
                 break;
             case "insertAttrAtFront":
-                addParam(new String[]{});
+                addParam(new String[]{"Attribute Name","Attribute Value"});
                 break;
             case "insertAttrAtEnd":
                 addParam(new String[]{"Attribute Name","Attribute Value"});
                 break;
             case "removeAttr":
-                addParam(new String[]{});
+                addParam(new String[]{"Attribute Name"});
                 break;
             case "removeElement":
                 addParam(new String[]{});
