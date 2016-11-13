@@ -41,6 +41,9 @@ public class FastSearch {
     public void setExtensions(List<String> extensions) {
         this.extensions = extensions;
     }
+    public void setExtensions(String[] extensions){
+        this.extensions = Arrays.asList(extensions);
+    }
 
     /**
      * This method will take input the path of directory to be indexed and then index the whole directory.
@@ -117,8 +120,8 @@ public class FastSearch {
             return Fsearch(filename,new String[]{}, dir);
         }
     }
-    public ArrayList<File> Fsearch(String filename, List<String> extn, Boolean dir){
-        return Fsearch(filename, (String[]) extn.toArray(),dir);
+    public ArrayList<File> Fsearch(String filename, String[] exten, Boolean dir){
+        return Fsearch(filename, Arrays.asList(exten),dir);
     }
 
     /**
@@ -127,8 +130,8 @@ public class FastSearch {
      * @param dir dir takes true if it is directory name to be searched or false when it is file to be searched.
      * @return ArrayList of String which is specific directory of search
      */
-    public ArrayList<File> Fsearch(String filename,String[] exten, Boolean dir) {
-        this.setExtensions(Arrays.asList(exten));
+    public ArrayList<File> Fsearch(String filename,List<String> exten, Boolean dir) {
+        this.setExtensions(exten);
         FileDetail temp = new FileDetail();
         temp.setName(filename);
         temp.setDir(dir);

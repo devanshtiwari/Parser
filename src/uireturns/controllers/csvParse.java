@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static uireturns.controllers.AppController.*;
@@ -264,11 +265,12 @@ public class csvParse {
                     int i=0;
                     int size= reader.getReport().size();
                     iter = reader.getIterator();
+                    fastSearch.setExtensions(extns);
                     while (iter.hasNext()){
                         if(isCancelled())
                             break;
                         iter.next();
-                        ArrayList<File> files = fastSearch.Fsearch(iter.getValue(fileColumn));
+                        ArrayList<File> files = fastSearch.Fsearch(iter.getValue(fileColumn),true);
                         for(File f: files) {
                             if (checkInPath(f)) {
                                 logicParser.parseXML(f, roots);

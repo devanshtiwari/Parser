@@ -17,7 +17,10 @@ public class Param {
     Button concat;
     Button delete;
     private int insertIndex;
-    Param(String param, Boolean isCSV,Boolean includeLabel){
+    private boolean includeLabel;
+    Param(String param, boolean isCSV,boolean includeLabel){
+        //class variables
+        this.includeLabel = includeLabel;
         hbox = new HBox();
         hbox.setSpacing(5);
         Label paramName = new Label(param);
@@ -78,7 +81,10 @@ public class Param {
                 break;
             case "From CSV":
                 hbox.getChildren().removeAll(inputField,csvColumns);
-                hbox.getChildren().add(1,csvColumns);
+                if(includeLabel)
+                    hbox.getChildren().add(2,csvColumns);
+                else
+                    hbox.getChildren().add(1,csvColumns);
                 csvColumns.setPromptText("Select");
                 break;
         }

@@ -215,7 +215,11 @@ public class LogicParser {
                 System.out.println("hasAttr: "+ e.hasAttr(parameters.get(0)));
                 break;
             case "checkAttrVal":
-                result = e.getAttrVal(parameters.get(0)).equals(parameters.get(1));
+                parameters = evalParmBox(box,file);
+                if(e.hasAttr(parameters.get(0)))
+                    result = e.getAttrVal(parameters.get(0)).equals(parameters.get(1));
+                else
+                    result = false;
                 break;
         }
         return result;
