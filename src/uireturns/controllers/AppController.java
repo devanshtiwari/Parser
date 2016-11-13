@@ -7,10 +7,12 @@ import com.xpathgenerator.Tag;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.Accordion;
 import javafx.scene.layout.AnchorPane;
 import org.controlsfx.control.StatusBar;
 
 public class AppController {
+
     //FXML variables
     public AnchorPane container;
     //Parser Library Variables
@@ -23,6 +25,7 @@ public class AppController {
 
     //Util Variables
     static BooleanProperty indexing = new SimpleBooleanProperty(false);
+    public Accordion leftpane;
 
     @FXML
      bottomPaneController bottomPaneController;
@@ -49,7 +52,7 @@ public class AppController {
         spreadsheetController.init(this);
         tagsController.init(this);
         addStatusBar();
-        logicController.addCsvView(true);
+        logicController.addCsvView(false);
     }
 
     private void addStatusBar(){

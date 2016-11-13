@@ -14,10 +14,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import org.controlsfx.control.Notifications;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static uireturns.controllers.AppController.*;
@@ -31,6 +31,7 @@ public class csvParse {
     private ComboBox<String> pathCheckType;
     private Button run;
     private Button cancel;
+
     //Util Variables
     private String[] extns = new String[]{};
     private String[] roots = new String[]{};
@@ -40,7 +41,8 @@ public class csvParse {
     static List<LogicBox> logicBoxes = new ArrayList<>();
     public boolean isCSV;
     static ssIterator iter;
-    IntegerProperty statusValue = new SimpleIntegerProperty(0);
+    IntegerProperty countfile = new SimpleIntegerProperty(0);
+    outputReportController outputReportController;
     csvParse(boolean isCSV){
         this.isCSV = isCSV;
         vBox = new VBox();
@@ -187,20 +189,24 @@ public class csvParse {
         @Override
         protected Task<Void> createTask() {
             return new Task<Void>() {
+                LogicParser logicParser;
+
                 @Override
                 protected Void call() throws Exception {
+                    countfile.setValue(0);
                     cancel.setDisable(false);
                     run.setDisable(true);
-                    bottomPaneController.consoleText.appendText("\nParsing all the Files\n");
+                    bottomPaneController.consoleText("Parsing all the Files");
                     if(extnsInput.getText().length() != 0)
                         extns = extnsInput.getText().split(",");
                     if(rootsInput.getText().length() != 0)
                         roots = rootsInput.getText().split(",");
                     validFiles = AppController.fastSearch.ExSearch(extns);
-                    LogicParser logicParser = new LogicParser();
+                    logicParser = new LogicParser();
                     int i=0;
                     int size= validFiles.size();
                     for(File f : validFiles){
+                        countfile.setValue(countfile.getValue() +1);
                         if(isCancelled())
                             break;
                         if(checkInPath(f)) {
@@ -220,7 +226,8 @@ public class csvParse {
                     statusBar.getRightItems().add(new Label("Parsing Cancelled"));
                     run.setDisable(false);
                     cancel.setDisable(true);
-                    bottomPaneController.consoleText.appendText("Parsing Cancelled\n");
+                    bottomPaneController.consoleText("Parsing Cancelled");
+                    Notifications.create().title("Parsed Files").text("Parsing Cancelled").showWarning();
                 }
 
                 @Override
@@ -230,7 +237,17 @@ public class csvParse {
                     statusBar.getRightItems().addAll(new Label("Parsing Done"));
                     run.setDisable(false);
                     cancel.setDisable(true);
-                    bottomPaneController.consoleText.appendText("Parsing Successful!\n");
+                    if(!outputReportController.opReportPath.getText().isEmpty() && !outputReportController.opReport.getText().isEmpty()){
+                        logicParser.getOpReport().saveCSV(outputReportController.opReportPath.getText(),outputReportController.opReport.getText());
+                        Notifications.create().title("CSV Notification").text("CSV Report Saved Successfully").showInformation();
+                    }
+                    else
+                    {
+                        bottomPaneController.consoleText("File Save Unsuccessful: Path or Name Empty");
+                    }
+                    bottomPaneController.consoleText("Parsing Successful!");
+                    bottomPaneController.consoleText("Successfully Parsed "+countfile.getValue()+" Files");
+                    Notifications.create().title("Parsed Files").text("Parsed "+countfile.getValue()+ " Files").showInformation();
                 }
 
                 @Override
@@ -241,7 +258,8 @@ public class csvParse {
                     statusBar.getRightItems().addAll(new Label("Parsing Failed."));
                     run.setDisable(false);
                     cancel.setDisable(true);
-                    bottomPaneController.consoleText.appendText("Parsing Failed\n");
+                    bottomPaneController.consoleText("Parsing Failed");
+                    Notifications.create().title("Parsed Files").text("Parsing Failed").showError();
                 }
             };
         }
@@ -250,18 +268,20 @@ public class csvParse {
         @Override
         protected Task<Void> createTask() {
             return new Task<Void>() {
+                LogicParser logicParser;
                 @Override
                 protected Void call() throws Exception {
+                    countfile.setValue(0);
                     cancel.setDisable(false);
                     run.setDisable(true);
-                    bottomPaneController.consoleText.appendText("\nParsing all the Files\n");
+                    bottomPaneController.consoleText("Parsing all the Files");
                     if(extnsInput.getText().length() != 0)
                         extns = extnsInput.getText().split(",");
                     if(rootsInput.getText().length() != 0)
                         roots = rootsInput.getText().split(",");
                     //File Column
                     String fileColumn = csvColumns.getValue();
-                    LogicParser logicParser = new LogicParser();
+                    logicParser = new LogicParser();
                     int i=0;
                     int size= reader.getReport().size();
                     iter = reader.getIterator();
@@ -272,6 +292,7 @@ public class csvParse {
                         iter.next();
                         ArrayList<File> files = fastSearch.Fsearch(iter.getValue(fileColumn),true);
                         for(File f: files) {
+                            countfile.setValue(countfile.getValue()+1);
                             if (checkInPath(f)) {
                                 logicParser.parseXML(f, roots);
                             }
@@ -289,7 +310,8 @@ public class csvParse {
                     statusBar.getRightItems().add(new Label("Parsing Cancelled"));
                     run.setDisable(false);
                     cancel.setDisable(true);
-                    bottomPaneController.consoleText.appendText("Parsing Cancelled\n");
+                    bottomPaneController.consoleText("Parsing Cancelled");
+                    Notifications.create().title("Parsed Files").text("Parsing Cancelled").showWarning();
                 }
 
                 @Override
@@ -299,7 +321,17 @@ public class csvParse {
                     statusBar.getRightItems().addAll(new Label("Parsing Done"));
                     run.setDisable(false);
                     cancel.setDisable(true);
-                    bottomPaneController.consoleText.appendText("Parsing Successful!\n");
+                    if(!outputReportController.opReportPath.getText().isEmpty() && !outputReportController.opReport.getText().isEmpty()){
+                        logicParser.getOpReport().saveCSV(outputReportController.opReportPath.getText(),outputReportController.opReport.getText());
+                        Notifications.create().title("CSV Notification").text("CSV Report Saved Successfully").showInformation();
+                    }
+                    else
+                    {
+                        bottomPaneController.consoleText("File Save Unsuccessful: Path or Name Empty");
+                    }
+                    bottomPaneController.consoleText("Parsing Successful!");
+                    bottomPaneController.consoleText("Successfully Parsed "+countfile.getValue()+" Files");
+                    Notifications.create().title("Parsed Files").text("Parsed "+countfile.getValue()+ " Files").showInformation();
                 }
 
                 @Override
@@ -310,11 +342,13 @@ public class csvParse {
                     statusBar.getRightItems().addAll(new Label("Parsing Failed."));
                     run.setDisable(false);
                     cancel.setDisable(true);
-                    bottomPaneController.consoleText.appendText("Parsing Failed\n");
+                    bottomPaneController.consoleText("Parsing Failed");
+                    Notifications.create().title("Parsed Files").text("Parsing Failed").showError();
                 }
             };
         }
     }
+
     private boolean checkInPath(File file) {
         String type = pathCheckType.getValue();
         if(pathCheckInput.getText().length() != 0) {

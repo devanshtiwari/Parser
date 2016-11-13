@@ -17,6 +17,7 @@ public class logicController {
 
     public void addCsvView(boolean isCSV) {
         csvParse csvParse = new csvParse(isCSV);
+        csvParse.outputReportController = appController.outputReportController;
         centerContainer.getChildren().clear();
         centerContainer.getChildren().add(csvParse.render());
     }

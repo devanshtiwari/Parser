@@ -15,7 +15,7 @@
             </HBox.margin>
         </Label>
         <TextField fx:id="proDir" promptText="Select Project Folder" HBox.hgrow="ALWAYS" />
-        <Button fx:id="fileSelector" mnemonicParsing="false" onAction="#selectProjectDir" text="+" />
+        <Button fx:id="fileSelector" mnemonicParsing="false" onAction="#selectProjectDir" text="Browse" />
         <ComboBox fx:id="parseMethod" onAction="#parserMethodSelector" prefWidth="150.0" promptText="Select Method">
             <HBox.margin>
                 <Insets left="16.0" />

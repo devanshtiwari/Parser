@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
+import org.controlsfx.control.Notifications;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +28,9 @@ public class projectConfigController {
     private String proDirTextVal = "";
     private indexService indexService = null;
     public void initialize() throws IOException {
+        parser.getItems().add("VTD Parser");
+        parser.getSelectionModel().selectFirst();
+
         proDir.focusedProperty().addListener(((observable, oldValue, newValue) -> {
             if(!newValue) {
                 if (!proDirTextVal.equals(proDir.getText())) {
@@ -41,8 +45,8 @@ public class projectConfigController {
         }));
 
         List<String> methods = new ArrayList<String>();
-        methods.add("CSV");
         methods.add("Non CSV");
+        methods.add("CSV");
         parseMethod.getItems().addAll(methods);
         parseMethod.getSelectionModel().selectFirst();
     }
@@ -68,11 +72,7 @@ public class projectConfigController {
             indexService = new indexService();
             indexService.stateProperty().addListener((obs, oldState, newState) -> System.out.println(newState));
             indexService.restart();
-            ProgressIndicator progressIndicator = new ProgressIndicator();
-            progressIndicator.setPadding(new Insets(3));
-            progressIndicator.setProgress(progressIndicator.INDETERMINATE_PROGRESS);
-            statusBar.getRightItems().clear();
-            statusBar.getRightItems().addAll(new Label("Indexing"),progressIndicator);
+
             proDirTextVal = proDir.getText();
         }
     }
@@ -94,40 +94,51 @@ public class projectConfigController {
 
     //Index Service
     private class indexService extends Service<Void> {
+        ProgressIndicator progressIndicator = new ProgressIndicator();
+        Label status = new Label();
         @Override
         protected Task<Void> createTask() {
             return new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    bottomPaneController.consoleText.appendText("\nIndexing the Project Directory "+proDir.getText()+"\n");
+                    bottomPaneController.consoleText("Indexing the Project Directory "+proDir.getText());
                     AppController.fastSearch.init(proDir.getText());
                     return null;
                 }
 
                 @Override
+                protected void running() {
+                    super.running();
+                    statusBar.getRightItems().removeAll(status,progressIndicator);
+                    status.setText("Indexing");
+                    progressIndicator.setPadding(new Insets(3));
+                    progressIndicator.setProgress(progressIndicator.INDETERMINATE_PROGRESS);
+                    statusBar.getRightItems().addAll(status,progressIndicator);
+                }
+
+                @Override
                 protected void cancelled() {
                     super.cancelled();
-                    statusBar.getRightItems().clear();
-                    statusBar.getRightItems().add(new Label("Indexing Cancelled"));
-                    bottomPaneController.consoleText.appendText("Indexing Cancelled! \n");
+                    statusBar.getRightItems().removeAll(status,progressIndicator);
+                    bottomPaneController.consoleText("Indexing Cancelled! ");
                 }
 
                 @Override
                 protected void succeeded() {
                     super.succeeded();
-                    statusBar.getRightItems().clear();
-                    statusBar.getRightItems().addAll(new Label("Indexing Done"));
+                    statusBar.getRightItems().removeAll(status,progressIndicator);
                     indexing.setValue(true);
-                    bottomPaneController.consoleText.appendText("Indexing Successful! \n");
+                    bottomPaneController.consoleText("Indexing Successful! ");
+                    Notifications.create().title("Indexed").text("Indexing Successful").showInformation();
                 }
                 @Override
                 protected void failed() {
                     super.failed();
                     super.cancel();
-                    statusBar.getRightItems().clear();
+                    statusBar.getRightItems().removeAll(status,progressIndicator);
                     statusBar.setText("OK");
-                    statusBar.getRightItems().addAll(new Label("Indexing Failed."));
-                    bottomPaneController.consoleText.appendText("Indexing Failed! \n");
+                    bottomPaneController.consoleText("Indexing Failed!");
+                    Notifications.create().title("Indexed").text("Indexing Failed.").showError();
                 }
             };
         }

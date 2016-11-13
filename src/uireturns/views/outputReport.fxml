@@ -17,8 +17,8 @@
             <content>
                 <GridPane fx:id="gpane">
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" />
-                        <ColumnConstraints hgrow="SOMETIMES" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                        <ColumnConstraints hgrow="ALWAYS" />
                     </columnConstraints>
                     <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -30,17 +30,14 @@
                         <Label text="Report Name" />
                         <TextField fx:id="opReport" promptText="Output Report Name" GridPane.columnIndex="1">
                      <GridPane.margin>
-                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                        <Insets />
                      </GridPane.margin></TextField>
                         <Label text="Report Path" GridPane.rowIndex="1" />
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <children>
                                 <TextField fx:id="opReportPath" promptText="Select Report Path" HBox.hgrow="ALWAYS" />
-                                <Button fx:id="opReportBrowse" mnemonicParsing="false" onAction="#opReportBrowse" style="-fx-wrap-text: true;" text="+" />
+                                <Button fx:id="opReportBrowse" mnemonicParsing="false" onAction="#opReportBrowse" style="-fx-wrap-text: true;" text="Browse" HBox.hgrow="ALWAYS" />
                             </children>
-                     <padding>
-                        <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                     </padding>
                         </HBox>
                         <Label text="Columns" GridPane.rowIndex="3" />
                         <HBox alignment="CENTER_LEFT" layoutX="87.0" layoutY="40.0" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -57,6 +54,9 @@
                   </HBox>
                   <Label text="Select Columns" GridPane.rowIndex="2" />
                     </children>
+               <padding>
+                  <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+               </padding>
                 </GridPane>
             </content>
         </ScrollPane>

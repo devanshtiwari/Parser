@@ -55,6 +55,7 @@ public class outputReportController {
     public void initialize(){
         defaultcol.setPadding(new Insets(8,8,8,8));
         gpane.add(defaultcol,1,2);
+        gpane.setHgrow(defaultcol,Priority.ALWAYS);
         defaultcol.getCheckModel().getCheckedItems().addListener((InvalidationListener) observable -> {
             inputColumn.clear();
             inputColumn.addAll(defaultcol.getCheckModel().getCheckedItems());
@@ -97,7 +98,7 @@ public class outputReportController {
             setSeq();
             count++;
             name.setPromptText("Column Name");
-            hbox.setPadding(new Insets(4,8,4,8));
+            hbox.setPadding(new Insets(4,8,4,0));
             hbox.setHgrow(name, Priority.ALWAYS);
             hbox.setHgrow(addNew,Priority.ALWAYS);
             addNew.setWrapText(true);
@@ -160,4 +161,5 @@ public class outputReportController {
             disable.setValue(1);
         }
     }
+
 }

@@ -33,4 +33,8 @@ public class bottomPaneController {
         consoleText.setText("Welcome to Generic Parser");
         bottomTab.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
     }
+
+    public static void consoleText(String text){
+        consoleText.appendText("\n"+text);
+    }
 }

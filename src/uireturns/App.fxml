@@ -20,10 +20,10 @@
                             <items>
                                 <AnchorPane prefHeight="200.0" prefWidth="200.0">
                                     <children>
-                                        <Accordion layoutX="-56.0" layoutY="23.0" prefHeight="159.0" prefWidth="146.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" expandedPane="$spreadsheet">
+                                        <Accordion fx:id="leftpane" layoutX="-56.0" layoutY="23.0" prefHeight="159.0" prefWidth="146.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" expandedPane="$outputReport">
                                             <panes>
-                                                <fx:include fx:id="spreadsheet" source="views/spreadsheet.fxml" />
                                                 <fx:include fx:id="outputReport" source="views/outputReport.fxml" />
+                                                <fx:include fx:id="spreadsheet" source="views/spreadsheet.fxml" />
                                             </panes>
                                         </Accordion>
                                     </children>
