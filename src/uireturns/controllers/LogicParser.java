@@ -103,6 +103,9 @@ public class LogicParser {
                 e.updateAttr(parameters.get(0),parameters.get(1),file);
                 break;
             case "insertAttrAtFront":
+                parameters = evalParmBox(box,file);
+                String insertAtFront = parameters.get(0)+"=\""+parameters.get(1)+"\"";
+                e.insertAttr(insertAtFront,file);
                 break;
             case "insertAttrAtEnd":
                 parameters = evalParmBox(box,file);
@@ -110,8 +113,11 @@ public class LogicParser {
                 e.insertAtEnd(insert,file);
                 break;
             case "removeAttr":
+                parameters = evalParmBox(box,file);
+                e.removeAttribute(parameters.get(0),file);
                 break;
             case "removeElement":
+                e.removeElement(file);
                 break;
         }
     }
