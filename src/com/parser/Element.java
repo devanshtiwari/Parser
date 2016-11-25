@@ -1,7 +1,6 @@
 package com.parser;
 
 import com.ximpleware.*;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,11 +9,27 @@ import java.util.Map;
 
 import static com.parser.VTDParser.*;
 
+/**
+ * This class Element deals with all the VTD XML Parser {@link VTDParser} and  operations. Operations on the Element, like addition of attribute,
+ * deletion of attribute, modification of attribute and modification of whole element is done in the class.
+ * @author Devansh and Avinash
+ * @since 2016-11-14
+ */
 public class Element {
     AutoPilot ap;
+
+    /**
+     * Constructor initializes the AutoPilot. Element is called in VTDParser.
+     * @param ap
+     */
     Element(AutoPilot ap){
         this.ap = ap;
     }
+
+    /**
+     * This function evaluates the Autopilot and moves the cursor to next position/node.
+     * @return returns non zero value if moved to next node, -1 if no nodes are left.
+     */
     public int next(){
         try {
             return this.ap.evalXPath();
@@ -24,6 +39,10 @@ public class Element {
         return 0;
     }
 
+    /**
+     * This function removes the whole tag. for example, it will remove whole {@code <tag attr="hello">tag1</tag>} .
+     * @param file Takes the file as parameter to write the changes as it is executed.
+     */
     public void removeElement(File file){
         long elementFragment= 0;
         try {
@@ -34,6 +53,11 @@ public class Element {
             e.printStackTrace();
         }
     }
+
+    /**
+     * @param attr Checks for the attribute attr in the Element.
+     * @return Returns true or false.
+     */
     public Boolean hasAttr(String attr){
         try {
             if(vn.hasAttr(attr))
@@ -43,6 +67,11 @@ public class Element {
         }
         return false;
     }
+
+    /**
+     * @param attr
+     * @return String with the value of the attribute attr
+     */
     public String getAttrVal(String attr){
         if(hasAttr(attr))
             try {
@@ -53,6 +82,12 @@ public class Element {
 
         return null;
     }
+
+    /**
+     * Removes the attribute attr. It takes file as input so as to write the changes atraight away.
+     * @param attr
+     * @param file
+     */
     public void removeAttribute(String attr, File file){
         try {
             if(vn.hasAttr(attr)){
@@ -63,6 +98,13 @@ public class Element {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Updates Attribute Value of attr to updatedVal. Takes File as input to write the changes staight away.
+     * @param attr
+     * @param updatedVal
+     * @param file
+     */
     public void updateAttr(String attr,String updatedVal,File file){
         try {
             if(vn.hasAttr(attr)){
@@ -76,15 +118,29 @@ public class Element {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Inserts attribute at the beginning of the Tag.
+     * @param insert it contains attribute in the form attr="attrval" which is inserted in the Tag.
+     * @param file Takes file as input to write changes.
+     */
     public void insertAttr(String insert,File file){
         try {
-            xm.insertAttribute(insert);
+            xm.insertAttribute(" "+insert);
             writeChanges(file);
         } catch (ModifyException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * This function inserts attribute at a specific index in the tag. This method is created so as to implement the method insert
+     * Attribute at End.
+     * @param index Index at which attribute to be inserted
+     * @param attr Attribute to be inserted
+     * @throws ModifyException
+     * @throws UnsupportedEncodingException
+     */
     private void insertAttrAtIndex(int index, String attr) throws ModifyException, UnsupportedEncodingException {
         int type = vn.getTokenType(index);
         int offset = vn.getTokenOffset(index);
@@ -97,7 +153,11 @@ public class Element {
     }
 
 
-
+    /**
+     * This method inserts attribute at end of the tag. If there are several attributes, it will insert new attribute after last attribute.
+     * @param insertAttr
+     * @param file
+     */
     public void insertAtEnd(String insertAttr, File file) {
         AutoPilot apAttr = new AutoPilot();
         int i, j = -1, m = 0, diff = 0;
@@ -118,15 +178,22 @@ public class Element {
                 diff = vn.getTokenOffset(i+1) + vn.getTokenLength(i+1)+1;
                 j = i+1;
             }
-            int whiteSpace = mostCommon(diffArray) - 2;
-            indent = new String(new char[whiteSpace]).replace("\0", " ");
-            if(whiteSpace != 0)
-                indent = "\r\n" + indent;
+            int whiteSpace = 0 ;
+            if(diffArray.size() != 0) {
+                whiteSpace = mostCommon(diffArray) - 2;
+                indent = new String(new char[whiteSpace]).replace("\0", " ");
+                if (whiteSpace != 0)
+                    indent = "\r\n" + indent;
+                else
+                    indent = " ";
+                insert = indent + insertAttr;
+                insertAttrAtIndex(j, insert);
+                writeChanges(file);
+            }
             else
-                indent = " ";
-            insert = indent + insertAttr;
-            insertAttrAtIndex(j,insert);
-            writeChanges(file);
+            {
+                insertAttr(insertAttr,file);
+            }
         } catch (XPathParseException | XPathEvalException | NavException | ModifyException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -134,6 +201,13 @@ public class Element {
     }
 
     //Utility Functions
+
+    /**
+     * A utility function just to find the most number occurring spaces between two attributes.
+     * @param list
+     * @param <T>
+     * @return
+     */
     private  <T> T mostCommon(List<T> list) {
         Map<T, Integer> map = new HashMap<>();
 
@@ -156,6 +230,11 @@ public class Element {
         return null;
     }
 
+    /**
+     * Utitlity from VTDParser, just to implmenet insert at the end.
+     * @return
+     * @throws ModifyException
+     */
     private String getCharSet() throws ModifyException {
         String charSet;
         switch(vn.getEncoding()){

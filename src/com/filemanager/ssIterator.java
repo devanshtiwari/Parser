@@ -1,7 +1,9 @@
 package com.filemanager;
 
 /**
- * Created by avinaana on 10/25/2016.
+ * Interface ssIterator to be implemented in others.
+ * @author Devansh and Avinash
+ * @since 2016-11-14
  */
 public interface ssIterator {
     public boolean hasNext();

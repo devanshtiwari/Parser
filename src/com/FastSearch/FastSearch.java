@@ -12,7 +12,8 @@ import java.util.List;
 
 /**
  * <h1>FastSearch!</h1>
- * FastSearch class helps in fast repetitive search, which will help reduce time in searching directories again and again.
+ *
+ * <p>FastSearch class helps in fast repetitive search, which will help reduce time in searching directories again and again.</p>
  *
  * @author  Devansh Tiwari
  * @version 1.0
@@ -20,6 +21,7 @@ import java.util.List;
  */
 
 public class FastSearch {
+
 
     public FastSearch() {
     }
@@ -125,7 +127,7 @@ public class FastSearch {
     }
 
     /**
-     *
+     * Get ArrayList of Files having the extensions given in the parameter of the method.
      * @param filename Takes input the name of the File to be searched
      * @param dir dir takes true if it is directory name to be searched or false when it is file to be searched.
      * @return ArrayList of String which is specific directory of search
@@ -157,16 +159,28 @@ public class FastSearch {
         }
         return dirs;
     }
+
+    /**
+     *
+     * @param extn
+     * @return ArrayList of File which contain any of the extension in the extension Parameter
+     *
+     * Overloaded function taking parameters of extensions as list.
+     */
     public ArrayList<File> ExSearch(String[] extn){
         return ExSearch(extn,false);
     }
 
 
+    /**
+     * @param exten String array of Extensions. Example, {"xml","jsff"}
+     * @param ignoreDuplicate ignoreDuplicate takes true if duplicate are to be ignored. False if duplicates are also to be considered.
+     * @return Arraylist of file with given extensions.
+     */
     public ArrayList<File> ExSearch(String[] exten, Boolean ignoreDuplicate){
         this.setExtensions(Arrays.asList(exten));
 
         ArrayList<File> dirs = new ArrayList<>();
-        FileDetail temp = new FileDetail();
         for(FileDetail f: F) {
 
             if(this.extensions.contains(f.getExten())) {
@@ -185,30 +199,67 @@ public class FastSearch {
         return dirs;
     }
 
+    /**
+     * @param exten
+     * @return ArrayList of Files of reuired Extensions.
+     */
     public ArrayList<File> ExSearch(String exten){
         return ExSearch(new String[] {exten});
     }
+
+    /**
+     * @param exten
+     * @param ignoreDuplicate ignoreDuplicate takes true if duplicate are to be ignored. False if duplicates are also to be considered.
+     * @return ArrayList of Files of given extension.
+     */
     public ArrayList<File> ExSearch(String exten,Boolean ignoreDuplicate){
         return ExSearch(new String[] {exten},ignoreDuplicate);
     }
 
+    /**
+     * Get whole indexed file list.
+     * @return Returns ArraList of whole File Directory List
+     */
     public ArrayList<FileDetail> getFileList() {
         return F;
     }
 
+    /**
+     * Get File Value from File Path for easy access to each index of directory.
+     * Example, For Directory, {C:/test1/test2/test3} and index 2, test2 is returned.
+     * @param path
+     * @param index
+     * @return String of required index from the file Path.
+     */
     public static String getValueFromFilePath(String path, int index){
         return path.split("\\\\")[index];
     }
 
+    /**
+     * Get String array for the File path splitting on \.
+     * @param path
+     * @return String Array.
+     */
     public static String[] getArrayFromFilePath(String path){  return path.split("\\\\");}
 
+    /**
+     * @param substring Substring to check for int the File Path
+     * @param file File to check Path for.
+     * @return Boolean return true or false.
+     */
     public static boolean pathCheckBySubstring(String substring, File file){
         String path = file.getAbsolutePath();
         return path.contains(substring);
     }
+
+    /**
+     *
+     * @param keywords Keywords to check for in Path .
+     * @param file File for the path to be checked for
+     * @return True ot False
+     */
     public static boolean pathCheckByKeywords(String[] keywords, File file){
         String[] path = getArrayFromFilePath(file.getAbsolutePath());
-        Boolean result = false;
         return Arrays.asList(path).containsAll(Arrays.asList(keywords));
     }
 }

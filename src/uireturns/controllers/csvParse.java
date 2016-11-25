@@ -327,7 +327,7 @@ public class csvParse {
                     }
                     else
                     {
-                        bottomPaneController.consoleText("File Save Unsuccessful: Path or Name Empty");
+                        bottomPaneController.consoleText("Output Report File Save Unsuccessful: Path or Name Empty");
                     }
                     bottomPaneController.consoleText("Parsing Successful!");
                     bottomPaneController.consoleText("Successfully Parsed "+countfile.getValue()+" Files");

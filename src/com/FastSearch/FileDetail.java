@@ -4,7 +4,7 @@ import java.io.File;
 
 /**
  * <h1>FileDetail</h1>
- * <p>FileDetail Class encapsulates the File details which will ultimately help in searching of files. </p>
+ * <p>FileDetail Class encapsulates the relevant File details which will ultimately help in searching of files. </p>
  * @author Devansh Tiwari
  * @version 1.0
  * @since 2016-08-11

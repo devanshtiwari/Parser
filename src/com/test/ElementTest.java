@@ -1,7 +1,6 @@
 package com.test;
 
 import com.FastSearch.FastSearch;
-import com.filemanager.*;
 import com.parser.*;
 import com.report.*;
 import com.xpathgenerator.*;
@@ -32,7 +31,6 @@ public class ElementTest {
                     R.addValue(key, "Root Name", vtdParser.getRootElementName());
                     while (e.next() != -1) {
                         System.out.println("--" + e.getAttrVal("trustMode"));
-//                        e.updateAttr("trustMode","updated",f);
                         if(e.hasAttr("trustMode"))
                             e.insertAttr(" trustMode=\"trusted\" ",f);
                         R.addValue(key , "ID", e.getAttrVal("trustMode"));

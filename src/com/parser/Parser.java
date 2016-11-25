@@ -3,7 +3,7 @@ package com.parser;
 import java.io.File;
 
 /**
- * Created by avinaana on 10/19/2016.
+ * Parser interface can be implement to any number of Parsers.
  */
 public interface Parser {
     void parse(File file);

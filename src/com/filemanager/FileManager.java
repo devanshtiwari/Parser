@@ -7,6 +7,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
+/**
+ * This class is obsolete now, as all the required functions can now be fulfilled from FastSearch module. This structure also indexes
+ * the whole given directory in an arraylist and then returns it.
+ * @author Devansh and Avinash
+ * @since 2016-11-14
+ */
 public class FileManager {
     public ArrayList<File> getFileList() {
         return fileList;

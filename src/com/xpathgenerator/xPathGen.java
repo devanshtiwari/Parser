@@ -2,8 +2,18 @@ package com.xpathgenerator;
 
 import java.util.Objects;
 
-
+/**
+ * <h1>XPath Generator</h1>
+ * <p>Xpath Generator generates the final Xpath using the objects of Tag, which contains the value of attributes, names etc. </p>
+ * @author Avinash and Devansh
+ * @since 2016-11-14
+ */
 class xPathGen {
+    /**
+     * This is the method which will generate XPath, whenever called, using the values of objects of Tag and Attribute.
+     * @param tag
+     * @return
+     */
     String getXpath(Tag tag){
         String xpath = "";
         xpath += "//";

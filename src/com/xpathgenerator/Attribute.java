@@ -1,9 +1,20 @@
 package com.xpathgenerator;
 
+/**
+ * <h1>Attribute</h1>
+ * <p>Attribute class manages the attributes of the XPath. All the conditions on attributes can be realized in this class.
+ * Attributes with specific values, AND , OR conditions , multiple attributes, everything is managed in Attribute Class.</p>
+ * @since 2016-11-14
+ * @author Avinash and Devansh
+ */
 public class Attribute {
     private String name;
     private String value;
     private Condition condition;
+
+    /**
+     * Enum to keep conditions of AND and OR.
+     */
     public enum Condition{
         OR("or"),AND("and");
         private String value;
@@ -15,9 +26,14 @@ public class Attribute {
             return value;
         }
     }
-    public Attribute(){
 
-    }
+    public Attribute(){}
+    /**
+     * Attribute Constructor takes parameters name, its value and condition. (Its for internal use of Tag only. )
+     * @param name
+     * @param value
+     * @param condition
+     */
     public Attribute(String name, String value, Condition condition) {
         if(name == "")
             try {
@@ -29,6 +45,7 @@ public class Attribute {
         this.value = value;
         this.condition = condition;
     }
+
 
     public String getName() {
         return name;

@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class TableCompliance1 {
-
     public static void main(String[] args) throws IOException {
         FastSearch fastSearch = new FastSearch("C:\\test\\APP\\Clusters");
         ReaderFactory readerFactory = new ReaderFactory();

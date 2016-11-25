@@ -1,16 +1,24 @@
 package com.filemanager;
-
-import com.report.Report;
-
 import java.io.*;
-import java.util.ArrayList;
 
+/**
+ * <h1>CSVReader</h1>
+ * <p1>
+ *     CSV Reader class extends ReadSpreadsheet, to have properties of reading spreadsheet. It performs reading, writing over the
+ *     CSV Files and manage all the operations on it.
+ * </p1>
+ * @author Devansh and Avinash
+ * @since 2016-11-14
+ */
 public class CSVReader extends ReadSpreadSheet {
-
     private BufferedReader br;
     private String line;
     private final String COMMA_DELIMITER = ",";
 
+    /**
+     * Contructor to initialize the spreadsheet reader with a CSV File. The first line is always taken as headers of the CSV File.
+     * @param sspath Spreadsheet File Path
+     */
     public CSVReader(String sspath) {
         super(sspath);
         try {
@@ -22,7 +30,11 @@ public class CSVReader extends ReadSpreadSheet {
         this.setHeaders();
     }
 
-    protected String[] setHeaders() {
+    /**
+     * The First Line of the CSV is BY DEFAULT set as headers.
+     * @return
+     */
+    protected void setHeaders() {
         try {
             if ((line = br.readLine()) != null) {
                 this.headers = line.split(COMMA_DELIMITER,-1);
@@ -31,13 +43,19 @@ public class CSVReader extends ReadSpreadSheet {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
     }
 
+    /**
+     * Read function here calls readCSV.
+     */
     public void read(){
         readCSV();
     }
 
+    /**
+     * ReadCSV Reades each line of the CSV Report and puts it in an object of Report Class which implments its structure.
+     * @link internal is the Report object used inherited from the ReadSpradsheet
+     */
     private  void readCSV() {
         try {
             br = new BufferedReader(new FileReader(ssFile));
@@ -62,6 +80,9 @@ public class CSVReader extends ReadSpreadSheet {
 
     }
 
+    /**
+     * Console Out prints the whole report in the console.
+     */
     public void consoleOut()
     {
         internal.consoleReport();

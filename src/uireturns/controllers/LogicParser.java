@@ -46,9 +46,15 @@ public class LogicParser {
         vtdParser.parse(file);
         createElementFromTags();
         if(vtdParser.checkRootFor(roots)){
+            try{
             csvParse.logicBoxes.forEach((box) -> runLogic(box, file));
-            opReport.incrementKey();
-        }
+            opReport.incrementKey();}
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+
+            }
     }
 
     public Report getOpReport() {

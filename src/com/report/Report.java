@@ -6,6 +6,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
+/**
+ * Report class manages all the operations related to CSV, Excel and creating report in a structure that is accessible thorughout the
+ * program.
+ * Report is implmeent using LinkedHashMap @report of String and List<String></String>
+ * @author Avinash and Devansh
+ * @since 2016-11-14
+ */
 public class Report {
     private LinkedHashMap<String, List<String>> report = new LinkedHashMap<>();
     private LinkedHashMap<String, Integer> columns = new LinkedHashMap<>();
@@ -18,14 +25,28 @@ public class Report {
     public static final String FILE_PATH = "File Path";
 
     public Report(){}
+
+    /**
+     * If Parameter is true, then default key is set to true, and if false, it is set to false.
+     * If default key isnt set to true, one have to manually set the key for the row. (Key is the column that will identify the uniquely
+     * the row.
+     * @param b
+     */
     public Report(Boolean b){
         this.defaultKeyType = b;
     }
 
+    /**
+     * Explicit option to set default key.
+     */
     public void setDefaultKey() {
         this.defaultKeyType = true;
     }
 
+    /**
+     * Addition of Column(usually Headers). Must to be done to do further operations on the table.
+     * @param columnName
+     */
     public void addColumn(String columnName){
         if(Objects.equals(columnName, SNO) && sNoIndex == -1)
             sNoIndex = columnIndex;
@@ -36,6 +57,11 @@ public class Report {
 
         columns.put(columnName, columnIndex++);
     }
+
+    /**
+     * Addition of columnNames using a String array.
+     * @param columnNames
+     */
     public void addColumn(String[] columnNames){
         if(columnNames.length == 0)
             try {
@@ -47,6 +73,11 @@ public class Report {
             addColumn(s);
     }
 
+    /**
+     * Returns Key Column
+     * @param keyattr
+     * @return
+     */
     public String getKey(String keyattr)
     {
         return getKey(new String[] {keyattr});
@@ -60,10 +91,22 @@ public class Report {
             }
         return key;
     }
+
+    /**
+     * Initializes a row with empty data. This is extremely important before adding some data to the table. initRow or initEmptyRow is
+     * mandatory to run before any addition of row data in table.
+     * @param key
+     */
     public void initEmptyRow(String key){
         String[] initial = new String[columns.size()];
         report.put(key, Arrays.asList(initial));
     }
+
+    /**
+     * Initializes row with data of the file given as parameter.
+     * @param key
+     * @param file
+     */
     public void initRow(String key, File file){
         String[] initial = new String[columns.size()];
         if(sNoIndex != -1)
@@ -78,6 +121,11 @@ public class Report {
             }
             report.put(key, Arrays.asList(initial));
     }
+
+    /**
+     * Initializes row with default key incrementation.
+     * @param file
+     */
     public void initRow(File file){
         if(this.defaultKeyType)
            initRow(String.valueOf(defaultKey),file);
@@ -90,6 +138,12 @@ public class Report {
             }
     }
 
+    /**
+     * A value can be added in a specific row by providing the key and columnname and the value to be entered.
+     * @param key
+     * @param columnName
+     * @param value
+     */
     public void addValue(String key, String columnName, String value){
         report.get(key).set(columns.get(columnName),value);
     }
@@ -103,6 +157,10 @@ public class Report {
                 e.printStackTrace();
             }
     }
+
+    /**
+     * This is important to do before going to next line. This increments the key so as to initialize next row.
+     */
     public void incrementKey(){
         if(this.defaultKeyType)
             this.defaultKey++;
@@ -114,6 +172,10 @@ public class Report {
                 e.printStackTrace();
             }
     }
+
+    /**
+     * Prints the report in the console.
+     */
     public void consoleReport(){
         String row;
         for(String key : report.keySet()){
@@ -128,6 +190,13 @@ public class Report {
         }
     }
 
+    /**
+     * This method lets you to save the report structure in a csv file format. So when report is complete, csv can be saved using this
+     * method.
+     * @param dir
+     * @param filename
+     * @return
+     */
     public String saveCSV(String dir, String filename){
         final String COMMA = ",";
         final String NEW_LINE = "\n";
@@ -158,10 +227,23 @@ public class Report {
 
     }
 
+    /**
+     *
+     * Index of the Column will be returned having parameter String ColumnName.
+     * @param columnName
+     * @return
+     */
+
     public int getColumnIndex(String columnName){
         return columns.get(columnName);
     }
 
+    /**
+     * Method can be used to get value by providing the row key and columnName.
+     * @param key
+     * @param columnName
+     * @return
+     */
     public String getValue(String key, String columnName) {
         if(columns.containsKey(columnName))
             return report.get(key).get(columns.get(columnName));
@@ -174,6 +256,7 @@ public class Report {
             }
         return null;
     }
+
     public LinkedHashMap<String, List<String>> getReportsMap(){
         return report;
     }
