@@ -8,6 +8,12 @@ import com.xpathgenerator.*;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * Insert Test is the test for insertion of attribute in all the files with given conditions.
+ * @author Devansh and Avinash
+ * @since 2016-11-14
+ */
+
 public class InsertTest {
     public static void main(String[] args) throws ReportException {
         FileManager fil = new FileManager();
@@ -24,7 +30,6 @@ public class InsertTest {
                 vtdParser.parse(f);
 
                 Element e = vtdParser.createElement(tag.getXpath());
-
                     String key = R.getKey(f.getCanonicalPath());
                     System.out.println(f.getName());
                     R.initRow(key, f);

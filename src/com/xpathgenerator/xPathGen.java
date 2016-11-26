@@ -2,45 +2,41 @@ package com.xpathgenerator;
 
 import java.util.Objects;
 
-
+/**
+ * <h1>XPath Generator</h1>
+ * <p>Xpath Generator generates the final Xpath using the objects of Tag, which contains the value of attributes, names etc. </p>
+ * @author Avinash and Devansh
+ * @since 2016-11-14
+ */
 class xPathGen {
+    /**
+     * This is the method which will generate XPath, whenever called, using the values of objects of Tag and Attribute.
+     * @param tag
+     * @return
+     */
     String getXpath(Tag tag){
         String xpath = "";
         xpath += "//";
         xpath += tag.grandParent;
-        addSlash(xpath);
+        xpath = addSlash(xpath);
         xpath += tag.parent;
-        addSlash(xpath);
+        xpath = addSlash(xpath);
         xpath += tag.name;
-
-        if (!tag.attrsOR.isEmpty() || !tag.attrsAND.isEmpty())
-            xpath += "[ ";
-        for (String key : tag.attrsOR.keySet()) {
-            if (!tag.attrsOR.get(key).equals(""))
-                xpath += ("@" + key + "='" + tag.attrsOR.get(key)) + "'";
-            else
-                xpath += ("@" + key);
-            xpath += " or ";
-        }
-        if (xpath.endsWith("or "))
-            xpath = xpath.substring(0, xpath.length() - 3);
-        if (tag.attrsAND.isEmpty() && !tag.attrsOR.isEmpty())
+        int count = 0;
+        if (!tag.attributes.isEmpty()) {
+            xpath += "[";
+            for (Attribute attr : tag.attributes) {
+                count++;
+                if (!attr.getValue().equals(""))
+                    xpath += ("@" + attr.getName() + "='" + attr.getValue() + "'");
+                else
+                    xpath += ("@" + attr.getName());
+                if (count != (tag.attributes.size()))
+                    xpath += " "+attr.getCondition().getValue()+" ";
+            }
             xpath += "]";
-        else if (!tag.attrsAND.isEmpty())
-            xpath += "and ";
-        for (String key : tag.attrsAND.keySet()) {
-            if (!tag.attrsAND.get(key).equals(""))
-                xpath += ("@" + key + "='" + tag.attrsAND.get(key) + "'");
-            else
-                xpath += ('@' + key);
-            xpath += " and ";
         }
-        if (xpath.endsWith("and "))
-            xpath = xpath.substring(0, xpath.length() - 4);
-        if (!tag.attrsAND.isEmpty())
-            xpath += "]";
-        addSlash(xpath);
-        if (xpath.substring(xpath.length() - 1).equals("/"))
+        if (xpath.substring(xpath.length() - 1).equals("/") && !xpath.substring(xpath.length() - 2).equals("//"))
             xpath = xpath.substring(0, xpath.length() - 1);
 
         return xpath;
@@ -49,10 +45,12 @@ class xPathGen {
     /**
      * Utility Function to add Slash for Xpath.
      */
-    private void addSlash(String xpath){
+    private String addSlash(String xpath){
         String slash = "/";
         String lastChar = xpath.substring(xpath.length()-1);
         if(!Objects.equals(lastChar, "/"))
             xpath += "/";
+
+        return xpath;
     }
 }

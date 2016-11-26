@@ -4,13 +4,13 @@ import java.io.File;
 
 /**
  * <h1>FileDetail</h1>
- * <p>FileDetail Class encapsulates the File details which will ultimately help in searching of files. </p>
+ * <p>FileDetail Class encapsulates the relevant File details which will ultimately help in searching of files. </p>
  * @author Devansh Tiwari
  * @version 1.0
  * @since 2016-08-11
  */
 
-class FileDetail {
+public class FileDetail {
 
     /**
      * Name of the Folder or file.
@@ -24,9 +24,22 @@ class FileDetail {
      * Variable whether it is directory or not
      */
     private Boolean dir;
+
+    public void setExten(String exten) {
+        this.exten = exten;
+    }
+
+    public String getExten() {
+        return exten;
+    }
+
     /**
      * Linking next directory if the name of file/folder is same
      */
+
+    private String exten;
+
+
     private FileDetail next=null;
 
     /**
@@ -61,19 +74,19 @@ class FileDetail {
         this.next = next;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    File getF() {
+    public File getF() {
         return f;
     }
 
-    Boolean getDir() {
+    public Boolean getDir() {
         return dir;
     }
 
-    FileDetail getNext() {
+    public FileDetail getNext() {
         return next;
     }
 

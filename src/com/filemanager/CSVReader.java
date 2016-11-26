@@ -1,18 +1,26 @@
 package com.filemanager;
-
-import com.report.*;
-
 import java.io.*;
-import java.util.ArrayList;
 
+/**
+ * <h1>CSVReader</h1>
+ * <p1>
+ *     CSV Reader class extends ReadSpreadsheet, to have properties of reading spreadsheet. It performs reading, writing over the
+ *     CSV Files and manage all the operations on it.
+ * </p1>
+ * @author Devansh and Avinash
+ * @since 2016-11-14
+ */
 public class CSVReader extends ReadSpreadSheet {
-
-    private BufferedReader br ;
+    private BufferedReader br;
     private String line;
     private final String COMMA_DELIMITER = ",";
 
-    public CSVReader(String sspath, String workingDir) {
-        super(sspath,workingDir);
+    /**
+     * Contructor to initialize the spreadsheet reader with a CSV File. The first line is always taken as headers of the CSV File.
+     * @param sspath Spreadsheet File Path
+     */
+    public CSVReader(String sspath) {
+        super(sspath);
         try {
             this.br = new BufferedReader(new FileReader(sspath));
         } catch (FileNotFoundException e) {
@@ -22,74 +30,59 @@ public class CSVReader extends ReadSpreadSheet {
         this.setHeaders();
     }
 
-    protected String[] setHeaders() {
+    /**
+     * The First Line of the CSV is BY DEFAULT set as headers.
+     * @return
+     */
+    protected void setHeaders() {
         try {
             if ((line = br.readLine()) != null) {
                 this.headers = line.split(COMMA_DELIMITER,-1);
                 this.internal.addColumn(headers);
-                this.internal.addColumn(Report.FILE_PATH);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
-    }
-    
-    public void read(){
-        if(fileNameColumn != -1) {
-            readCSV();
-        }
     }
 
+    /**
+     * Read function here calls readCSV.
+     */
+    public void read(){
+        readCSV();
+    }
+
+    /**
+     * ReadCSV Reades each line of the CSV Report and puts it in an object of Report Class which implments its structure.
+     * @link internal is the Report object used inherited from the ReadSpradsheet
+     */
     private  void readCSV() {
         try {
+            br = new BufferedReader(new FileReader(ssFile));
+            br.readLine();
             String[] row;
             int rowKey = 1;
             while((line = br.readLine()) != null)
             {
                 row = line.split(COMMA_DELIMITER,-1);
-                ArrayList<String> path = fastReference.Fsearch(row[fileNameColumn]);
-                if(!path.isEmpty())
+                internal.initEmptyRow(String.valueOf(rowKey));
+                int i=0;
+                for(String r : row)
                 {
-                    if(path.size() == 1)
-                    {
-                        File file = new File(path.get(0));
-                        internal.initRow(String.valueOf(rowKey), file);
-                        int i=0;
-                        for(String r : row)
-                        {
-                            internal.addValue(String.valueOf(rowKey),headers[i], r);
-                            i++;
-                        }
-                        rowKey++;
-                    }
-                    else
-                    {
-                        try {
-                            throw new Exception("Multiple File with same name"+path.get(1));
-                        } catch (Exception e) {
-                            System.out.println("More than one File");
-                            System.out.println(path);
-                        }
-                    }
+                    internal.addValue(String.valueOf(rowKey),headers[i], r);
+                    i++;
                 }
-                else
-                {
-                    try {
-                        throw new Exception("File Not Found");
-                    } catch (Exception e) {
-                        System.out.println("File not Found: "+row[fileNameColumn]);
-                    }
-                }
-
+                rowKey++;
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
+    /**
+     * Console Out prints the whole report in the console.
+     */
     public void consoleOut()
     {
         internal.consoleReport();

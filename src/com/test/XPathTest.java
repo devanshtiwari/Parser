@@ -2,19 +2,21 @@ package com.test;
 
 import com.xpathgenerator.*;
 
-import java.util.HashMap;
-
-
+/**
+ * This test is for creation of Tag using Tag, Attribute and generating xpath.
+ * @author Devansh and Avinash
+ * @since 2016-11-14
+ */
 public class XPathTest {
     public static void main(String[] args) {
-        HashMap<String, String> H=new HashMap<>();
-        HashMap<String, String> H1=new HashMap<>();
-        H.put("id","t9");
-        H.put("features","off");
-        H1.put("check","no");
-        H1.put("check1","hello");
-        H1.put("check3","");
-        Tag E=new Tag("retail:appsTable","appsTable","root",H,H1);
-        System.out.println(E.getXpath());
+        Tag t = new Tag("First");
+        t.addAttribute("this","that");
+        t.updateAttrValue("this","there");
+        t.addAttribute("second","devansh");
+        t.updateAttrCondition("second", Attribute.Condition.AND);
+        t.addAttribute("avi");
+        t.updateAttrName("avi","devatiwa");
+        t.setGrandParent("Grand");
+        System.out.println(t.getXpath());
     }
 }
