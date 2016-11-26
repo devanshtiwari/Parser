@@ -1,13 +1,17 @@
 package uireturns.controllers;
 
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
+/**
+ * Param Class handles the paramter in Logic Box Row. It includes all the fields like csvColumns, inputType etc.
+ * @author Avinash and Devansh
+ * @since 2016-11-14
+ */
 public class Param {
     private HBox hbox;
     ComboBox<String> inputType;
@@ -60,6 +64,9 @@ public class Param {
         this.inputType.fireEvent(new ActionEvent());
     }
 
+    /**
+     * This called whenever these is any updation of values in other fields.
+     */
     private void updateBox() {
         String inputType = this.inputType.getValue();
         switch (inputType){

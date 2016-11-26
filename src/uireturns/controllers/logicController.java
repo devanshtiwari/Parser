@@ -2,9 +2,13 @@ package uireturns.controllers;
 
 import javafx.beans.InvalidationListener;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
+/**
+ * This is a controller Class for Logic Box which is in the middle of the whole UI.
+ * @author Avinash and Devansh
+ * @since 2016-11-040
+ */
 public class logicController {
     public VBox centerContainer;
 
@@ -15,6 +19,10 @@ public class logicController {
         this.appController = appController;
     }
 
+    /**
+     * Addition of CSV View if isCSV is true.
+     * @param isCSV
+     */
     public void addCsvView(boolean isCSV) {
         csvParse csvParse = new csvParse(isCSV);
         csvParse.outputReportController = appController.outputReportController;
@@ -22,6 +30,10 @@ public class logicController {
         centerContainer.getChildren().add(csvParse.render());
     }
 
+    /**
+     * Method to fetch ComboBox of Tags Dyanamically from the Tags Pane.
+     * @return
+     */
     public static ComboBox<String> getTagCombobox(){
         ComboBox<String> tags = new ComboBox<>();
         tags.setPromptText("Tags");

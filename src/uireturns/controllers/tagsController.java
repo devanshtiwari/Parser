@@ -16,9 +16,12 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Observable;
 
+/**
+ * This controller is for Tags, which takes input for the Xpath and then used in the parsing of the file.
+ * @author Avinash and Devansh
+ * @since 2016-11-14
+ */
 
 public class tagsController {
 
@@ -47,6 +50,10 @@ public class tagsController {
         this.appController = appController;
     }
 
+    /**
+     * Add Tag Button triggers this method which adds another tagVM class(a container) into the UI.
+     * @param actionEvent
+     */
     public void addTag(ActionEvent actionEvent) {
         tagVM temp = new tagVM();
         tags.add(temp);
@@ -59,19 +66,22 @@ public class tagsController {
     }
 
 
+    /**
+     * This Class implements a very important feature for the dynamic updataion of Tags. It keeps running in the background and checks
+     * for changes in Text Fields and perform Actions accordingly.
+     */
     private class BindingService extends Service<Void> {
         @Override
         protected Task<Void> createTask() {
             return new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
-                    System.out.println("Background");
                     while(tags.isEmpty())
                     {
+                        //Sleep is performed to make sure it doesn't hang, otherwise it performs the action extremely fast it hangs
                         Thread.sleep(100);
                     }
                     BooleanBinding addValid = Bindings.createBooleanBinding(() -> {
-
                         if (size.getValue() != 0 && tags != null) {
                             if (!tags.get(size.getValue() - 1).xpath.getText().equals("//"))
                                 return false;
@@ -80,13 +90,9 @@ public class tagsController {
                         return false;
                     }, size,tags.get(size.getValue()-1).xpath.textProperty());
                     addTag.disableProperty().bind(addValid);
-                    System.out.println(" Binding Started");
                     return null;
                 }
             };
         }
     }
-
-
 }
-

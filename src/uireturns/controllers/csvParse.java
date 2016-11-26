@@ -20,7 +20,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import static uireturns.controllers.AppController.*;
+/**
+ * <h1>csvParse: Main Parsing Class</h1>
+ * This class's name is csvParse which might be misleading, as it implements the functions of csvParsing and noncsvParsing.
+ * Both the functions are being implement in a task so that UI doesn't hang.
+ * @author Devansh and Avinash
+ * @since 2016-11-14
+ */
 public class csvParse {
     private VBox vBox;
     private VBox logicContainer;
@@ -43,6 +51,12 @@ public class csvParse {
     static ssIterator iter;
     IntegerProperty countfile = new SimpleIntegerProperty(0);
     outputReportController outputReportController;
+
+    /**
+     * csvParse function sets up the logic box main page and gives options of Extensions, Root Elements, Check in Path and addition
+     * of logic.
+     * @param isCSV Its true when the Parsing type is of CSV, and false when its not
+     */
     csvParse(boolean isCSV){
         this.isCSV = isCSV;
         vBox = new VBox();
@@ -132,10 +146,17 @@ public class csvParse {
         vBox.getChildren().addAll(gridPane, logicContainer);
     }
 
+    /**
+     * Simply returns VBox object from the class.
+     * @return
+     */
     VBox render(){
         return vBox;
     }
 
+    /**
+     * This functions adds a logic box whenever Add Logic is clicked.
+     */
     private void addLogicBox() {
         LogicBox newLogicBox = new LogicBox(isCSV);
         newLogicBox.box.setPadding(new Insets(0));
@@ -147,6 +168,9 @@ public class csvParse {
         logicContainer.getChildren().add(newLogicBox.render());
     }
 
+    /**
+     * Method is called ipon when Run is clicked and it is nonCSV Parsing. This in turn calls service of nonCSVParsing
+     */
     private void startNoncsvParseService(){
         if(nonCsvParseService != null)
             nonCsvParseService.cancel();
@@ -163,8 +187,13 @@ public class csvParse {
         progress.progressProperty().bind(nonCsvParseService.progressProperty());
         statusBar.getRightItems().clear();
         statusBar.getRightItems().addAll(new Label("Parsing"),progress);
+        //Important to free resources and to prevent read/write conflict.
         System.gc();
     }
+
+    /**
+     * Method is called upon when Run is clicked and it is CSV Parsing is clicked which in turn calls csvParse Service
+     */
     private void startCsvParseService(){
         if(csvParseService != null)
             csvParseService.cancel();
@@ -184,7 +213,9 @@ public class csvParse {
         System.gc();
     }
 
-    //Parsing Service
+    /**
+     * This class extends Service to run the said methods (call function) which runs in background so that it doesnt hang.
+     */
     private class nonCsvParseService extends Service<Void> {
         @Override
         protected Task<Void> createTask() {
@@ -264,6 +295,9 @@ public class csvParse {
             };
         }
     }
+    /**
+     * This class extends Service to run the said methods (call function) which runs in background so that it doesn't hang.
+     */
     private class csvParseService extends Service<Void> {
         @Override
         protected Task<Void> createTask() {
@@ -349,6 +383,11 @@ public class csvParse {
         }
     }
 
+    /**
+     * Checks the given parameters in UI(String/Keywords) in the specific file and returns true or false.
+     * @param file
+     * @return
+     */
     private boolean checkInPath(File file) {
         String type = pathCheckType.getValue();
         if(pathCheckInput.getText().length() != 0) {

@@ -8,12 +8,16 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * This controller is for Menu Bar, which can make the menus on the top functional.
+ * @author Devansh and Avinash
+ * @since 2016-11-14
+ */
 public class MenuBarController {
 
     public MenuBar menuBar;

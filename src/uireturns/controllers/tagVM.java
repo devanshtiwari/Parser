@@ -6,8 +6,6 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -20,6 +18,12 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
+/**
+ * tagVM is a container which contains Parent, Name, GrandParent and all the Tag Components. Object of tagVM is added whenever add Tag
+ * Button is clicked
+ * @author Avinash and Devansh
+ * @since 2016-11-14
+ */
 public class tagVM {
     Tag tag;
     private VBox vBox;
@@ -45,6 +49,10 @@ public class tagVM {
         });
 
     }
+
+    /**
+     * Add Label adds dynamically "New Tag" Label and all other fields.
+     */
     private void addLabel(){
         HBox hbox = new HBox();
         name = new Label("New Tag");
@@ -55,6 +63,10 @@ public class tagVM {
         hbox.getChildren().addAll(name,remove);
         vBox.getChildren().add(hbox);
     }
+
+    /**
+     * Mini Header of each Tag
+     */
     private void addXpathLabel(){
         HBox hbox= new HBox();
         xpath = new Label(tag.getXpath());
@@ -67,9 +79,18 @@ public class tagVM {
         hbox.getChildren().addAll(xpath);
         vBox.getChildren().add(hbox);
     }
+
+    /**
+     * Updates the xpath mini Header of each tag when there is change in text
+     */
     private void updateXpathLabel(){
         xpath.setText(tag.getXpath());
     }
+
+    /**
+     * Addition of Attribute dynamically
+     * @param n Node in which change is made
+     */
     private void addAttr(Node n){
         HBox hbox = new HBox();
         int index = vBox.getChildren().indexOf(n) + 1;
@@ -155,6 +176,11 @@ public class tagVM {
         data.add(hbox);
         vBox.getChildren().add(index,hbox);
     }
+
+    /**
+     * By Default, single tag is added.
+     * @return
+     */
     HBox addDefault(){
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER_LEFT);

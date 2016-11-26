@@ -21,7 +21,12 @@ import java.util.List;
 
 import static uireturns.controllers.AppController.*;
 
-
+/**
+ * SpreadSheet Controller includes all the routines required for reading of CSV or xls file. It reads the report in background and
+ * creates tab and displays the csv.
+ * @author Devansh and Avinash
+ * @since 2016-11-14
+ */
 public class spreadsheetController {
     AppController appController;
 
@@ -39,8 +44,11 @@ public class spreadsheetController {
         initBindings();
     }
 
-
-    //Select spreadsheet from file Chooser
+    /**
+     * Selects the xls/csv file from the File System.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void ssSelector(ActionEvent actionEvent) throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select SpreadSheet");
@@ -52,6 +60,9 @@ public class spreadsheetController {
         }
     }
 
+    /**
+     * Reads the Header of the csv/xls file immediately after selection of the directory.
+     */
     private void readSS() {
         if(readService != null)
             readService.cancel();
@@ -68,6 +79,10 @@ public class spreadsheetController {
         statusBar.getRightItems().addAll(new Label("Reading SpreadSheet"),progressIndicator);
 
     }
+
+    /**
+     * Internal Report is generated as a Report Object and then displayed in a new Tab.
+     */
     private void generateInternalRepotTable(){
         Tab tab = new Tab("Internal Report");
         TableView<List<String>> table = new TableView<>();
@@ -97,6 +112,9 @@ public class spreadsheetController {
         appController.bottomPaneController.bottomTab.getSelectionModel().select(tab);
     }
 
+    /**
+     * Bindings are initialized in the method
+     */
     private void initBindings(){
         ssPath.focusedProperty().addListener(((observable, oldValue, newValue) -> {
             if(!newValue) {
@@ -106,7 +124,9 @@ public class spreadsheetController {
         }));
     }
 
-    //Fetch headers from given spreadsheet
+    /**
+     * Headers are fetched by reading the first line of the report.
+     */
     private void fetchHeaders() {
         spreadsheetpath=ssPath.getText();
         if(!ssPath.getText().isEmpty()) {
@@ -127,6 +147,10 @@ public class spreadsheetController {
         this.appController = appController;
     }
 
+    /**
+     * returns a combobox of headers of the file
+     * @return ComboBox of Headers.
+     */
     public static ComboBox getHeaderComboBox(){
         ComboBox<String> headers = new ComboBox();
         headers.setPromptText("Headers");
@@ -141,7 +165,11 @@ public class spreadsheetController {
         return headers;
     }
 
-    //Read SpreadSheet Service
+    /**
+     * ReadService extends Service to read the file in the background.
+     * @author Devansh and Avinash
+     * @since 2016-11-14
+     */
    private class readService extends Service<Void>{
 
         @Override

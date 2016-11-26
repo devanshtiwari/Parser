@@ -22,6 +22,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * outputReportController is the controller for Accordion 2 at left for output report. It controls the read/write of the Report and
+ * it can be accesses from main logic box while its creation.
+ * @author Devansh and Avinash
+ * @since 2016-11-14
+ */
 public class outputReportController {
 
     //FXML Variables
@@ -70,6 +76,11 @@ public class outputReportController {
 
     }
 
+    /**
+     * Browse option in the File System to select output directory.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void opReportBrowse(ActionEvent actionEvent) throws IOException {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Select Directory");
@@ -79,12 +90,21 @@ public class outputReportController {
         }
     }
 
+    /**
+     * Add Column Action in Output Report Box.
+     * @param actionEvent
+     */
     public void addColumn(ActionEvent actionEvent) {
         Column temp = new Column();
         columnList.add(temp);
         addColumn.setDisable(true);
     }
 
+    /**
+     * This Class is for handling Column Addition in a dynamic Fashion to allow deletion and addition with proper bindings.
+     * @author Avinash and Devansh
+     * @since 2016-11-14
+     */
     class Column
     {
         HBox hbox = new HBox();
@@ -128,6 +148,9 @@ public class outputReportController {
             addNew.disableProperty().bind(addValid.not());
         }
 
+        /**
+         * Called when Remove button is clicked(-)
+         */
         private void remove() {
             if(columnList.contains(this))
             {
@@ -140,8 +163,6 @@ public class outputReportController {
                 gpane.getChildren().remove((hbox));
             if(columnList.size()==0)
                 addColumn.setDisable(false);
-//            System.out.println("Column Size "+columnList.size());
-//            System.out.println("seq"+seq);
             setSeq();
             if(seq!=0) {
                 if (columnList.get(seq - 1).seq == columnList.size() - 1) ;
@@ -149,11 +170,17 @@ public class outputReportController {
             }
         }
 
+        /**
+         * Setting up sequence whenever there is change in the list, either deletion or addition.
+         */
         private void setSeq() {
             for(int i=0;i<columnList.size();i++)
                 columnList.get(i).seq=i;
         }
 
+        /**
+         * Called when Add button is clicked (+)
+         */
         private void addNew() {
             Column temp = new Column();
             columnList.add(temp);

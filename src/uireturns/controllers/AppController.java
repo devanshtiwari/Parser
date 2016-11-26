@@ -11,6 +11,13 @@ import javafx.scene.control.Accordion;
 import javafx.scene.layout.AnchorPane;
 import org.controlsfx.control.StatusBar;
 
+/**
+ * <h1>AppController</h1>
+ * <p>This is the base Controller class for the whole UI Screen. All other controllers of other included  components of FXML,
+ * are initialized with Appcontroller instance from here.</p>
+ * @author Devansh and Avinash
+ * @since 2016-11-14
+ */
 public class AppController {
 
     //FXML variables
@@ -44,6 +51,9 @@ public class AppController {
 
     public void initialize(){
 
+        /**
+         * All the other controllers are being passed with the instance of this controller.
+         */
         bottomPaneController.init(this);
         menuBarController.init(this);
         logicController.init(this);

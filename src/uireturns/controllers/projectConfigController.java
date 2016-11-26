@@ -15,11 +15,16 @@ import java.util.List;
 
 import static uireturns.controllers.AppController.*;
 
+/**
+ * Project Configuration of the UI is set up which is in the topmost portion of UI. All the functions of indexing, Project Directory Slection
+ * and Selection of the method (CSV and non CSV).
+ * @author Devansh and Avinash
+ * @since 2016-11-14
+ */
 public class projectConfigController {
 
     public Label proText;
     private AppController appController;
-
     public TextField proDir;
     public Button fileSelector;
     public ComboBox parseMethod;
@@ -50,7 +55,12 @@ public class projectConfigController {
         parseMethod.getItems().addAll(methods);
         parseMethod.getSelectionModel().selectFirst();
     }
-    //Select Project Directory from Directory chooser
+
+    /**
+     * This function is triggered whenever Directory value is changed.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void selectProjectDir(ActionEvent actionEvent) throws IOException {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Select Folder");
@@ -63,6 +73,11 @@ public class projectConfigController {
             }
         }
     }
+
+    /**
+     * This method initiates indexing of the directory as a background task
+     * @throws IOException
+     */
 
     private void startIndexing() throws IOException {
         if(!proDirTextVal.equals(proDir.getText())) {
@@ -82,6 +97,11 @@ public class projectConfigController {
         this.appController = appController;
     }
 
+    /**
+     * Trigered on actionEvent on Parse Method Selector.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void parserMethodSelector(ActionEvent actionEvent) throws IOException {
         if(parseMethod.getValue().toString().equals("CSV")){
             appController.logicController.addCsvView(true);
@@ -92,7 +112,11 @@ public class projectConfigController {
     }
 
 
-    //Index Service
+    /**
+     * IndexService extends Service to run the indexing task in the backgorund.
+     * @author Devansh and Avinash
+     * @since 2016-11-14
+     */
     private class indexService extends Service<Void> {
         ProgressIndicator progressIndicator = new ProgressIndicator();
         Label status = new Label();

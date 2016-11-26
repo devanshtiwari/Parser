@@ -2,12 +2,17 @@ package uireturns.controllers;
 
 import javafx.beans.InvalidationListener;
 import javafx.geometry.HPos;
-import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
 
+/**
+ * Report Box is referenced in logicParser to generate the report.
+ * @author Avinash and Devansh
+ * @since 2016-11-14
+ *
+ */
 public class ReportBox {
     GridPane gridPane;
     ComboBox<String> reportColumns;
