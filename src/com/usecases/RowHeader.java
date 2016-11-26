@@ -8,9 +8,16 @@ import com.xpathgenerator.Tag;
 
 import java.io.File;
 
+/**
+ * RowHeader Compliance is a use case which checks for compliance of rowHeaders(TRUE OR FASLE)
+ * @author Avinash and Devansh
+ * @since 2016-11-14
+ */
+
 public class RowHeader {
     public static void main(String[] args){
         ReaderFactory readerFactory = new ReaderFactory();
+        //TODO Change Directories
         FastSearch fastSearch = new FastSearch("D:\\rms\\APP\\Clusters");
         ReadSpreadSheet reader = readerFactory.getReader("C:\\Users\\devanshtiwari\\IdeaProjects\\TableCompliance2\\RMS.csv");
         reader.read();

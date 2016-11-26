@@ -2,9 +2,11 @@ package com.test;
 
 import com.xpathgenerator.*;
 
-import java.util.HashMap;
-
-
+/**
+ * This test is for creation of Tag using Tag, Attribute and generating xpath.
+ * @author Devansh and Avinash
+ * @since 2016-11-14
+ */
 public class XPathTest {
     public static void main(String[] args) {
         Tag t = new Tag("First");

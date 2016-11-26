@@ -12,10 +12,17 @@ import com.xpathgenerator.Tag;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * TableCompliance is another test to verify all the methods. The functions used can be checked in the documentation.
+ * @author Avinash and Devansh
+ * @since 2016-11-14
+ */
 public class TableCompliance1 {
     public static void main(String[] args) throws IOException {
+        //TODO Change Directory
         FastSearch fastSearch = new FastSearch("C:\\test\\APP\\Clusters");
         ReaderFactory readerFactory = new ReaderFactory();
+        //TODO Change Directory
         ReadSpreadSheet reader = readerFactory.getReader("C:\\Users\\devanshtiwari\\IdeaProjects\\TableComplaince\\Column.csv");
         reader.read();
         reader.consoleOut();

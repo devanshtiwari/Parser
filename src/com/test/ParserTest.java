@@ -5,6 +5,11 @@ import com.report.*;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * Parser Test is checking functionalities  of the VTDParser
+ * @author Devansh and Avinash
+ * @since 2016-11-14
+ */
 public class ParserTest {
 
     public static void main(String[] args) throws ReportException {
@@ -13,6 +18,7 @@ public class ParserTest {
         R.addColumn(new String[]{R.SNO,R.FILE_NAME});
         R.addColumn("Root xPathGen");
         R.addColumn(R.FILE_PATH);
+        //TODO Change Directory
         ArrayList<File> files = fil.init("C:\\test\\APP\\Clusters\\RmsFoundationHierarchy","xml");
         try {
             Parser parser=ParserFactory.getParser(ParserFactory.Parsers.VTD);
