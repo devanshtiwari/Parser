@@ -30,8 +30,8 @@ public class ReadSpreadSheet {
 
     /**
      * Returns column index by taking header name.
-     * @param name
-     * @return int index
+     * @param name Name of Column is given as Parameter, index is returned.
+     * @return index of the column
      */
     public int getColumnIndex(String name) {
         return internal.getColumnIndex(name);
@@ -54,8 +54,8 @@ public class ReadSpreadSheet {
     }
 
     /**
-     * Returns the whole Report in LinkedHashMap<String, List<String>> as whole report.
-     * @return
+     * Returns the whole Report in LinkedHashMap{@code <String, List<String>>} as whole report.
+     * @return LinkedHashmap of Report
      */
     public LinkedHashMap<String, List<String>> getReport()
     {

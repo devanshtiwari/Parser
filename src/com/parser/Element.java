@@ -69,7 +69,7 @@ public class Element {
     }
 
     /**
-     * @param attr
+     * @param attr Attribute name (String) taken as input to give attribute value
      * @return String with the value of the attribute attr
      */
     public String getAttrVal(String attr){
@@ -85,8 +85,8 @@ public class Element {
 
     /**
      * Removes the attribute attr. It takes file as input so as to write the changes atraight away.
-     * @param attr
-     * @param file
+     * @param attr Attribute to be removed.
+     * @param file File Object, to used to write changes
      */
     public void removeAttribute(String attr, File file){
         try {
@@ -101,9 +101,9 @@ public class Element {
 
     /**
      * Updates Attribute Value of attr to updatedVal. Takes File as input to write the changes staight away.
-     * @param attr
-     * @param updatedVal
-     * @param file
+     * @param attr Attribute to be updated
+     * @param updatedVal new value of attribute
+     * @param file File Object, to be used to write changes
      */
     public void updateAttr(String attr,String updatedVal,File file){
         try {
@@ -155,8 +155,8 @@ public class Element {
 
     /**
      * This method inserts attribute at end of the tag. If there are several attributes, it will insert new attribute after last attribute.
-     * @param insertAttr
-     * @param file
+     * @param insertAttr new attribute to be inserted.
+     * @param file File for writing the changes.
      */
     public void insertAtEnd(String insertAttr, File file) {
         AutoPilot apAttr = new AutoPilot();
@@ -204,8 +204,8 @@ public class Element {
 
     /**
      * A utility function just to find the most number occurring spaces between two attributes.
-     * @param list
-     * @param <T>
+     * @param list List Type
+     * @param <T> Template
      * @return
      */
     private  <T> T mostCommon(List<T> list) {

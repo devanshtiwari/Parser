@@ -71,7 +71,7 @@ public class LogicParser {
 
     /**
      * Returns Output Report Object.
-     * @return
+     * @return Returns {@link Report} Object
      */
     public Report getOpReport() {
         return opReport;
@@ -79,8 +79,8 @@ public class LogicParser {
 
     /**
      * run Logic is called with parameter of each box and along with file.
-     * @param box
-     * @param file
+     * @param box Takes box as input
+     * @param file File to be operated on
      */
     private void runLogic(LogicBox box, File file) {
         String type = box.logicType.getValue();
@@ -102,8 +102,8 @@ public class LogicParser {
 
     /**
      * Report Generation
-     * @param box
-     * @param file
+     * @param box Box as input
+     * @param file File to be operated on for Report Generation
      */
     private void report(LogicBox box,File file) {
         String method = box.methods.getValue();
@@ -122,8 +122,8 @@ public class LogicParser {
 
     /**
      * Search function for logic box using tags and getting element.
-     * @param box
-     * @param file
+     * @param box Box as input
+     * @param file File to be searched
      */
     private void search(LogicBox box,File file) {
         Element e = elements.get(box.tags.getValue());
@@ -133,8 +133,8 @@ public class LogicParser {
 
     /**
      * Perform specific action according the the Box Parameter.
-     * @param box
-     * @param file
+     * @param box Box
+     * @param file File to do Action
      */
     private void doAction(LogicBox box, File file) {
         Element e = elements.get(box.tags.getValue());
@@ -166,8 +166,8 @@ public class LogicParser {
 
     /**
      * Condition is ran like while loop for each file.
-     * @param box
-     * @param file
+     * @param box Box as input
+     * @param file File to run Condition
      */
     private void runCondition(LogicBox box, File file) {
         String condition = box.conditions.getValue();
@@ -186,8 +186,8 @@ public class LogicParser {
 
     /**
      *
-     * @param box
-     * @param file
+     * @param box Logic Box as input
+     * @param file File to be operated
      */
     private void runElse(LogicBox box, File file) {
         System.out.println("Inside Else");
@@ -198,8 +198,8 @@ public class LogicParser {
 
     /**
      *
-     * @param box
-     * @param file
+     * @param box LogicBox as input
+     * @param file File to be operated
      */
     private void runElseIf(LogicBox box, File file) {
         System.out.println("Inside runElseIf");
@@ -213,8 +213,8 @@ public class LogicParser {
 
     /**
      *
-     * @param box
-     * @param file
+     * @param box LogicBox as input
+     * @param file File to be operated
      */
     private void runIf(LogicBox box, File file) {
         System.out.println("inside runIf");
@@ -225,9 +225,9 @@ public class LogicParser {
 
     /**
      *
-     * @param box
-     * @param file
-     * @return
+     * @param box LogicBox as input
+     * @param file File to be operated
+     * @return Returns evaluated parameters
      */
     private List<String> evalParmBox(LogicBox box, File file){
         List<ParamBox> paramBoxes = box.paramList;
@@ -246,9 +246,9 @@ public class LogicParser {
 
     /**
      *
-     * @param param
-     * @param file
-     * @return
+     * @param param {@link Param} as input
+     * @param file File to be operated
+     * @return Returns Evaluated Parameter
      */
     private String evalParam(Param param,File file){
         String parameter = "";
@@ -277,8 +277,8 @@ public class LogicParser {
 
     /**
      *
-     * @param box
-     * @param file
+     * @param box Logic Box as input
+     * @param file File to be operated on
      */
     private void evalReportBox(LogicBox box,File file){
         List<ReportBox> reportBoxList = box.reportValList;
@@ -295,9 +295,9 @@ public class LogicParser {
 
     /**
      *
-     * @param box
-     * @param file
-     * @return
+     * @param box Logic Box as inout
+     * @param file File to be worked.
+     * @return True or False
      */
     private Boolean evalCondition(LogicBox box,File file){
         Element e = elements.get(box.tags.getValue());
@@ -322,9 +322,9 @@ public class LogicParser {
 
     /**
      *
-     * @param box
-     * @param file
-     * @return
+     * @param box LogicBox as Input
+     * @param file File to be worked upon
+     * @return Returns after evaluation of Parent Conditions
      */
     private Boolean evalParentConditions(LogicBox box, File file){
         List<LogicBox> siblings = box.parent.childrens;

@@ -52,7 +52,7 @@ public class tagsController {
 
     /**
      * Add Tag Button triggers this method which adds another tagVM class(a container) into the UI.
-     * @param actionEvent
+     * @param actionEvent Click Action on Add Tag
      */
     public void addTag(ActionEvent actionEvent) {
         tagVM temp = new tagVM();

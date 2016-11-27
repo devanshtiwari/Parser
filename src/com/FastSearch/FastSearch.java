@@ -50,7 +50,6 @@ public class FastSearch {
     /**
      * This method will take input the path of directory to be indexed and then index the whole directory.
      * @param filePath Path taken by the function init. This will the the directory which will be indexed wholly.
-     * @return Nothing to be returned
      */
 
     public void init(String filePath)
@@ -130,6 +129,7 @@ public class FastSearch {
      * Get ArrayList of Files having the extensions given in the parameter of the method.
      * @param filename Takes input the name of the File to be searched
      * @param dir dir takes true if it is directory name to be searched or false when it is file to be searched.
+     * @param exten Takes List of Extensions to filter for.
      * @return ArrayList of String which is specific directory of search
      */
     public ArrayList<File> Fsearch(String filename,List<String> exten, Boolean dir) {
@@ -162,7 +162,7 @@ public class FastSearch {
 
     /**
      *
-     * @param extn
+     * @param extn Takes input the extensions to filter.
      * @return ArrayList of File which contain any of the extension in the extension Parameter
      *
      * Overloaded function taking parameters of extensions as list.
@@ -200,7 +200,7 @@ public class FastSearch {
     }
 
     /**
-     * @param exten
+     * @param exten Takes input the String exten to search for
      * @return ArrayList of Files of reuired Extensions.
      */
     public ArrayList<File> ExSearch(String exten){
@@ -208,7 +208,7 @@ public class FastSearch {
     }
 
     /**
-     * @param exten
+     * @param exten Takes input the String exten to search for
      * @param ignoreDuplicate ignoreDuplicate takes true if duplicate are to be ignored. False if duplicates are also to be considered.
      * @return ArrayList of Files of given extension.
      */
@@ -227,8 +227,8 @@ public class FastSearch {
     /**
      * Get File Value from File Path for easy access to each index of directory.
      * Example, For Directory, {C:/test1/test2/test3} and index 2, test2 is returned.
-     * @param path
-     * @param index
+     * @param path Path is given, example {C:/test1/test2/test3}
+     * @param index Index of the keyword
      * @return String of required index from the file Path.
      */
     public static String getValueFromFilePath(String path, int index){
@@ -237,7 +237,7 @@ public class FastSearch {
 
     /**
      * Get String array for the File path splitting on \.
-     * @param path
+     * @param path Path is given, example {C:/test1/test2/test3}
      * @return String Array.
      */
     public static String[] getArrayFromFilePath(String path){  return path.split("\\\\");}

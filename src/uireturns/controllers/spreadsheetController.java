@@ -46,8 +46,8 @@ public class spreadsheetController {
 
     /**
      * Selects the xls/csv file from the File System.
-     * @param actionEvent
-     * @throws IOException
+     * @param actionEvent Click to select File
+     * @throws IOException IOException
      */
     public void ssSelector(ActionEvent actionEvent) throws IOException {
         FileChooser fileChooser = new FileChooser();

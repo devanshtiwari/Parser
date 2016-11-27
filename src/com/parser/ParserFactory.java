@@ -21,8 +21,8 @@ public class ParserFactory {
 
     /**
      * Method returns VTD Parser and keeps only single instance of Parser as it is static.
-     * @param parserName
-     * @return
+     * @param parserName ParserName takes input the name of parser. For Now, there is only single Parser, VTD XML parser.
+     * @return Returns Parser Object.
      */
     public static Parser getParser(Parsers parserName)  {
         if(INSTANCE == null){

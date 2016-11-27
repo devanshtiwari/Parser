@@ -21,7 +21,7 @@ public class logicController {
 
     /**
      * Addition of CSV View if isCSV is true.
-     * @param isCSV
+     * @param isCSV True if CSV otherwise False
      */
     public void addCsvView(boolean isCSV) {
         csvParse csvParse = new csvParse(isCSV);
@@ -32,7 +32,7 @@ public class logicController {
 
     /**
      * Method to fetch ComboBox of Tags Dyanamically from the Tags Pane.
-     * @return
+     * @return Returns ComboBox of Tags
      */
     public static ComboBox<String> getTagCombobox(){
         ComboBox<String> tags = new ComboBox<>();

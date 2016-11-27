@@ -24,7 +24,7 @@ public class Tag {
 
     /**
      * Name of the tag is set using single parameter.
-     * @param name
+     * @param name Name of the Tag
      */
     public Tag(String name){
         this.name = name;
@@ -32,8 +32,8 @@ public class Tag {
 
     /**
      * Name and Parent are set using two parameters.
-     * @param name
-     * @param parent
+     * @param name Name of the Tag
+     * @param parent Parent of the Tag
      */
     public Tag(String name, String parent){
         this.name = name;
@@ -42,9 +42,9 @@ public class Tag {
 
     /**
      * Name, Parent and Grandparent are set using three parameters.
-     * @param name
-     * @param parent
-     * @param grandParent
+     * @param name Name of the Tag
+     * @param parent Parent of the Tag
+     * @param grandParent GrandParent of the Tag
      */
     public Tag(String name, String parent, String grandParent){
         this.name = name;
@@ -54,10 +54,10 @@ public class Tag {
 
     /**
      * Name, parent, grandparent and Attributes in form list of {@link Attribute} can be inserted in a single go.
-     * @param name
-     * @param parent
-     * @param grandParent
-     * @param attributes
+     * @param name Name of the Tag
+     * @param parent Parent of the Tag
+     * @param grandParent GrandParent of the Tag
+     * @param attributes Attribute of the Tag
      */
     public Tag(String name, String parent, String grandParent, List<Attribute> attributes){
         this.name = name;
@@ -68,7 +68,7 @@ public class Tag {
 
     /**
      *This method returns XPath using XPathGen Class.
-     * @return
+     * @return Returns xpath using xpathGen.
      */
     public String getXpath(){
         this.xpath = xPathGen.getXpath(this);
@@ -77,8 +77,8 @@ public class Tag {
 
     /**
      * Xpaths can be combined using this method by giving another xpath.
-     * @param t
-     * @return
+     * @param t Combines xpath using Tag Object
+     * @return Returns Combined Xpath String
      */
     public String combineXpath(Tag t){
         String combinedXpath = "";
@@ -112,7 +112,7 @@ public class Tag {
 
     /**
      * Attribute can be added by adding attribute name. This will add empty valued attribute.
-     * @param name
+     * @param name Adds another attribute
      */
     public void addAttribute(String name){
         addAttribute(name,"");
@@ -120,8 +120,8 @@ public class Tag {
 
     /**
      * Addition of attribute along with condition of OR or AND
-     * @param name
-     * @param condition
+     * @param name adds new attribute with a condition
+     * @param condition Condition for new attribute to be added
      */
     public void addAttribute(String name, Attribute.Condition condition){
         addAttribute(name,"", condition);
@@ -129,9 +129,9 @@ public class Tag {
 
     /**
      * Addition of Attribute with attribute name and value along with condition of AND or OR.
-     * @param name
-     * @param value
-     * @param condition
+     * @param name Name of the new attribute
+     * @param value value of the attribute
+     * @param condition condition of the attribute to be added
      */
     public void addAttribute(String name, String value, Attribute.Condition condition){
         Attribute attr = new Attribute(name,value,condition);
@@ -140,8 +140,8 @@ public class Tag {
 
     /**
      * Attribute addition with name and value.(Default Condition is OR)
-     * @param name
-     * @param value
+     * @param name name of the attribute
+     * @param value value of the attribute
      */
     public void addAttribute(String name, String value) {
         this.addAttribute(name,value, Attribute.Condition.OR);
@@ -149,8 +149,8 @@ public class Tag {
 
     /**
      * Update Attribute Value by given name of the attribute and new value
-     * @param name
-     * @param value
+     * @param name name of the attribute
+     * @param value value of the attribute
      */
     public void updateAttrValue(String name, String value){
         Attribute attr = getAttrByName(name);
@@ -159,8 +159,8 @@ public class Tag {
 
     /**
      * Condition of the attribute earlier set can be updated using this method.
-     * @param name
-     * @param condition
+     * @param name Name of the attribute to be updated in Tag
+     * @param condition Condition
      */
     public void updateAttrCondition(String name, Attribute.Condition condition){
         Attribute attr = getAttrByName(name);
@@ -169,8 +169,8 @@ public class Tag {
 
     /**
      * Attribute name in the xpath can be updated using this method by providing oldName and newName
-     * @param oldName
-     * @param newName
+     * @param oldName Updation of Tag : oldname
+     * @param newName newName of the Tag
      */
     public void updateAttrName(String oldName, String newName){
         Attribute attr = getAttrByName(oldName);
@@ -180,8 +180,8 @@ public class Tag {
 
     /**
      * Returns attribute by Name.
-     * @param name
-     * @return
+     * @param name Name of the Attribute
+     * @return Returns Attribute Object
      */
     public Attribute getAttrByName(String name){
         for(Attribute attr: attributes){
@@ -193,8 +193,8 @@ public class Tag {
 
     /**
      * Checks whether the Xpath contains the attribute by the  given string.
-     * @param name
-     * @return
+     * @param name Name of the Attribute to be searched
+     * @return Returns true or false
      */
     public boolean hasAttribute(String name){
         for(Attribute attr: attributes){
@@ -206,7 +206,7 @@ public class Tag {
 
     /**
      * Attribute from the Xpath can be removed by providing the name of the attribute.
-     * @param name
+     * @param name Name of the Attribute to be removed
      */
     public void removeAttr(String name){
         for(Attribute attr: attributes){

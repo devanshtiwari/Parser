@@ -78,8 +78,8 @@ public class outputReportController {
 
     /**
      * Browse option in the File System to select output directory.
-     * @param actionEvent
-     * @throws IOException
+     * @param actionEvent Selection of Directory of Report
+     * @throws IOException I/O Exception
      */
     public void opReportBrowse(ActionEvent actionEvent) throws IOException {
         DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -92,7 +92,7 @@ public class outputReportController {
 
     /**
      * Add Column Action in Output Report Box.
-     * @param actionEvent
+     * @param actionEvent Add Button Action
      */
     public void addColumn(ActionEvent actionEvent) {
         Column temp = new Column();

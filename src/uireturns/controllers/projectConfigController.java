@@ -58,8 +58,8 @@ public class projectConfigController {
 
     /**
      * This function is triggered whenever Directory value is changed.
-     * @param actionEvent
-     * @throws IOException
+     * @param actionEvent Click Action
+     * @throws IOException Input/Output Exception
      */
     public void selectProjectDir(ActionEvent actionEvent) throws IOException {
         DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -76,7 +76,7 @@ public class projectConfigController {
 
     /**
      * This method initiates indexing of the directory as a background task
-     * @throws IOException
+     * @throws IOException I/O Exception
      */
 
     private void startIndexing() throws IOException {
@@ -99,8 +99,8 @@ public class projectConfigController {
 
     /**
      * Trigered on actionEvent on Parse Method Selector.
-     * @param actionEvent
-     * @throws IOException
+     * @param actionEvent Selection of Parser
+     * @throws IOException I/O Exception
      */
     public void parserMethodSelector(ActionEvent actionEvent) throws IOException {
         if(parseMethod.getValue().toString().equals("CSV")){

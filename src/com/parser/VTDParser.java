@@ -28,7 +28,7 @@ public class VTDParser implements Parser {
     /**
      * Returns autopilot which helps to move the cursor thorughout the file.
      * @return Returns Autopilot
-     * @throws XMLParsingException
+     * @throws XMLParsingException Parsing Exception
      */
     private AutoPilot getAutoPilot() throws XMLParsingException {
         AutoPilot ap=new AutoPilot();
@@ -41,7 +41,7 @@ public class VTDParser implements Parser {
 
     /**
      * Parse binds the XMLModifier and parses the file. This is important to make the changes in the file.
-     * @param file
+     * @param file File Object to initialize Parsing .
      */
     public void parse(File file) {
         try {
@@ -57,7 +57,7 @@ public class VTDParser implements Parser {
 
     /**
      * writeChanges is called when changes are made to the file and it is to be written back on the disk.
-     * @param file
+     * @param file File , to write changes in the disk.
      */
     static void writeChanges(File file){
         try {
@@ -99,8 +99,8 @@ public class VTDParser implements Parser {
 
     /**
      * If all the elements of string paramter is present in the root element, it returns true, otherwise false
-     * @param checkStr
-     * @return
+     * @param checkStr List of Strings that will be checked in the root.
+     * @return True or False
      */
     public Boolean checkRootFor(String[] checkStr)
     {
@@ -120,8 +120,8 @@ public class VTDParser implements Parser {
 
     /**
      * Checks for only one String in the root, returns true or false
-     * @param checkStr
-     * @return
+     * @param checkStr String which will be checked in the root.
+     * @return Return True or False
      */
     public Boolean checkRootFor(String checkStr)
     {
@@ -131,7 +131,7 @@ public class VTDParser implements Parser {
 
     /**
      * Creates element by initializing Element object and taking parameter Xpath. Xpath is generated using {@link com.xpathgenerator}.
-     * @param xPath
+     * @param xPath Element is created using Xpath.
      * @return {@link Element} Object
      */
     public Element createElement(String xPath){

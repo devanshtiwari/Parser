@@ -22,6 +22,7 @@ public class FileManager {
     /**
      * This method will take input the path of directory to be indexed and then index the whole directory.
      * @param filePath Path taken by the function init. This will the the directory which will be indexed wholly.
+     * @param exten Extension to be filtered for.
      * @return Nothing to be returned
      */
     public ArrayList<File> init(String filePath, String exten)

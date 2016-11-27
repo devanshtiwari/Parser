@@ -27,7 +27,7 @@ public class ExcelReader extends ReadSpreadSheet {
     /**
      * Constructor takes file directory of xls file as path. xlsx files are not supported, only xls are supported by the structure.
      * First line of the excel file will be taken as header by default
-     * @param sspath
+     * @param sspath Path of the xls file
      */
     public ExcelReader(String sspath) {
         super(sspath);

@@ -9,7 +9,7 @@ import java.util.*;
 /**
  * Report class manages all the operations related to CSV, Excel and creating report in a structure that is accessible thorughout the
  * program.
- * Report is implmeent using LinkedHashMap @report of String and List<String></String>
+ * Report is implement using LinkedHashMap @report of String and List{@code <String></String>}
  * @author Avinash and Devansh
  * @since 2016-11-14
  */
@@ -30,7 +30,7 @@ public class Report {
      * If Parameter is true, then default key is set to true, and if false, it is set to false.
      * If default key isnt set to true, one have to manually set the key for the row. (Key is the column that will identify the uniquely
      * the row.
-     * @param b
+     * @param b True if Default Key is to be set
      */
     public Report(Boolean b){
         this.defaultKeyType = b;
@@ -45,7 +45,7 @@ public class Report {
 
     /**
      * Addition of Column(usually Headers). Must to be done to do further operations on the table.
-     * @param columnName
+     * @param columnName ColumnName to be added
      */
     public void addColumn(String columnName){
         if(Objects.equals(columnName, SNO) && sNoIndex == -1)
@@ -60,7 +60,7 @@ public class Report {
 
     /**
      * Addition of columnNames using a String array.
-     * @param columnNames
+     * @param columnNames Column Names Array to added
      */
     public void addColumn(String[] columnNames){
         if(columnNames.length == 0)
@@ -75,8 +75,8 @@ public class Report {
 
     /**
      * Returns Key Column
-     * @param keyattr
-     * @return
+     * @param keyattr Setting the key using keyAttribute
+     * @return Returns Key String
      */
     public String getKey(String keyattr)
     {
@@ -95,7 +95,7 @@ public class Report {
     /**
      * Initializes a row with empty data. This is extremely important before adding some data to the table. initRow or initEmptyRow is
      * mandatory to run before any addition of row data in table.
-     * @param key
+     * @param key Initializing empty row giving the key.
      */
     public void initEmptyRow(String key){
         String[] initial = new String[columns.size()];
@@ -104,8 +104,8 @@ public class Report {
 
     /**
      * Initializes row with data of the file given as parameter.
-     * @param key
-     * @param file
+     * @param key Key for the row
+     * @param file File Object to be intialized with
      */
     public void initRow(String key, File file){
         String[] initial = new String[columns.size()];
@@ -124,7 +124,7 @@ public class Report {
 
     /**
      * Initializes row with default key incrementation.
-     * @param file
+     * @param file initialize Row using File and default key
      */
     public void initRow(File file){
         if(this.defaultKeyType)
@@ -140,9 +140,9 @@ public class Report {
 
     /**
      * A value can be added in a specific row by providing the key and columnname and the value to be entered.
-     * @param key
-     * @param columnName
-     * @param value
+     * @param key Key of the table
+     * @param columnName Column Name in which value is to be added
+     * @param value Value of the cell
      */
     public void addValue(String key, String columnName, String value){
         report.get(key).set(columns.get(columnName),value);
@@ -193,9 +193,9 @@ public class Report {
     /**
      * This method lets you to save the report structure in a csv file format. So when report is complete, csv can be saved using this
      * method.
-     * @param dir
-     * @param filename
-     * @return
+     * @param dir Directory in which report is to be saved
+     * @param filename File Name
+     * @return Returns csvPath if completed, otherwise null.
      */
     public String saveCSV(String dir, String filename){
         final String COMMA = ",";
@@ -230,8 +230,8 @@ public class Report {
     /**
      *
      * Index of the Column will be returned having parameter String ColumnName.
-     * @param columnName
-     * @return
+     * @param columnName Get index of the column using its name
+     * @return Index of the column
      */
 
     public int getColumnIndex(String columnName){
@@ -240,9 +240,9 @@ public class Report {
 
     /**
      * Method can be used to get value by providing the row key and columnName.
-     * @param key
-     * @param columnName
-     * @return
+     * @param key Key for the row
+     * @param columnName Column name
+     * @return Value of the cell
      */
     public String getValue(String key, String columnName) {
         if(columns.containsKey(columnName))

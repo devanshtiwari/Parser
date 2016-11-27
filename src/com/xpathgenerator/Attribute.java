@@ -30,9 +30,9 @@ public class Attribute {
     public Attribute(){}
     /**
      * Attribute Constructor takes parameters name, its value and condition. (Its for internal use of Tag only. )
-     * @param name
-     * @param value
-     * @param condition
+     * @param name Name of the attribute
+     * @param value Value of the attribute
+     * @param condition Condition (And or OR)
      */
     public Attribute(String name, String value, Condition condition) {
         if(name == "")

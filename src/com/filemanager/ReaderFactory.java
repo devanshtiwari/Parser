@@ -13,7 +13,7 @@ public class ReaderFactory {
 
     /**
      * Path of the file is taken as input and the its extension is checked for.
-     * @param sspath
+     * @param sspath Path of the Spreadsheet
      * @return Returns Object of CSVReader or ExcelReader as per file.
      */
     public ReadSpreadSheet getReader(String sspath) {
@@ -29,7 +29,7 @@ public class ReaderFactory {
 
     /**
      * It checks for extension of the file in a robust manner.
-     * @param file
+     * @param file File object to get extension of that file
      * @return Extension of the file.
      */
     private String getFileExtension(File file) {

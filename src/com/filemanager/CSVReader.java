@@ -3,10 +3,10 @@ import java.io.*;
 
 /**
  * <h1>CSVReader</h1>
- * <p1>
+ * <p>
  *     CSV Reader class extends ReadSpreadsheet, to have properties of reading spreadsheet. It performs reading, writing over the
  *     CSV Files and manage all the operations on it.
- * </p1>
+ * </p>
  * @author Devansh and Avinash
  * @since 2016-11-14
  */
@@ -32,7 +32,6 @@ public class CSVReader extends ReadSpreadSheet {
 
     /**
      * The First Line of the CSV is BY DEFAULT set as headers.
-     * @return
      */
     protected void setHeaders() {
         try {

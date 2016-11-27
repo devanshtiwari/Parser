@@ -39,7 +39,7 @@ public class bottomPaneController {
 
     /**
      * This function is called whenever some information is to be printed on the console.
-     * @param text
+     * @param text Text to be printed on console
      */
     public static void consoleText(String text){
         consoleText.appendText("\n"+text);
